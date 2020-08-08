@@ -38,6 +38,9 @@ int main()
         
     }
 
+    struct vec3f cam_location={0,0,0};
+    struct vec2f view_direction={0,0};
+    gfx_create_camera(cam_location,view_direction);
 
 GLuint triangle_array_reference;
     GLuint vertex_buffer_reference;
@@ -94,9 +97,10 @@ printf("result %f, %f, %f\n",c.x,c.y,c.z);
     vex=vec3f_add(vex,cen);
     vey=vec3f_add(vey,cen);
     vez=vec3f_add(vez,cen);*/
-    
-    z=z-0.0003;
-    gfx_set_fov(z);
+    view_direction.x=view_direction.x+0.0001;
+    view_direction.y=view_direction.y+0.0001;
+    cam_location.z=cam_location.z-0.00001;
+    gfx_create_camera(cam_location,view_direction);
     
     GLfloat triangle_data[] = //a test square
     {

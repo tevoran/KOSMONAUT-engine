@@ -1,4 +1,5 @@
 #version 450
+#define PI 3.141593
 
 layout(location = 0) in vec3 vertexPosition_worldspace;
 layout(location = 1) in vec3 vertex_color;
@@ -6,19 +7,31 @@ layout(location = 1) in vec3 vertex_color;
 out vec3 fragment_color;
 
 uniform float world2gl; /*world space to normalized device space factor*/
+
+/*camera stuff*/
 uniform float fov; /*field of view in radians for the camera*/
+uniform vec3 cam_location;
+uniform vec2 cam_direction; /*camera direction is in radians as offset to the axises*/
 
 void main(){
+    vec3 vertexPosition;
+    /*subtracting camera_position from vertex_position, to make the camera the center*/
+    vertexPosition.xyz = vertexPosition_worldspace.xyz - cam_location.xyz;
+    
     /*converting world space to normalized device space*/
-    vec3 vertexPosition; /*variable for position after conversion*/
-    vertexPosition.xyz = vec3(vertexPosition_worldspace.x*world2gl,vertexPosition_worldspace.y*world2gl,vertexPosition_worldspace.z*world2gl);
+    vertexPosition.xyz = vec3(vertexPosition.x*world2gl,vertexPosition.y*world2gl,vertexPosition.z*world2gl);
     vertexPosition.z = (-1)*vertexPosition.z;
     
     
     /*giving perspective*/
     vec2 tmp_pos;
-    tmp_pos.x = vertexPosition.x/(vertexPosition.z*sin(0.5*fov));
-    tmp_pos.y = vertexPosition.y/(vertexPosition.z*sin(0.5*fov));
+    float alpha; /*temporary angle used for calculations*/
+    
+    alpha = cam_direction.x-atan(vertexPosition.x/vertexPosition.z);
+    tmp_pos.x = sin(alpha)/(sin((PI*0.5)-alpha)*sin(0.5*fov));
+
+    alpha = cam_direction.y-atan(vertexPosition.y/vertexPosition.z);
+    tmp_pos.y = sin(alpha)/(sin((PI*0.5)-alpha)*sin(0.5*fov));
 
     
     vertexPosition.xy = tmp_pos.xy;

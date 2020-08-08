@@ -1,6 +1,7 @@
 #ifndef GFX_H
 #define GFX_H
 
+#include "maths/maths.h"
 #include <GL/glew.h>
 
 /*constants*/
@@ -13,6 +14,9 @@ GLuint shader_program; /*the shader program reference*/
 GLfloat world2opengl_factor; /*the convertion factor between the engine internal world space to opengl handled space*/
 float fov;/*the field of view in radians*/
 
+/*camera variables*/
+struct vec3f cam_position;
+struct vec2f cam_direction;
 
 
 /*initialising functions*/
@@ -35,7 +39,8 @@ void gfx_new_frame(); /*draws the current frame and clears the buffer for the ne
     void gfx_set_fov(float fov_in); /*field of view is radians*/
     float gfx_get_fov(); /*field of view is in radians*/
 
-/*3D stuff*/
+/*camera*/
+void gfx_create_camera(struct vec3f position, struct vec2f view_direction);
 
 
 #endif

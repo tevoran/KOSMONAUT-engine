@@ -7,6 +7,12 @@
 #define PI 3.141593
 
 /*define different vectors*/
+struct vec2f
+{
+    float x;
+    float y;
+};
+
 struct vec3f /*float*/
 {
     float x;
