@@ -6,6 +6,8 @@
 
 #include "engine/engine.h"
 
+extern GLuint shader_program;
+
 int gfx_init()
 {
     printf("initialising graphics engine...");
@@ -15,7 +17,13 @@ int gfx_init()
     glClear(GL_COLOR_BUFFER_BIT);
     
     /*loading shaders*/
-    gfx_loading_shaders();
+    shader_program=gfx_loading_shaders();
+    
+    /*setting up the camera values*/
+    /*telling the shader how to convert world space to the opengl internal space*/
+    /*gfx_set_ws2nds_factor(1);*/
+    gfx_set_ws2nds_factor(0.000001);/*setting conversion factor it's 1.000.000*/
+    gfx_set_fov(0.5*PI);
     
     printf("done\n");
 }
