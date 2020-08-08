@@ -61,12 +61,12 @@ c=vec3f_add(a,f);
 printf("a=%f, %f, %f and f=%f, %f, %f\n",a.x,a.y,a.z,f.x,f.y,f.z);
 printf("result %f, %f, %f\n",c.x,c.y,c.z);
 
-    /*struct vec3f cen={0.0,0.0,-5000000.00};
-    struct vec3f vex={20000.00,-20000.00,50000.00};
-    struct vec3f vey={0.0,-20000.00,0};
-    struct vec3f vez={20000.00,20000.00,0};*/
+    struct vec3f cen={-0.1,0.0,0.01};
+    struct vec3f vex={0.1,0.1,0.4};
+    struct vec3f vey={0.1,-0.1,0.4};
+    struct vec3f vez={-0.1,0,0.5};
     
-    float z=100;
+    float z=0;
     while(engine_get_event().type!=SDL_QUIT) /*while not closing the window the main loop is continuing*/
     {
         /*test opengl*/
@@ -83,9 +83,9 @@ printf("result %f, %f, %f\n",c.x,c.y,c.z);
     vey=vec3f_rotate_y(0.0001,vey);
     vez=vec3f_rotate_y(0.0001,vez);
     
-    vex=vec3f_rotate_x(0.00051,vex);
-    vey=vec3f_rotate_x(0.00051,vey);
-    vez=vec3f_rotate_x(0.00051,vez);
+    vex=vec3f_rotate_x(0.0009,vex);
+    vey=vec3f_rotate_x(0.0009,vey);
+    vez=vec3f_rotate_x(0.0009,vez);
     
     vex=vec3f_rotate_z(0.00078,vex);
     vey=vec3f_rotate_z(0.00078,vey);
@@ -95,22 +95,24 @@ printf("result %f, %f, %f\n",c.x,c.y,c.z);
     vey=vec3f_add(vey,cen);
     vez=vec3f_add(vez,cen);*/
     
-   /*z=z-0.0003;*/
+    z=z-0.0003;
+    gfx_set_fov(z);
+    
     GLfloat triangle_data[] = //a test square
     {
         //position              //color         //comment
-        /*vey.x,vey.y,vey.z,   0.8f,0.8f,0.3f, //top left
+        vey.x,vey.y,vey.z,   0.8f,0.8f,0.3f, //top left
         vex.x,vex.y,vex.z,   0.9f,0.7f,0.3f, //top right
         vez.x,vez.y,vez.z,   0.4f,0.85f,0.25f, //bottom left
-        */
+        
 
-        0.8f,-0.8f,z,    0.9f,0.6f,0.4f, //bottom left
+        /*0.8f,-0.8f,z,    0.9f,0.6f,0.4f, //bottom left
         0.8f,-0.7f,0.2,     0.1f,0.5f,0.8f, //bottom right
         -0.8f,0.8f,0.2,    0.5f,0.5f,0.5f, //top right
         
         -0.5f,0.5f,1,    0.9f,0.6f,0.4f, //bottom left
         0.5f,0.5f,1,     0.1f,0.5f,0.8f, //bottom right
-        0.5f,-0.5f,1,    0.5f,0.5f,0.5f, //top right
+        0.5f,-0.5f,1,    0.5f,0.5f,0.5f, //top right*/
         
         
     };
@@ -141,7 +143,7 @@ printf("result %f, %f, %f\n",c.x,c.y,c.z);
         (void*)(3*sizeof(float))
     );
     glEnableVertexAttribArray(1);
-            glDrawArrays(GL_TRIANGLES,0,6);
+            glDrawArrays(GL_TRIANGLES,0,3);
         
         gfx_new_frame();
     }

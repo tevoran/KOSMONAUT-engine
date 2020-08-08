@@ -17,8 +17,9 @@ void main(){
     
     /*giving perspective*/
     vec2 tmp_pos;
-    tmp_pos.x = vertexPosition.x/vertexPosition.z;
-    tmp_pos.y = vertexPosition.y/vertexPosition.z;
+    tmp_pos.x = vertexPosition.x/(vertexPosition.z*sin(0.5*fov));
+    tmp_pos.y = vertexPosition.y/(vertexPosition.z*sin(0.5*fov));
+
     
     vertexPosition.xy = tmp_pos.xy;
     
