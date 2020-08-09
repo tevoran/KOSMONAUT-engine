@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 
 #include "engine/engine.h"
-#include "gfx/gl/gfx.h"
+#include "gfx/gfx.h"
 #include "maths/maths.h"
 
 
@@ -40,7 +40,7 @@ int main()
 
     struct vec3f cam_location={0,0,0};
     struct vec2f view_direction={0,0};
-    gfx_create_camera(cam_location,view_direction);
+    gfx_create_camera(cam_location,view_direction, 1000000);
 
 GLuint triangle_array_reference;
     GLuint vertex_buffer_reference;
@@ -74,9 +74,7 @@ printf("result %f, %f, %f\n",c.x,c.y,c.z);
     {
         /*test opengl*/
     /*rotating triangle*/
-    /*cen=vec3f_scale(-1,cen);
-    
-    vex=vec3f_add(vex,cen);
+    /*vex=vec3f_add(vex,cen);
     vey=vec3f_add(vey,cen);
     vez=vec3f_add(vez,cen);
     
@@ -97,10 +95,12 @@ printf("result %f, %f, %f\n",c.x,c.y,c.z);
     vex=vec3f_add(vex,cen);
     vey=vec3f_add(vey,cen);
     vez=vec3f_add(vez,cen);*/
-    view_direction.x=view_direction.x+0.0001;
-    view_direction.y=view_direction.y+0.0001;
+    
+    view_direction.x=view_direction.x+0.0003;
+    view_direction.y=view_direction.y+0.0003;
     cam_location.z=cam_location.z-0.00001;
-    gfx_create_camera(cam_location,view_direction);
+    gfx_camera_location(cam_location);
+    gfx_set_camera_rotation(view_direction);
     
     GLfloat triangle_data[] = //a test square
     {

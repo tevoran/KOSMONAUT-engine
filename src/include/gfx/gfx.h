@@ -40,7 +40,9 @@ void gfx_new_frame(); /*draws the current frame and clears the buffer for the ne
     float gfx_get_fov(); /*field of view is in radians*/
 
 /*camera*/
-void gfx_create_camera(struct vec3f position, struct vec2f view_direction);
+void gfx_create_camera(struct vec3f position, struct vec2f view_direction, float far_z);
+void gfx_camera_location(struct vec3f position);
+void gfx_set_camera_rotation(struct vec2f view_direction);
 
 
 #endif

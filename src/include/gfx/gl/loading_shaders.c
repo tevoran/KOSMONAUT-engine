@@ -1,4 +1,4 @@
-#include "gfx.h"
+#include "gfx/gfx.h"
 
 #include <GL/glew.h>
 #include <stdio.h>

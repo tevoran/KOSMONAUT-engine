@@ -6,7 +6,7 @@
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
 
-#include "gfx/gl/gfx.h" /*graphics engine header*/
+#include "gfx/gfx.h" /*graphics engine header*/
 
 extern SDL_Window *window;
 
