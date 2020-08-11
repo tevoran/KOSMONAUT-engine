@@ -3,9 +3,11 @@
 
 #include "maths/maths.h"
 #include <GL/glew.h>
+#include <inttypes.h>
 
 /*constants*/
 #define PI 3.141593
+#define INVALID_HANDLE 0xFFFFFFFF
 
 /*global variables*/
 GLuint shader_program; /*the shader program reference*/
@@ -44,5 +46,9 @@ void gfx_create_camera(struct vec3f position, struct vec2f view_direction, float
 void gfx_camera_location(struct vec3f position);
 void gfx_set_camera_rotation(struct vec2f view_direction);
 
+/*models*/
+uint32_t gfx_create_handle();
+/*primitives*/
+uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color); /*returns a uint32_t handle*/
 
 #endif
