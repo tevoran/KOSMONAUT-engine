@@ -3,6 +3,7 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 
 /*NULL means no object is associated with the handle
@@ -68,16 +69,29 @@ uint32_t gfx_create_handle()
          */
     
     /*creating handle*/
-    current_lowest_handle=0;
+    current_lowest_handle=INT_MAX;
     current_highest_handle=0;
     register uint32_t current_handle;
     
-    /*looking for lowest free handle*/
-    /*current_handle_table=handle_table;
-    for(int i=0; i<HANDLE_TABLE_SIZE; i++)
+    /*looking for lowest handle that is used*/
+    current_handle_table=handle_table;
+    for(int i=0; i<(HANDLE_TABLE_SIZE-1); i++)
     {
-        
-    }*/
+        current_handle=current_handle_table[i].handle;
+        if(current_handle<current_lowest_handle && current_handle !=0)
+            current_lowest_handle=current_handle;
+    }
+    
+    /*looking for highest handle that is used*/
+    current_handle_table=handle_table;
+    for(int i=0; i<(HANDLE_TABLE_SIZE-1); i++)
+    {
+        current_handle=current_handle_table[i].handle;
+        if(current_handle>current_highest_handle && current_handle !=0)
+            current_highest_handle=current_handle;
+    }
+    
+printf("highest handle used: %X\n",current_highest_handle);
     
     /*looking for first free entry in the first table*/
     current_handle_table=handle_table;
@@ -93,9 +107,9 @@ uint32_t gfx_create_handle()
         }
         else
         {
-            if(current_handle_table[i].handle>current_highest_handle)
+            if(current_handle>current_highest_handle)
             {
-                current_highest_handle=current_handle_table[i].handle;
+                current_highest_handle=current_handle;
             }
         }
     }
