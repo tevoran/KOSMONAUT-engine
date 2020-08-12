@@ -6,113 +6,106 @@
 #include <limits.h>
 
 
-/*NULL means no object is associated with the handle
- * the first real object gets 1 and so forth
- * but after deleting objects the new handle numbers can become a bit more messy
+/* means no object is associated with the handle
+ * the first real object gets 0 and the second one gets 1 so forth
  */
  
 #define END_OF_HANDLE_TABLE 0xFFFFFFFF /*it is put in the handle part of the handle table*/
 #define HANDLE_TABLE_SIZE 100 /*the number of elements contained in one handle table*/
+#define HANDLES_TRUE 1
+#define HANDLES_FALSE 0
 
 struct table_entry
 {
-    uint32_t handle;
     uint32_t num_vertices;
     void *data_address;
 };
 
+
 struct table_entry *handle_table=NULL; /*the pointer to the first handle table*/
 struct table_entry *current_handle_table=NULL; /*the pointer to the current handle table*/
 
-uint32_t current_lowest_handle;
-uint32_t current_highest_handle;
+/*
+ * helper functions
+ * 
+ * */
+void handles_create_handle_table(struct table_entry *current_handle_table)
+{
+    for(int i=0; i<HANDLE_TABLE_SIZE; i++)
+    {
+        if(i<(HANDLE_TABLE_SIZE-1))
+        {
+            current_handle_table[i].num_vertices=0;
+            current_handle_table[i].data_address=NULL;
+        }
+        else
+        {
+            current_handle_table[i].num_vertices=END_OF_HANDLE_TABLE;
+            current_handle_table[i].data_address=NULL;
+        }
+    }
+}
 
+
+/*
+ * real gfx functions
+ * 
+ * */
 uint32_t gfx_create_handle()
 {
-    uint32_t handle;/*the return value*/
+    uint32_t handle=0;/*the return value*/
     
     /*checking if initial handle table has been created and if not an empty table will be created*/
     if(handle_table==NULL)
     {
         handle_table=(struct table_entry*)malloc(HANDLE_TABLE_SIZE*sizeof(struct table_entry));
-        
-        for(int i=0; i<HANDLE_TABLE_SIZE; i++)
-        {
-            if(i<(HANDLE_TABLE_SIZE-1))
-            {
-                handle_table[i].handle=0;
-                handle_table[i].num_vertices=0;
-                handle_table[i].data_address=NULL;
-            }
-            else
-            {
-                handle_table[i].handle=END_OF_HANDLE_TABLE;
-                handle_table[i].num_vertices=0;
-                handle_table[i].data_address=(void*)END_OF_HANDLE_TABLE;
-            }
-        }
+        handles_create_handle_table(handle_table);
     }
-    
+
     /*checking if new handle table is necessary*/
-    /*current_handle_table=handle_table;
-    while(current_handle_table[HANDLE_TABLE_SIZE-1].data_address==(void*)END_OF_HANDLE_TABLE)
+    current_handle_table=handle_table; /*using the first table as a start point*/
+    int free_entry_left=HANDLES_FALSE;
+    while(free_entry_left==HANDLES_FALSE)
     {
-        printf("last table\n");
-        if(current_handle_table[HANDLE_TABLE_SIZE-2].handle!=0 && current_handle_table[HANDLE_TABLE_SIZE-1].handle==END_OF_HANDLE_TABLE)
+        /*check for free entries*/
+        for(int i=0; i<(HANDLE_TABLE_SIZE-1); i++)
         {
-            
-        }
-    }
-    if(current_handle_table[HANDLE_TABLE_SIZE-2].handle!=0 && current_handle_table[HANDLE_TABLE_SIZE-1].handle==END_OF_HANDLE_TABLE)
-        {
-        }
-         */
-    
-    /*creating handle*/
-    current_lowest_handle=INT_MAX;
-    current_highest_handle=0;
-    register uint32_t current_handle;
-    
-    /*looking for lowest handle that is used*/
-    current_handle_table=handle_table;
-    for(int i=0; i<(HANDLE_TABLE_SIZE-1); i++)
-    {
-        current_handle=current_handle_table[i].handle;
-        if(current_handle<current_lowest_handle && current_handle !=0)
-            current_lowest_handle=current_handle;
-    }
-    
-    /*looking for highest handle that is used*/
-    current_handle_table=handle_table;
-    for(int i=0; i<(HANDLE_TABLE_SIZE-1); i++)
-    {
-        current_handle=current_handle_table[i].handle;
-        if(current_handle>current_highest_handle && current_handle !=0)
-            current_highest_handle=current_handle;
-    }
-    
-printf("highest handle used: %X\n",current_highest_handle);
-    
-    /*looking for first free entry in the first table*/
-    current_handle_table=handle_table;
-    for(int i=0; i<HANDLE_TABLE_SIZE; i++)
-    {
-        current_handle=current_handle_table[i].handle;
-        if(current_handle==0)
-        {
-            current_highest_handle++;
-            current_handle_table[i].handle=current_highest_handle;
-            handle=current_highest_handle;
-            return handle;
-        }
-        else
-        {
-            if(current_handle>current_highest_handle)
+            if(current_handle_table[i].data_address==NULL)
             {
-                current_highest_handle=current_handle;
+                free_entry_left=HANDLES_TRUE;
+                i=HANDLE_TABLE_SIZE; /*end condition for for-loop*/
             }
         }
+        
+        /*creating new handle table is necessary*/
+        if(free_entry_left==HANDLES_FALSE && current_handle_table[HANDLE_TABLE_SIZE-1].data_address==NULL)
+            {
+                current_handle_table[HANDLE_TABLE_SIZE-1].data_address=(struct table_entry*)malloc(HANDLE_TABLE_SIZE*sizeof(struct table_entry));
+                current_handle_table=current_handle_table[HANDLE_TABLE_SIZE-1].data_address;/*switching to new table*/
+                handle=handle+HANDLE_TABLE_SIZE;
+                handles_create_handle_table(current_handle_table);
+                free_entry_left=HANDLES_TRUE;
+            }
+            
+        /*switching to new table if a new table is found*/
+        if(free_entry_left==HANDLES_FALSE && current_handle_table[HANDLE_TABLE_SIZE-1].data_address!=NULL)
+            {
+                current_handle_table=current_handle_table[HANDLE_TABLE_SIZE-1].data_address;
+                handle=handle+HANDLE_TABLE_SIZE;
+            }
     }
     
-    return handle;
+    /*looking for empty entry*/
+    for(int i=0; i<(HANDLE_TABLE_SIZE); i++)
+    {
+        if( current_handle_table[i].num_vertices==0 &&
+            current_handle_table[i].data_address==NULL)
+            {
+                current_handle_table[i].data_address=malloc(100);
+                return handle=handle+i;
+            }
+    }
+    
+    return GFX_ERROR;
 }
+

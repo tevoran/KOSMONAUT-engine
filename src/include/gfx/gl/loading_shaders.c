@@ -123,7 +123,7 @@ GLuint gfx_loading_shaders()
             
             GLchar error_msg[max_length];
             glGetShaderInfoLog(vertex_shader_reference,max_length,&max_length,&error_msg[0]);
-        printf("OPENGL ERROR MSG:\n %s\n",error_msg);
+            printf("OPENGL ERROR MSG:\n %s\n",error_msg);
             
             return 1;
         }

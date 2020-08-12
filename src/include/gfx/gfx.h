@@ -7,7 +7,9 @@
 
 /*constants*/
 #define PI 3.141593
-#define INVALID_HANDLE 0xFFFFFFFF
+#define GFX_TRUE 1
+#define GFX_FALSE 0
+#define GFX_ERROR 0xFFFFFFFF
 
 /*global variables*/
 GLuint shader_program; /*the shader program reference*/

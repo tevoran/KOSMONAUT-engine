@@ -51,10 +51,11 @@ int main()
     
     float z=0;
     
+    for(int i=0; i<7500; i++)
+    {
     printf("handle: %u\n",gfx_create_handle());
-    printf("handle: %u\n",gfx_create_handle());
-        printf("handle: %u\n",gfx_create_handle());
-            printf("handle: %u\n",gfx_create_handle());
+    }
+
     while(engine_get_event().type!=SDL_QUIT) /*while not closing the window the main loop is continuing*/
     {
     
