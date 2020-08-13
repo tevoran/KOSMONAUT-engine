@@ -11,14 +11,19 @@ extern GLuint shader_program;
 int gfx_init()
 {
     printf("initialising graphics engine...");
-
+    
+    /*activate Z-Buffer*/
+    glEnable(GL_DEPTH_TEST);  
+    
     /*setting background color as black*/
     glClearColor(0.0f,0.0f,0.0f,1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     /*loading shaders*/
     shader_program=gfx_loading_shaders();
     
+
+
     /*setting up the camera values*/
     /*telling the shader how to convert world space to the opengl internal space*/
     /*gfx_set_ws2nds_factor(1);*/

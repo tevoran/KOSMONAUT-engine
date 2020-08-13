@@ -1,6 +1,6 @@
 #version 450
 #define PI 3.141593
-#define near_z 1.175494351e-36 /*near cutting plane*/
+#define near_z 1.17549e-36 /*near cutting plane*/
 
 layout(location = 0) in vec3 vertexPosition_worldspace;
 layout(location = 1) in vec3 vertex_color;
@@ -17,7 +17,7 @@ uniform float far_z; /*far cutting plane
  * converted to normalized device space in gfx_create_camera()*/ 
 
 void main(){
-    vec3 vertexPosition;
+     vec4 vertexPosition;
     
     /*subtracting camera_position from vertex_position, to make the camera the center*/
     vertexPosition.xyz = vertexPosition_worldspace.xyz - cam_location.xyz;
@@ -27,22 +27,25 @@ void main(){
     vertexPosition.xyz = vertexPosition.xyz * conversion_ws2nds.xyz;
     
     
-    /*giving perspective*/
     vec3 tmp_pos;
+    if(vertexPosition.z<0)
+    {
+    
+    /*giving perspective*/
     float alpha; /*temporary angle used for calculations*/
-    float length,a,b,c; /*different terms for the calculation*/
+    float a,b,c; /*different terms for the calculation*/
     
     alpha = cam_direction.x-atan(vertexPosition.x/vertexPosition.z);
     tmp_pos.z =sqrt(vertexPosition.y*vertexPosition.y+vertexPosition.z*vertexPosition.z)*sin((PI*0.5)-alpha);
     a = sin((PI*0.5)-alpha)*sin(0.5*fov);
-    if(tmp_pos.z>near_z && tmp_pos.z<far_z) /*checking if too close to camera, behind the camera or too far, if it is then it is clipped of*/
+    if(tmp_pos.z>0) /*checking if too close to camera, behind the camera or too far, if it is then it is clipped of*/
     {
     tmp_pos.x = sin(alpha)/a;
     
     alpha = cam_direction.y-atan(vertexPosition.y/vertexPosition.z);
     tmp_pos.z = sqrt(vertexPosition.y*vertexPosition.y+vertexPosition.z*vertexPosition.z)*sin((PI*0.5)-alpha);
     a = sin((PI*0.5)-alpha)*sin(0.5*fov);
-    if(tmp_pos.z>near_z && tmp_pos.z<far_z) /*checking if too close to camera, behind the camera or too far, if it is then it is clipped of*/
+    if(tmp_pos.z>0) /*checking if too close to camera, behind the camera or too far, if it is then it is clipped of*/
     {
     tmp_pos.y = sin(alpha)/a;
     }
@@ -57,6 +60,11 @@ void main(){
         tmp_pos.xyz = vec3(10, 10, 10); /*placing out of screen*/
     }
     
+    }
+    else
+    {
+        tmp_pos.xyz = vec3(10,10,10);
+    }
     vertexPosition.xyz = tmp_pos.xyz;
     
     /*giving forth the final position of the vertex*/

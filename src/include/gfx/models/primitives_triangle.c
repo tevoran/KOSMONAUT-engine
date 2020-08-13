@@ -10,8 +10,6 @@ uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct 
 {
     uint32_t handle=gfx_create_handle();
     
-    printf("handle for triangle: %i\n",handle);
-    
     GLfloat triangle_data[]=
     {
         vertex1.x,vertex1.y,vertex1.z,

@@ -39,7 +39,7 @@ int main()
     }
 
     struct vec3f cam_location={0,0,0};
-    struct vec2f view_direction={0,0};
+    struct vec2f view_direction={0.001,0};
     gfx_create_camera(cam_location,view_direction, 1000000);
 
     
@@ -54,7 +54,7 @@ int main()
         struct vec3f v1a={1,0,i};
         struct vec3f v2a={2,0,i};
         struct vec3f v3a={1,1,i};
-        struct vec3f cola={1/i,1-(1/i),0.4};
+        struct vec3f cola={1/(i/100),(1/(i/100)),(i/100)};
     gfx_create_triangle(v1a,v2a,v3a,cola);
     }
 
