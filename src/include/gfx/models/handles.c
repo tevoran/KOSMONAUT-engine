@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <GL/glew.h>
 
 
 /* means no object is associated with the handle
@@ -11,7 +12,7 @@
  */
  
 #define END_OF_HANDLE_TABLE 0xFFFFFFFF /*it is put in the handle part of the handle table*/
-#define HANDLE_TABLE_SIZE 100 /*the number of elements contained in one handle table*/
+#define HANDLE_TABLE_SIZE 50 /*the number of elements contained in one handle table*/
 #define HANDLES_TRUE 1
 #define HANDLES_FALSE 0
 
@@ -19,6 +20,8 @@ struct table_entry
 {
     uint32_t num_vertices;
     void *data_address;
+    GLuint arrayID;
+    GLuint vertex_bufferID;
 };
 
 
@@ -46,6 +49,15 @@ void handles_create_handle_table(struct table_entry *current_handle_table)
     }
 }
 
+struct table_entry* handles_find_entry(uint32_t handle)
+{
+    current_handle_table=handle_table;
+    for(handle; handle>HANDLE_TABLE_SIZE; handle=handle-HANDLE_TABLE_SIZE)
+    {
+        current_handle_table=current_handle_table[HANDLE_TABLE_SIZE-1].data_address;
+    }
+    return &current_handle_table[handle];
+}
 
 /*
  * real gfx functions
@@ -109,3 +121,29 @@ uint32_t gfx_create_handle()
     return GFX_ERROR;
 }
 
+/*get and set functions*/
+void gfx_set_arrayID(uint32_t handle,GLuint arrayID)
+{
+    struct table_entry *current_entry=handles_find_entry(handle);
+    current_entry->arrayID=arrayID;
+}
+
+GLuint gfx_get_arrayID(uint32_t handle)
+{
+    struct table_entry *current_entry=handles_find_entry(handle);
+    GLuint arrayID=current_entry->arrayID;
+    return arrayID;
+}
+
+void gfx_set_vertex_bufferID(uint32_t handle,GLuint vertex_bufferID)
+{
+    struct table_entry *current_entry=handles_find_entry(handle);
+    current_entry->vertex_bufferID=vertex_bufferID;
+}
+
+GLuint gfx_get_vertex_bufferID(uint32_t handle)
+{
+    struct table_entry *current_entry=handles_find_entry(handle);
+    GLuint vertex_bufferID=current_entry->vertex_bufferID;
+    return vertex_bufferID;
+}

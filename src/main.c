@@ -42,66 +42,42 @@ int main()
     struct vec2f view_direction={0,0};
     gfx_create_camera(cam_location,view_direction, 1000000);
 
-    GLuint triangle_array_reference;
-    GLuint vertex_buffer_reference;
-    glGenVertexArrays(1, &triangle_array_reference);
-    glGenBuffers(1, &vertex_buffer_reference);
     
-
+    /*struct vec3f v1={0,0,5};
+    struct vec3f v2={1,0,5};
+    struct vec3f v3={0,1,5};
+    struct vec3f col={0.3,0.3,0.3};
+    gfx_create_triangle(v1,v2,v3,col);*/
     
-    float z=0;
-    
-    for(int i=0; i<7500; i++)
+    for(float i=1; i<100; i=i+0.3)
     {
-    printf("handle: %u\n",gfx_create_handle());
+        struct vec3f v1a={1,0,i};
+        struct vec3f v2a={2,0,i};
+        struct vec3f v3a={1,1,i};
+        struct vec3f cola={1/i,1-(1/i),0.4};
+    gfx_create_triangle(v1a,v2a,v3a,cola);
     }
 
+    int FPS;
+    int lasttick=SDL_GetTicks();
     while(engine_get_event().type!=SDL_QUIT) /*while not closing the window the main loop is continuing*/
     {
-    
-    view_direction.x=view_direction.x+0.0003;
-    view_direction.y=view_direction.y+0.0003;
-    cam_location.z=cam_location.z-0.00001;
+    /*FPS count*/    
+    if(SDL_GetTicks()>(lasttick+1000))
+    {
+        printf("FPS: %i\n",FPS);
+        FPS=0;
+        lasttick=SDL_GetTicks();
+    }
+    FPS++;
+        
+    /*view_direction.x=view_direction.x+0.0003;
+    view_direction.y=view_direction.y+0.0003;*/
+    cam_location.z=cam_location.z+0.0001;
     gfx_camera_location(cam_location);
     gfx_set_camera_rotation(view_direction);
     
-    GLfloat triangle_data[] = //a test square
-    {
-        //position              //color         //comment
-        0,1,2,                0.8f,0.8f,0.3f, //top left
-        1,1,2,                0.9f,0.7f,0.3f, //top right
-        0,0,2,                0.4f,0.85f,0.25f, //bottom left
-        
-        
-    };
-    
-    glBindVertexArray(triangle_array_reference);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_reference);
-    glBufferData(GL_ARRAY_BUFFER,sizeof(triangle_data),triangle_data,GL_STATIC_DRAW);
-        
-    //describing data for OpenGL for its interpretation
-    glVertexAttribPointer
-    (
-        0,
-        3,              //size
-        GL_FLOAT,       //type
-        GL_FALSE,       //normalized
-        6*sizeof(float),//stride
-        (void*)0        //array buffer offsets
-    );
-    glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer
-    (
-        1,
-        3,
-        GL_FLOAT,
-        GL_FALSE,
-        6*sizeof(float),
-        (void*)(3*sizeof(float))
-    );
-    glEnableVertexAttribArray(1);
-    glDrawArrays(GL_TRIANGLES,0,3);
         
     gfx_new_frame();
     }

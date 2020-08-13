@@ -18,12 +18,13 @@ uniform float far_z; /*far cutting plane
 
 void main(){
     vec3 vertexPosition;
+    
     /*subtracting camera_position from vertex_position, to make the camera the center*/
     vertexPosition.xyz = vertexPosition_worldspace.xyz - cam_location.xyz;
     
     /*converting world space to normalized device space*/
-    vertexPosition.xyz = vec3(vertexPosition.x*world2gl,vertexPosition.y*world2gl,vertexPosition.z*world2gl);
-    vertexPosition.z = (-1)*vertexPosition.z;
+    vec3 conversion_ws2nds = vec3(world2gl,world2gl,(-1)*world2gl);
+    vertexPosition.xyz = vertexPosition.xyz * conversion_ws2nds.xyz;
     
     
     /*giving perspective*/
@@ -32,7 +33,7 @@ void main(){
     float length,a,b,c; /*different terms for the calculation*/
     
     alpha = cam_direction.x-atan(vertexPosition.x/vertexPosition.z);
-    tmp_pos.z = sqrt(vertexPosition.y*vertexPosition.y+vertexPosition.z*vertexPosition.z)*sin((PI*0.5)-alpha);
+    tmp_pos.z =sqrt(vertexPosition.y*vertexPosition.y+vertexPosition.z*vertexPosition.z)*sin((PI*0.5)-alpha);
     a = sin((PI*0.5)-alpha)*sin(0.5*fov);
     if(tmp_pos.z>near_z && tmp_pos.z<far_z) /*checking if too close to camera, behind the camera or too far, if it is then it is clipped of*/
     {
