@@ -20,7 +20,7 @@ void main(){
     vertexPosition = projectionMatrix * cam_translationMatrix * vertexPosition;
     
     /*if vertex is behind the camera, then it is moved out of sight*/
-    if(vertexPosition.z>0)
+    if(vertexPosition.z<0)
     {
         vertexPosition.xyzw = vec4(10,10,10,1);
     }

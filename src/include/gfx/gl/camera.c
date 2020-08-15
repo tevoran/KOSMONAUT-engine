@@ -28,7 +28,7 @@ void gfx_create_camera(struct vec3f position, struct vec2f view_direction, float
     {
         tan(0.5*PI-0.5*gfx_get_fov()), 0, 0, 0,
         0,tan(0.5*PI-0.5*gfx_get_fov()), 0, 0,
-        0, 0, -(1-near_z)/(far_z-near_z), 1,
+        0, 0, (1-near_z)/(far_z-near_z), 1,
         0, 0, 0, 0
     };
     
@@ -41,7 +41,7 @@ void gfx_create_camera(struct vec3f position, struct vec2f view_direction, float
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
-        position.x, position.y, position.z, 1
+        -position.x, position.y, position.z, 1
     };
     
     GLint cam_translation_matrix_reference=glGetUniformLocation(shader_program, "cam_translationMatrix");
@@ -57,7 +57,7 @@ void gfx_camera_location(struct vec3f position)
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
-        position.x, position.y, position.z, 1
+        -position.x, -position.y, -position.z, 1
     };
     
     GLint cam_translation_matrix_reference=glGetUniformLocation(shader_program, "cam_translationMatrix");
