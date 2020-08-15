@@ -45,7 +45,7 @@ int main()
     
     
 
-    for(float i=0; i<100; i=i+0.3)
+    for(float i=0; i<500; i=i+0.3)
     {
         struct vec3f v1a={1+sin(i),-1+cos(i),0.8+(i*0.8)};
         struct vec3f v2a={2+sin(i),-1+cos(i),0.8+(i*0.8)};
@@ -72,10 +72,10 @@ int main()
     /*view_direction.x=view_direction.x-0.0001;*/
     /*view_direction.y=view_direction.y+0.0005;*/
 
-    i=i+0.001;
-    cam_location.z=cam_location.z+0.001;
+    i=i+0.01;
+    cam_location.z=cam_location.z+0.01;
     cam_location.y=sin(i);
-    cam_location.x=cam_location.x+0.0001;
+    cam_location.x=5*sin(i/10);
     gfx_camera_location(cam_location);
     /*gfx_set_camera_rotation(view_direction);*/
     

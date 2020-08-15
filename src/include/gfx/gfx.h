@@ -45,10 +45,16 @@ void gfx_set_camera_rotation(struct vec2f view_direction);
 /*handles*/
 uint32_t gfx_create_handle();
 
+void gfx_set_num_vertices(uint32_t handle, uint32_t num_vertices);
+uint32_t gfx_get_num_vertices(uint32_t handle);
+
 void gfx_set_arrayID(uint32_t handle,GLuint arrayID);
 GLuint gfx_get_arrayID(uint32_t handle);
+
 void gfx_set_vertex_bufferID(uint32_t handle,GLuint vertex_bufferID);
 GLuint gfx_get_vertex_bufferID(uint32_t handle);
+
+uint32_t gfx_get_highest_handle();
 
 /*primitives*/
 uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color); /*returns a uint32_t handle*/

@@ -20,6 +20,8 @@ uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct 
         color.x,color.y,color.z,
     };
     
+    gfx_set_num_vertices(handle, 3); /*value is three, because this is a triangle*/
+    
     GLuint triangle_arrayID;
     glGenVertexArrays(1, &triangle_arrayID);
     gfx_set_arrayID(handle,triangle_arrayID);

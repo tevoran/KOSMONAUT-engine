@@ -8,11 +8,12 @@
 
 void gfx_new_frame()
 {
-    
-    for(int i=0; i<330; i++)
+    /*drawing all primitives*/
+    int i_high=gfx_get_highest_handle();
+    for(int i=0; i<i_high; i++)
     {
     glBindVertexArray(gfx_get_arrayID(i));
-    glDrawArrays(GL_TRIANGLES,0,3);
+    glDrawArrays(GL_TRIANGLES,0,gfx_get_num_vertices(i));
     }
     
     SDL_GL_SwapWindow(engine_get_window()); /*swapping the double buffer*/
