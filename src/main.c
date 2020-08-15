@@ -47,10 +47,10 @@ int main()
 
     for(float i=0; i<100; i=i+0.3)
     {
-        struct vec3f v1a={0.-sin(i),-1+sin(i),0.8+(i*0.1)};
-        struct vec3f v2a={1.-sin(i),-1+sin(i),0.8+(i*0.1)};
-        struct vec3f v3a={1.-sin(i),0.+sin(i),0.8+(i*0.1)};
-        struct vec3f cola={1-sin(i),1-sin(i/3),1-sin(i)};
+        struct vec3f v1a={0.5+sin(i),-1+sin(i),0.8+(i*0.5)};
+        struct vec3f v2a={1.5+sin(i),-1+sin(i),0.8+(i*0.5)};
+        struct vec3f v3a={1.5+sin(i),0+sin(i),0.8+(i*0.5)};
+        struct vec3f cola={sin(i/100),1-sin(i/30),1-sin(i)};
     gfx_create_triangle(v1a,v2a,v3a,cola);
     }
 
@@ -69,7 +69,7 @@ int main()
         
     /*view_direction.x=view_direction.x-0.0001;*/
     /*view_direction.y=view_direction.y+0.0005;*/
-    cam_location.z=cam_location.z+0.0001;
+    cam_location.z=cam_location.z-0.001;
     gfx_camera_location(cam_location);
     /*gfx_set_camera_rotation(view_direction);*/
     
