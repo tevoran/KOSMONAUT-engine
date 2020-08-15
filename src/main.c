@@ -39,22 +39,18 @@ int main()
     }
 
     struct vec3f cam_location={0,0,0};
-    struct vec2f view_direction={0.001,0};
-    gfx_create_camera(cam_location,view_direction, 1000000);
+    struct vec2f view_direction={0,0};
+    gfx_create_camera(cam_location,view_direction, 100);
 
     
-    /*struct vec3f v1={0,0,5};
-    struct vec3f v2={1,0,5};
-    struct vec3f v3={0,1,5};
-    struct vec3f col={0.3,0.3,0.3};
-    gfx_create_triangle(v1,v2,v3,col);*/
     
-    for(float i=1; i<100; i=i+0.3)
+
+    for(float i=0; i<100; i=i+0.3)
     {
-        struct vec3f v1a={1,0,i};
-        struct vec3f v2a={2,0,i};
-        struct vec3f v3a={1,1,i};
-        struct vec3f cola={1/(i/100),(1/(i/100)),(i/100)};
+        struct vec3f v1a={0.-sin(i),-1+sin(i),0.8+(i*0.1)};
+        struct vec3f v2a={1.-sin(i),-1+sin(i),0.8+(i*0.1)};
+        struct vec3f v3a={1.-sin(i),0.+sin(i),0.8+(i*0.1)};
+        struct vec3f cola={1-sin(i),1-sin(i/3),1-sin(i)};
     gfx_create_triangle(v1a,v2a,v3a,cola);
     }
 
@@ -71,11 +67,11 @@ int main()
     }
     FPS++;
         
-    /*view_direction.x=view_direction.x+0.0003;
-    view_direction.y=view_direction.y+0.0003;*/
+    /*view_direction.x=view_direction.x-0.0001;*/
+    /*view_direction.y=view_direction.y+0.0005;*/
     cam_location.z=cam_location.z+0.0001;
     gfx_camera_location(cam_location);
-    gfx_set_camera_rotation(view_direction);
+    /*gfx_set_camera_rotation(view_direction);*/
     
 
         

@@ -9,7 +9,7 @@
 void gfx_new_frame()
 {
     
-    for(int i=1; i<330; i++)
+    for(int i=0; i<330; i++)
     {
     glBindVertexArray(gfx_get_arrayID(i));
     glDrawArrays(GL_TRIANGLES,0,3);

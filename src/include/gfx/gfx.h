@@ -15,7 +15,6 @@
 GLuint shader_program; /*the shader program reference*/
 
 /*config variables*/
-GLfloat world2opengl_factor; /*the convertion factor between the engine internal world space to opengl handled space*/
 float fov;/*the field of view in radians*/
 
 /*camera variables*/
@@ -31,13 +30,7 @@ GLuint gfx_loading_shaders(); /*loads, compiles and links vertex and fragment sh
 void gfx_new_frame(); /*draws the current frame and clears the buffer for the next frame*/
 
 
-/*internal config functions*/
-    /*world space to normalized device space factor
-     * world/nds=factor
-     */
-    void gfx_set_ws2nds_factor(float factor);
-    float gfx_get_ws2nds_factor();
-    
+/*internal config functions*/    
     /*camera options*/
     /*field of view angle*/
     void gfx_set_fov(float fov_in); /*field of view is radians*/
