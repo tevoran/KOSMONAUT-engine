@@ -8,10 +8,9 @@
 
 extern GLuint shader_program; /*the shader program reference*/
 
-extern struct vec3f cam_position;
 extern struct vec2f cam_direction; /*each axis's offset is in radians*/
 
-void gfx_create_camera(struct vec3f position, struct vec2f view_direction, float far_z)
+void gfx_create_camera(struct vec3f position, struct vec2f view_direction, float far_z, float fov)
 {
     cam_direction=view_direction;
     
@@ -22,8 +21,8 @@ void gfx_create_camera(struct vec3f position, struct vec2f view_direction, float
     /*creating projection matrix and sending it to the vertex shader*/
     GLfloat projection_matrix[4][4]=
     {
-        tan(0.5*PI-0.5*gfx_get_fov()), 0, 0, 0,
-        0,tan(0.5*PI-0.5*gfx_get_fov()), 0, 0,
+        tan(0.5*PI-0.5*fov), 0, 0, 0,
+        0,tan(0.5*PI-0.5*fov), 0, 0,
         0, 0, (1-near_z)/(far_z-near_z), 1,
         0, 0, 0, 0
     };

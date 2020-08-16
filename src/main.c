@@ -40,7 +40,7 @@ int main()
 
     struct vec3f cam_location={0,0,0};
     struct vec2f view_direction={0,0};
-    gfx_create_camera(cam_location,view_direction, 100);
+    gfx_create_camera(cam_location,view_direction, 100, 0.5*PI);
 
     
     

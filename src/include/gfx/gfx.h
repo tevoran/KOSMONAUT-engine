@@ -34,14 +34,8 @@ GLuint gfx_loading_shaders(); /*loads, compiles and links vertex and fragment sh
 void gfx_new_frame(); /*draws the current frame and clears the buffer for the next frame*/
 
 
-/*internal config functions*/    
-    /*camera options*/
-    /*field of view angle*/
-    void gfx_set_fov(float fov_in); /*field of view is radians*/
-    float gfx_get_fov(); /*field of view is in radians*/
-
 /*camera*/
-void gfx_create_camera(struct vec3f position, struct vec2f view_direction, float far_z);
+void gfx_create_camera(struct vec3f position, struct vec2f view_direction, float far_z, float fov);
 void gfx_camera_location(struct vec3f position);
 void gfx_set_camera_rotation(struct vec2f view_direction);
 

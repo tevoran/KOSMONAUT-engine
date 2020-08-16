@@ -21,12 +21,7 @@ int gfx_init()
     
     /*loading shaders*/
     shader_program=gfx_loading_shaders();
-    
 
-
-    /*setting up the camera values*/
-    /*telling the shader how to convert world space to the opengl internal space*/
-    gfx_set_fov(0.8*PI);
     
     printf("done\n");
 }
