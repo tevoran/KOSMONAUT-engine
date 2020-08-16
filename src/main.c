@@ -47,13 +47,23 @@ int main()
 
     for(float i=0; i<100; i=i+0.3)
     {
-        struct vec3f v1a={1+sin(i),-1+cos(i),0.8+(i*0.8)};
-        struct vec3f v2a={2+sin(i),-1+cos(i),0.8+(i*0.8)};
-        struct vec3f v3a={2+sin(i),0+cos(i),0.8+(i*0.8)};
+        struct vec3f v1a={1+sin(i),-1+cos(i),1.8+(i*0.8)};
+        struct vec3f v2a={2+sin(i),-1+cos(i),1.8+(i*0.8)};
+        struct vec3f v3a={2+sin(i),0+cos(i),1.8+(i*0.8)};
         struct vec3f cola={sin(i/100),1-sin(i/30),1-sin(i)};
     gfx_create_triangle(v1a,v2a,v3a,cola);
     }
+    
+    for(float i=0; i<100; i=i+0.5)
+    {
+        struct vec3f pos={-0.5,0.5,0.8+i};
+        struct vec3f col={0.9,0.2,0.0};
+        gfx_create_cube(pos,col,0.15);
+    }
 
+
+    /*glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);*/
+    
     int FPS;
     int lasttick=SDL_GetTicks();
     
@@ -69,13 +79,12 @@ int main()
     }
     FPS++;
         
-    /*view_direction.x=view_direction.x-0.0001;*/
-    /*view_direction.y=view_direction.y+0.0005;*/
 
-    i=i+0.01;
+
+    i=i+0.001;
     cam_location.z=cam_location.z+0.01;
     cam_location.y=sin(i);
-    cam_location.x=5*sin(i/10);
+    cam_location.x=5*sin(i/3);
     gfx_camera_location(cam_location);
     /*gfx_set_camera_rotation(view_direction);*/
     

@@ -57,6 +57,8 @@ GLuint gfx_get_vertex_bufferID(uint32_t handle);
 uint32_t gfx_get_highest_handle();
 
 /*primitives*/
-uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color); /*returns a uint32_t handle*/
+/*they return a uint32_t handle for identification purposes*/
+uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color);
+uint32_t gfx_create_cube(struct vec3f location, struct vec3f color, float size);
 
 #endif

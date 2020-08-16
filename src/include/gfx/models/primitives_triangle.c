@@ -21,11 +21,19 @@ uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct 
     {
         vertex1.x,vertex1.y,vertex1.z,
         color.x,color.y,color.z,
+        
         vertex2.x,vertex2.y,vertex2.z,
         color.x,color.y,color.z,
+        
         vertex3.x,vertex3.y,vertex3.z,
-        color.x,color.y,color.z,
+        color.x,color.y,color.z
     };
+    
+    GLuint triangle_indices[]=
+    {
+        0,1,2
+    };
+    
     
     gfx_set_num_vertices(handle, 3); /*value is three, because this is a triangle*/
     
@@ -49,6 +57,7 @@ uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct 
     
     glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)(3*sizeof(float)));
     glEnableVertexAttribArray(1);
+    
     
     return handle;
 }
