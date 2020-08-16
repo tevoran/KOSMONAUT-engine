@@ -11,6 +11,11 @@
 #define GFX_FALSE 0
 #define GFX_ERROR 0xFFFFFFFF
 
+/*constants for handle handling*/
+#define ENTRY_IS_A_NODE 0xFFFFFFFE
+#define ENTRY_IS_USED 0xFFFFFFFD
+#define ENTRY_IS_FREE 0xFFFFFFFC
+
 /*global variables*/
 GLuint shader_program; /*the shader program reference*/
 
@@ -18,7 +23,6 @@ GLuint shader_program; /*the shader program reference*/
 float fov;/*the field of view in radians*/
 
 /*camera variables*/
-struct vec3f cam_position;
 struct vec2f cam_direction;
 
 
@@ -44,6 +48,8 @@ void gfx_set_camera_rotation(struct vec2f view_direction);
 /*models*/
 /*handles*/
 uint32_t gfx_create_handle();
+
+uint32_t gfx_handle_check(uint32_t handle);
 
 void gfx_set_num_vertices(uint32_t handle, uint32_t num_vertices);
 uint32_t gfx_get_num_vertices(uint32_t handle);

@@ -45,7 +45,7 @@ int main()
     
     
 
-    for(float i=0; i<500; i=i+0.3)
+    for(float i=0; i<100; i=i+0.3)
     {
         struct vec3f v1a={1+sin(i),-1+cos(i),0.8+(i*0.8)};
         struct vec3f v2a={2+sin(i),-1+cos(i),0.8+(i*0.8)};
@@ -60,7 +60,7 @@ int main()
     float i=0;
     while(engine_get_event().type!=SDL_QUIT) /*while not closing the window the main loop is continuing*/
     {
-    /*FPS count*/    
+    /*FPS count*/
     if(SDL_GetTicks()>(lasttick+1000))
     {
         printf("FPS: %i\n",FPS);

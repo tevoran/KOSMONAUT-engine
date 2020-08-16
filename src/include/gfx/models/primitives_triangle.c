@@ -10,6 +10,13 @@ uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct 
 {
     uint32_t handle=gfx_create_handle();
     
+    if(handle==GFX_ERROR)
+    {
+        printf("ERROR: couldn't create triangle as a primitive - invalid handle\n");
+        return GFX_ERROR;
+    }
+    
+    
     GLfloat triangle_data[]=
     {
         vertex1.x,vertex1.y,vertex1.z,
@@ -22,10 +29,12 @@ uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct 
     
     gfx_set_num_vertices(handle, 3); /*value is three, because this is a triangle*/
     
+    /*saving OpenGL array ID*/
     GLuint triangle_arrayID;
     glGenVertexArrays(1, &triangle_arrayID);
     gfx_set_arrayID(handle,triangle_arrayID);
     
+    /*saving OpenGL vertex buffer ID*/
     GLuint vertex_bufferID;
     glGenBuffers(1, &vertex_bufferID);
     gfx_set_vertex_bufferID(handle,vertex_bufferID);
@@ -41,4 +50,5 @@ uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct 
     glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)(3*sizeof(float)));
     glEnableVertexAttribArray(1);
     
+    return handle;
 }

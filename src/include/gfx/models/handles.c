@@ -20,7 +20,7 @@
 struct table_entry
 {
     uint32_t num_vertices;
-    void *data_address;
+    void *data_address; /*is used for marking an entry as used and as a pointer to a new table, if it's the last entry in a table*/
     GLuint arrayID;
     GLuint vertex_bufferID;
 };
@@ -76,7 +76,7 @@ uint32_t gfx_create_handle()
         handle_table=(struct table_entry*)malloc(HANDLE_TABLE_SIZE*sizeof(struct table_entry));
         if(handle_table==NULL)
         {
-            printf("error while allocating memory for initial primitive handle table\n");
+            printf("ERROR while allocating memory for initial primitive handle table\n");
             return GFX_ERROR;
         }
         handles_create_handle_table(handle_table);
@@ -97,7 +97,7 @@ uint32_t gfx_create_handle()
             }
         }
         
-        /*creating new handle table is necessary*/
+        /*creating new handle table if necessary*/
         if(free_entry_left==HANDLES_FALSE && current_handle_table[HANDLE_TABLE_SIZE-1].data_address==NULL)
             {
                 current_handle_table[HANDLE_TABLE_SIZE-1].data_address=(struct table_entry*)malloc(HANDLE_TABLE_SIZE*sizeof(struct table_entry));
@@ -126,7 +126,7 @@ uint32_t gfx_create_handle()
         if( current_handle_table[i].num_vertices==0 &&
             current_handle_table[i].data_address==NULL)
             {
-                current_handle_table[i].data_address=(void*)1;
+                current_handle_table[i].data_address=(void*)ENTRY_IS_USED; /*mark entry as used*/
                 handle=handle+i;
                 if(handle>highest_handle)
                 {
@@ -136,6 +136,26 @@ uint32_t gfx_create_handle()
             }
     }
     
+    return GFX_ERROR;
+}
+
+/*checking function if ID is used as a regular entry or if it's a node*/
+/*see constants in gfx.h header*/
+uint32_t gfx_handle_check(uint32_t handle)
+{
+    struct table_entry *current_entry=handles_find_entry(handle);
+    if(current_entry->data_address==(void*)ENTRY_IS_USED)
+    {
+        return ENTRY_IS_USED;
+    }
+    if(current_entry->num_vertices==END_OF_HANDLE_TABLE)
+    {
+        return ENTRY_IS_A_NODE;
+    }
+    if(current_entry->num_vertices==0 && current_entry->data_address==NULL)
+    {
+        return ENTRY_IS_FREE;
+    }
     return GFX_ERROR;
 }
 
