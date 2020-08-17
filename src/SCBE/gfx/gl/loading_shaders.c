@@ -27,7 +27,7 @@ GLuint gfx_loading_shaders()
     printf("Loading Vertex Shader...");
     
     
-    shader_file=fopen("src/include/gfx/shaders/vertex_shader.glsl","r");
+    shader_file=fopen("src/SCBE/gfx/shaders/vertex_shader.glsl","r");
     if(shader_file==NULL)//error message if there is an error while reading the vertex shader file
     {
         printf("\n[ERROR] error while reading vertex shader file\n");
@@ -48,7 +48,7 @@ GLuint gfx_loading_shaders()
     //loading fragment shader
     printf("Loading Fragment Shader...");
     
-    shader_file=fopen("src/include/gfx/shaders/fragment_shader.glsl","r");
+    shader_file=fopen("src/SCBE/gfx/shaders/fragment_shader.glsl","r");
     if(shader_file==NULL)//error message if there is an error while reading the fragment shader file
     {
         printf("\n[ERROR] error while reading fragment shader file\n");

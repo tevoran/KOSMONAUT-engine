@@ -1,11 +1,11 @@
 CC=gcc
 SRC:=$(shell find . -name *.c)
 
-CFLAGS= -Isrc/include/ -lSDL2 -lGL -lGLEW -lm -o main
+CFLAGS= -Isrc/SCBE/ -lSDL2 -lGL -lGLEW -lm -o SBC
 
-main: $(SRC) $(SIM_SRC) $(WCE_SRC)
+main: $(SRC)
 
-	$(CC) $(SRC) $(SRC_ENGINE) $(SRC_GFX) $(SRC_GAME) $(SRC_MATHS) $(CFLAGS)
+	$(CC) $(SRC) $(CFLAGS)
 	
-clean: main
-	rm main
+clean: SBC
+	rm SBC

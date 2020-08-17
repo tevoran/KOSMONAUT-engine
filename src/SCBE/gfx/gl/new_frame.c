@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <stdio.h>
 
-#include "engine/engine.h"
+#include "general/general.h"
 
 void gfx_new_frame()
 {

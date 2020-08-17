@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 
-#include "engine/engine.h"
+#include "general/general.h"
 #include "gfx/gfx.h"
 #include "maths/maths.h"
 

@@ -1,4 +1,4 @@
-#include "engine.h"
+#include "general.h"
 
 /*this file initialises everything necessary for SDL2 and OpenGL 4.6 but does itself nothing for the graphics*/
 
@@ -29,13 +29,13 @@ int engine_init()
     /*initialising OpenGL 4.6*/
     if(SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4)!=0)
     {
-        printf("ERROR: OpenGL has to be version 4.5\n");
+        printf("ERROR: OpenGL has to be at least version 4.5\n");
         return ENGINE_GL_ERROR;
     }
     
     if(SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5)!=0)
     {
-        printf("ERROR: OpenGL has to be version 4.5\n");
+        printf("ERROR: OpenGL has to be at least version 4.5\n");
         return ENGINE_GL_ERROR;
     }
     
