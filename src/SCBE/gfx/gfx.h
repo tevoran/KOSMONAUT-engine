@@ -33,22 +33,28 @@ void gfx_new_frame(); /*draws the current frame and clears the buffer for the ne
 void gfx_create_camera(struct vec3f position, struct vec2f view_direction, float far_z, float fov);
 void gfx_camera_location(struct vec3f position);
 
+
 /*models*/
-/*handles*/
-uint32_t gfx_create_handle();
+/*management*/
+struct entry
+{
+    /*list related members*/
+    void *last_entry;
+    void *next_entry;
+    
+    /*mesh related entry*/
+    void *model_data;
+    
+    /*OpenGL related members*/
+    uint32_t num_vertices;
+    GLuint arrayID;
+    GLuint vertex_bufferID;
+};
 
-uint32_t gfx_handle_check(uint32_t handle);
-
-void gfx_set_num_vertices(uint32_t handle, uint32_t num_vertices);
-uint32_t gfx_get_num_vertices(uint32_t handle);
-
-void gfx_set_arrayID(uint32_t handle,GLuint arrayID);
-GLuint gfx_get_arrayID(uint32_t handle);
-
-void gfx_set_vertex_bufferID(uint32_t handle,GLuint vertex_bufferID);
-GLuint gfx_get_vertex_bufferID(uint32_t handle);
-
-uint32_t gfx_get_highest_handle();
+struct entry* gfx_create_model_entry();
+int gfx_select_entry(struct entry* entry_address);
+struct entry* gfx_select_first_entry();
+struct entry* gfx_next_entry();
 
 /*primitives*/
 /*they return a uint32_t handle for identification purposes*/

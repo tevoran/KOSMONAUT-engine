@@ -8,14 +8,9 @@
 
 uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color) /*returns a uint32_t handle*/
 {
-    uint32_t handle=gfx_create_handle();
     
-    if(handle==GFX_ERROR)
-    {
-        printf("ERROR: couldn't create triangle as a primitive - invalid handle\n");
-        return GFX_ERROR;
-    }
-    
+    struct entry* model_entry=gfx_create_model_entry();
+
     
     GLfloat triangle_data[]=
     {
@@ -29,27 +24,23 @@ uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct 
         color.x,color.y,color.z
     };
     
-    GLuint triangle_indices[]=
-    {
-        0,1,2
-    };
     
     
-    gfx_set_num_vertices(handle, 3); /*value is three, because this is a triangle*/
+    model_entry->num_vertices=3; /*value is three, because this is a triangle*/
     
     /*saving OpenGL array ID*/
     GLuint triangle_arrayID;
     glGenVertexArrays(1, &triangle_arrayID);
-    gfx_set_arrayID(handle,triangle_arrayID);
+    model_entry->arrayID=triangle_arrayID;
     
     /*saving OpenGL vertex buffer ID*/
     GLuint vertex_bufferID;
     glGenBuffers(1, &vertex_bufferID);
-    gfx_set_vertex_bufferID(handle,vertex_bufferID);
+    model_entry->vertex_bufferID=vertex_bufferID;
 
 
-    glBindVertexArray(gfx_get_arrayID(handle));
-    glBindBuffer(GL_ARRAY_BUFFER, gfx_get_vertex_bufferID(handle));
+    glBindVertexArray(model_entry->arrayID);
+    glBindBuffer(GL_ARRAY_BUFFER, model_entry->vertex_bufferID);
     glBufferData(GL_ARRAY_BUFFER,sizeof(triangle_data),triangle_data,GL_STATIC_DRAW);
     
     glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)0);
@@ -59,5 +50,4 @@ uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct 
     glEnableVertexAttribArray(1);
     
     
-    return handle;
 }

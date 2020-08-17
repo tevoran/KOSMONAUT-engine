@@ -9,17 +9,16 @@
 void gfx_new_frame()
 {
     /*drawing all primitives*/
-    int i_high=gfx_get_highest_handle();
-    for(int i=0; i<=i_high; i++)
+    struct entry* model_list_entry=gfx_select_first_entry();
+    
+    while(model_list_entry!=0)
     {
-        if(gfx_handle_check(i)==ENTRY_IS_USED)
-        {
-            glBindVertexArray(gfx_get_vertex_bufferID(i));
-            glDrawArrays(GL_TRIANGLES,0,gfx_get_num_vertices(i));
-            
-            /*unbind the drawn object*/
-            glBindVertexArray(0);
-        }
+        glBindVertexArray(model_list_entry->arrayID);
+        glDrawArrays(GL_TRIANGLES,0,model_list_entry->num_vertices);
+        
+        glBindVertexArray(0);
+        
+        model_list_entry=gfx_next_entry();
     }
     
     /*swapping the buffer and clearing the screen for the next frame*/
