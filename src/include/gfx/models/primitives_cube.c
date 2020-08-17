@@ -12,7 +12,7 @@ uint32_t gfx_create_cube(struct vec3f location, struct vec3f color, float size)
     
     if(handle==GFX_ERROR)
     {
-        printf("ERROR: couldn't create triangle as a primitive - invalid handle\n");
+        printf("ERROR: couldn't create cube as a primitive - invalid handle\n");
         return GFX_ERROR;
     }
     

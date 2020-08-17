@@ -11,7 +11,6 @@ uniform mat4 cam_translationMatrix; /*this matrix is used for making the camera 
  * and the world becomes relative to the camera*/
 
 uniform vec3 cam_location;
-uniform vec2 cam_direction; /*camera direction is in radians as offset to the axises*/
 
 void main(){
     vec4 vertexPosition = vec4(vertexPosition_worldspace.xyz, 1.0);

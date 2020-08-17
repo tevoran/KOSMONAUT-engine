@@ -14,6 +14,7 @@ int gfx_init()
     
     /*activate Z-Buffer*/
     glEnable(GL_DEPTH_TEST);  
+    glDepthFunc(GL_LESS);
     
     /*setting background color as black*/
     glClearColor(0.0f,0.0f,0.0f,1.0f);

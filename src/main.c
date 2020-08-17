@@ -43,7 +43,6 @@ int main()
     gfx_create_camera(cam_location,view_direction, 100, 0.5*PI);
 
     
-    
 
     for(float i=0; i<100; i=i+0.3)
     {
@@ -56,13 +55,13 @@ int main()
     
     for(float i=0; i<100; i=i+0.5)
     {
-        struct vec3f pos={-0.5,0.5,0.8+i};
-        struct vec3f col={0.9,0.2,0.0};
+        struct vec3f pos={3,0.5,0.8+i};
+        struct vec3f col={sin(i/100),0.6*cos(i),0.4};
         gfx_create_cube(pos,col,0.15);
     }
 
 
-    /*glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);*/
+    /*glPolygonMode(GL_FRONT, GL_FILL);*/
     
     int FPS;
     int lasttick=SDL_GetTicks();
@@ -82,11 +81,10 @@ int main()
 
 
     i=i+0.001;
-    cam_location.z=cam_location.z+0.01;
+    cam_location.z=cam_location.z+0.001;
     cam_location.y=sin(i);
     cam_location.x=5*sin(i/3);
     gfx_camera_location(cam_location);
-    /*gfx_set_camera_rotation(view_direction);*/
     
 
         
