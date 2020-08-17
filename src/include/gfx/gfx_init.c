@@ -12,9 +12,15 @@ int gfx_init()
 {
     printf("initialising graphics engine...");
     
+    /*enable debug output*/
+    glEnable(GL_DEBUG_OUTPUT);
+    
     /*activate Z-Buffer*/
-    glEnable(GL_DEPTH_TEST);  
+    glEnable(GL_DEPTH_TEST); 
+    glDepthMask(GL_TRUE);
     glDepthFunc(GL_LESS);
+    glClearDepth(1.0f);
+    glDepthRange(0.0f,1.0f);
     
     /*setting background color as black*/
     glClearColor(0.0f,0.0f,0.0f,1.0f);

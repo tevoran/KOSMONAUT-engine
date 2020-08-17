@@ -21,10 +21,6 @@ GLuint shader_program; /*the shader program reference*/
 
 
 
-
-
-
-
 /*initialising functions*/
 int gfx_init();
 GLuint gfx_loading_shaders(); /*loads, compiles and links vertex and fragment shaders into one program. its handle is returned as GLuint*/

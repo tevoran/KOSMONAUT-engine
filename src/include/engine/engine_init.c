@@ -20,7 +20,7 @@ int engine_init()
         return ENGINE_SDL_ERROR;
     }
     
-    window=SDL_CreateWindow("Space Battle: Command",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,800,800,SDL_WINDOW_OPENGL);
+    window=SDL_CreateWindow("Space Battle Command",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,800,800,SDL_WINDOW_OPENGL);
     if(window==NULL)
     {
         return ENGINE_SDL_ERROR;

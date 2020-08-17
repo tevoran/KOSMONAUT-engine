@@ -14,8 +14,11 @@ void gfx_new_frame()
     {
         if(gfx_handle_check(i)==ENTRY_IS_USED)
         {
-            glBindVertexArray(gfx_get_arrayID(i));
+            glBindVertexArray(gfx_get_vertex_bufferID(i));
             glDrawArrays(GL_TRIANGLES,0,gfx_get_num_vertices(i));
+            
+            /*unbind the drawn object*/
+            glBindVertexArray(0);
         }
     }
     
