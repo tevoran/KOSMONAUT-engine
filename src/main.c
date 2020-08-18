@@ -78,6 +78,15 @@ int main()
         {
             gfx_delete_model_entry(cube1);
         }
+        if(secs==7)
+        {
+            pos.x=1;
+            pos.y=1;
+            pos.z=1.8;
+            col.y=0;
+            col.z=0;
+            cube1=gfx_create_cube(pos,col,1);
+        }
 
     }
     FPS++;

@@ -95,6 +95,8 @@ void gfx_delete_model_entry(struct entry* entry_address)
     if(current_entry->last_entry==NULL && current_entry->next_entry==NULL)
     {
         initial_entry=NULL;
+        free(current_entry);
+        return;
     }
     
     /*if this is simply the first entry*/
@@ -102,7 +104,9 @@ void gfx_delete_model_entry(struct entry* entry_address)
     {
         initial_entry=current_entry->next_entry;
         current_entry=current_entry->next_entry;
+        free(current_entry->last_entry);
         current_entry->last_entry=NULL;
+        return;
     }
     
     /*if this is an entry in the middle*/
@@ -113,6 +117,9 @@ void gfx_delete_model_entry(struct entry* entry_address)
         
         next_entry=current_entry->next_entry;
         next_entry->last_entry=current_entry->last_entry;
+        
+        free(current_entry);
+        return;
     }
     
     /*if this is the last entry in the list*/
@@ -120,6 +127,7 @@ void gfx_delete_model_entry(struct entry* entry_address)
     {
         previous_entry=current_entry->last_entry;
         previous_entry->next_entry=NULL;
+        free(current_entry);
+        return;
     }
-    free(current_entry);
 }
