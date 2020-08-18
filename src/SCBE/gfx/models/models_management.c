@@ -84,10 +84,10 @@ struct entry* gfx_select_first_entry()
 
 struct entry* gfx_next_entry()
 {
-    selected_entry=selected_entry->next_entry;
     if(selected_entry->next_entry==NULL)
     {
         return EOT;
     }
+    selected_entry=selected_entry->next_entry;
     return selected_entry;
 }
