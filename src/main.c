@@ -43,17 +43,17 @@ int main()
     gfx_create_camera(cam_location,view_direction, 100, 0.5*PI);
 
     
-        struct vec3f pos={1,1.,1.8};
+        struct vec3f pos={1,1.,4};
         struct vec3f col={1,0,0};
         struct entry* cube1=gfx_create_cube(pos,col,0.4);
         
         pos.x=1;
-        pos.z=3;
+        pos.z=7;
         col.y=1;
         struct entry* cube2=gfx_create_cube(pos,col,0.4);
         
         pos.z=6;
-        col.z=1;
+        col.z=9;
         struct entry* cube3=gfx_create_cube(pos,col,0.4);
 
 
@@ -64,7 +64,6 @@ int main()
     
     float i=0;
     
-    int secs=0;
     while(engine_get_event().type!=SDL_QUIT) /*while not closing the window the main loop is continuing*/
     {
     /*FPS count*/
@@ -73,29 +72,13 @@ int main()
         printf("FPS: %i\n",FPS);
         FPS=0;
         lasttick=SDL_GetTicks();
-        secs++;
-        if(secs==4)
-        {
-            gfx_delete_model_entry(cube1);
-        }
-        if(secs==7)
-        {
-            pos.x=1;
-            pos.y=1;
-            pos.z=1.8;
-            col.y=0;
-            col.z=0;
-            cube1=gfx_create_cube(pos,col,1);
-        }
-
     }
     FPS++;
 
-    /*i=i+0.0001;
-    cam_location.z=cam_location.z+0.005;
-    cam_location.y=5*sin(i*5*PI);
-    cam_location.x=5*sin(i*PI);
-    gfx_camera_location(cam_location);*/
+    i=i+0.00025;
+    pos.x=4*sin(i);
+    pos.y=2.5*sin(i/13.8);
+    gfx_update_model_location(cube2,pos);
     
 
         

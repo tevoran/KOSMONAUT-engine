@@ -6,6 +6,8 @@
 
 #include "general/general.h"
 
+extern GLuint shader_program;
+
 void gfx_new_frame()
 {
     /*drawing all primitives*/
@@ -13,6 +15,12 @@ void gfx_new_frame()
     
     while(model_list_entry!=NULL)
     {
+        /*using local matrices in vertex shader*/
+        
+        GLint world_transform_matrix_reference=glGetUniformLocation(shader_program, "world_transformMatrix");
+        glUniformMatrix4fv(world_transform_matrix_reference,1,GL_FALSE,&model_list_entry->world_transform_matrix[0][0]);
+        
+        /*drawing everything*/
         glBindVertexArray(model_list_entry->arrayID);
         glDrawArrays(GL_TRIANGLES,0,model_list_entry->num_vertices);
         

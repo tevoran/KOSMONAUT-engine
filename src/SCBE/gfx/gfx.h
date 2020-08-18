@@ -49,6 +49,9 @@ struct entry
     uint32_t num_vertices;
     GLuint arrayID;
     GLuint vertex_bufferID;
+    
+    /*transformation members*/
+    GLfloat world_transform_matrix[4][4];
 };
 
 struct entry* gfx_create_model_entry();
@@ -56,6 +59,9 @@ int gfx_select_entry(struct entry* entry_address);
 struct entry* gfx_select_first_entry();
 struct entry* gfx_next_entry();
 void gfx_delete_model_entry(struct entry* entry_address);
+
+/*transformation*/
+void gfx_update_model_location(struct entry* model, struct vec3f location);
 
 /*primitives*/
 /*they return a uint32_t handle for identification purposes*/
