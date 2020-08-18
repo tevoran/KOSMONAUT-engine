@@ -32,6 +32,7 @@ struct entry* gfx_create_model_entry()
             }
         initial_entry->last_entry=NULL;
         initial_entry->next_entry=NULL;
+        return initial_entry;
     }
 
     current_entry=initial_entry;
@@ -44,25 +45,17 @@ struct entry* gfx_create_model_entry()
     
     
     /*creating a new entry*/
-    /*creating a link to the last entry*/
-    /*if its not the initial entry*/
-    void *last_entry=NULL;
-    if(current_entry->last_entry!=NULL)
-    {
-        last_entry=current_entry;
-    }
-
     current_entry->next_entry=malloc(sizeof(struct entry));
     if(current_entry->next_entry==NULL)
     {
         printf("ERROR: couldn't allocate memory for a new model handling table entry\n");
     }
     
+    void* last_entry=current_entry;
     current_entry=current_entry->next_entry;
     /*marking it as the last entry*/
     current_entry->next_entry=NULL; 
     current_entry->last_entry=last_entry;
-    
     return current_entry;
 }
 
@@ -90,4 +83,43 @@ struct entry* gfx_next_entry()
     }
     selected_entry=selected_entry->next_entry;
     return selected_entry;
+}
+
+void gfx_delete_model_entry(struct entry* entry_address)
+{
+    current_entry=entry_address;
+    struct entry *previous_entry;
+    struct entry *next_entry;
+    
+    /*if this is the only entry*/
+    if(current_entry->last_entry==NULL && current_entry->next_entry==NULL)
+    {
+        initial_entry=NULL;
+    }
+    
+    /*if this is simply the first entry*/
+    if(current_entry->last_entry==NULL && current_entry->next_entry!=NULL)
+    {
+        initial_entry=current_entry->next_entry;
+        current_entry=current_entry->next_entry;
+        current_entry->last_entry=NULL;
+    }
+    
+    /*if this is an entry in the middle*/
+    if(current_entry->last_entry!=NULL && current_entry->next_entry!=NULL)
+    {
+        previous_entry=current_entry->last_entry;
+        previous_entry->next_entry=current_entry->next_entry;
+        
+        next_entry=current_entry->next_entry;
+        next_entry->last_entry=current_entry->last_entry;
+    }
+    
+    /*if this is the last entry in the list*/
+    if(current_entry->last_entry!=NULL && current_entry->next_entry==NULL)
+    {
+        previous_entry=current_entry->last_entry;
+        previous_entry->next_entry=NULL;
+    }
+    free(current_entry);
 }

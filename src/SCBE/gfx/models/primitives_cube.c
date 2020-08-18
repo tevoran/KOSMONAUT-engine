@@ -6,7 +6,7 @@
 #include <GL/glew.h>
 
 
-uint32_t gfx_create_cube(struct vec3f location, struct vec3f color, float size)
+struct entry* gfx_create_cube(struct vec3f location, struct vec3f color, float size)
 {
     struct entry* model_entry=gfx_create_model_entry();
     
@@ -129,4 +129,5 @@ uint32_t gfx_create_cube(struct vec3f location, struct vec3f color, float size)
     glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)(3*sizeof(float)));
     glEnableVertexAttribArray(1);
     
+    return model_entry;
 }

@@ -55,10 +55,11 @@ struct entry* gfx_create_model_entry();
 int gfx_select_entry(struct entry* entry_address);
 struct entry* gfx_select_first_entry();
 struct entry* gfx_next_entry();
+void gfx_delete_model_entry(struct entry* entry_address);
 
 /*primitives*/
 /*they return a uint32_t handle for identification purposes*/
-uint32_t gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color);
-uint32_t gfx_create_cube(struct vec3f location, struct vec3f color, float size);
+struct entry* gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color);
+struct entry* gfx_create_cube(struct vec3f location, struct vec3f color, float size);
 
 #endif

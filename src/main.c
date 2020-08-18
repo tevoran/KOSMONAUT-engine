@@ -45,7 +45,16 @@ int main()
     
         struct vec3f pos={1,1.,1.8};
         struct vec3f col={1,0,0};
-        gfx_create_cube(pos,col,0.4);
+        struct entry* cube1=gfx_create_cube(pos,col,0.4);
+        
+        pos.x=1;
+        pos.z=3;
+        col.y=1;
+        struct entry* cube2=gfx_create_cube(pos,col,0.4);
+        
+        pos.z=6;
+        col.z=1;
+        struct entry* cube3=gfx_create_cube(pos,col,0.4);
 
 
     glPolygonMode(GL_FRONT, GL_FILL);
@@ -54,6 +63,8 @@ int main()
     int lasttick=SDL_GetTicks();
     
     float i=0;
+    
+    int secs=0;
     while(engine_get_event().type!=SDL_QUIT) /*while not closing the window the main loop is continuing*/
     {
     /*FPS count*/
@@ -62,10 +73,14 @@ int main()
         printf("FPS: %i\n",FPS);
         FPS=0;
         lasttick=SDL_GetTicks();
+        secs++;
+        if(secs==4)
+        {
+            gfx_delete_model_entry(cube1);
+        }
+
     }
     FPS++;
-        
-
 
     /*i=i+0.0001;
     cam_location.z=cam_location.z+0.005;
