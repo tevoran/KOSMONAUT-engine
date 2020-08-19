@@ -6,7 +6,8 @@
 #include <GL/glew.h>
 
 
-struct model* gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color) /*returns a uint32_t handle*/
+/*corner1 and corner2 are relative to the triangle's position*/
+struct model* gfx_create_triangle(struct vec3f position, struct vec3f corner1, struct vec3f corner2, struct vec3f color) /*returns a uint32_t handle*/
 {
     
     struct model* model_entry=gfx_create_model_entry();
@@ -14,13 +15,13 @@ struct model* gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, st
     
     GLfloat triangle_data[]=
     {
-        vertex1.x,vertex1.y,vertex1.z,
+        0,0,0,
         color.x,color.y,color.z,
         
-        vertex2.x,vertex2.y,vertex2.z,
+        corner1.x,corner1.y,corner1.z,
         color.x,color.y,color.z,
         
-        vertex3.x,vertex3.y,vertex3.z,
+        corner2.x,corner2.y,corner2.z,
         color.x,color.y,color.z
     };
     
@@ -49,5 +50,9 @@ struct model* gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, st
     glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)(3*sizeof(float)));
     glEnableVertexAttribArray(1);
     
+    
+    gfx_update_model_location(model_entry,position);
+
+
     return model_entry;
 }

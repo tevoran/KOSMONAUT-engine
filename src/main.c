@@ -55,6 +55,15 @@ int main()
         pos.z=6;
         col.z=9;
         struct model* cube3=gfx_create_cube(pos,col,0.4);
+        
+    pos.x=0;
+    pos.y=4;
+    pos.z=10;
+    
+    struct vec3f pos2={1,0,3};
+    struct vec3f pos3={0,1,-2};
+    struct vec3f col2={0.9,0.8,0.3};
+    struct model* tri1=gfx_create_triangle(pos,pos2,pos3,col2);
 
 
     glPolygonMode(GL_FRONT, GL_FILL);
@@ -91,7 +100,10 @@ int main()
     pos.z=10;
     gfx_update_model_location(cube3,pos);
     
-
+    pos.x=6*sin(i/4);
+    pos.y=7*sin(i/3.7);
+    pos.z=4*cos(i/10)+10;
+    gfx_update_model_location(tri1,pos);
         
     gfx_new_frame();
     }
