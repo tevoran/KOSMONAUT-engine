@@ -11,7 +11,7 @@ extern GLuint shader_program;
 void gfx_new_frame()
 {
     /*drawing all primitives*/
-    struct entry* model_list_entry=gfx_select_first_entry();
+    struct model* model_list_entry=gfx_select_first_entry();
     
     while(model_list_entry!=NULL)
     {

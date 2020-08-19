@@ -45,16 +45,16 @@ int main()
     
         struct vec3f pos={1,1.,4};
         struct vec3f col={1,0,0};
-        struct entry* cube1=gfx_create_cube(pos,col,0.4);
+        struct model* cube1=gfx_create_cube(pos,col,0.4);
         
         pos.x=1;
         pos.z=7;
         col.y=1;
-        struct entry* cube2=gfx_create_cube(pos,col,0.4);
+        struct model* cube2=gfx_create_cube(pos,col,0.4);
         
         pos.z=6;
         col.z=9;
-        struct entry* cube3=gfx_create_cube(pos,col,0.4);
+        struct model* cube3=gfx_create_cube(pos,col,0.4);
 
 
     glPolygonMode(GL_FRONT, GL_FILL);
@@ -77,8 +77,19 @@ int main()
 
     i=i+0.00025;
     pos.x=4*sin(i);
-    pos.y=2.5*sin(i/13.8);
+    pos.y=5*cos(i/13.8);
+    pos.z=5;
+    gfx_update_model_location(cube1,pos);
+    
+    pos.x=5*sin(i/2.356);
+    pos.y=5*cos(i/13.8);
+    pos.z=7;
     gfx_update_model_location(cube2,pos);
+
+    pos.x=4*sin(i/5.3);
+    pos.y=3*sin(i/9.2);
+    pos.z=10;
+    gfx_update_model_location(cube3,pos);
     
 
         

@@ -6,9 +6,9 @@
 #include <GL/glew.h>
 
 
-struct entry* gfx_create_cube(struct vec3f location, struct vec3f color, float size)
+struct model* gfx_create_cube(struct vec3f location, struct vec3f color, float size)
 {
-    struct entry* model_entry=gfx_create_model_entry();
+    struct model* model_entry=gfx_create_model_entry();
     
     
     
@@ -129,24 +129,7 @@ struct entry* gfx_create_cube(struct vec3f location, struct vec3f color, float s
     glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)(3*sizeof(float)));
     glEnableVertexAttribArray(1);
     
-    /*calculating world transform matrix*/
-    GLfloat world_matrix[4][4]=
-    {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        location.x, location.y, location.z, 1
-    };
-    
-    for(int ix=0,iy=0; iy<4; ix++)
-    {
-        model_entry->world_transform_matrix[ix][iy]=world_matrix[ix][iy];
-        if(ix==3)
-        {
-            ix=-1;
-            iy++;
-        }
-    }
+    gfx_update_model_location(model_entry,location);
         
     return model_entry;
 }

@@ -3,7 +3,7 @@
 
 
 
-void gfx_update_model_location(struct entry* model, struct vec3f location)
+void gfx_update_model_location(struct model* model, struct vec3f location)
 {
     /*calculating world transform matrix*/
     GLfloat world_matrix[4][4]=

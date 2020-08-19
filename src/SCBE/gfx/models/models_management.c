@@ -14,17 +14,17 @@
 #define TABLE_OK 2
 
 
-struct entry *initial_entry=NULL;
-struct entry *current_entry=NULL;
-struct entry *selected_entry=NULL;
+struct model *initial_entry=NULL;
+struct model *current_entry=NULL;
+struct model *selected_entry=NULL;
 
 
-struct entry* gfx_create_model_entry()
+struct model* gfx_create_model_entry()
 {
     /*create a new entry if no entry exists yet*/
     if(initial_entry==NULL)
     {
-        initial_entry=malloc(sizeof(struct entry));
+        initial_entry=malloc(sizeof(struct model));
             /*if an error occured then show a message*/
             if(initial_entry==NULL)
             {
@@ -45,7 +45,7 @@ struct entry* gfx_create_model_entry()
     
     
     /*creating a new entry*/
-    current_entry->next_entry=malloc(sizeof(struct entry));
+    current_entry->next_entry=malloc(sizeof(struct model));
     if(current_entry->next_entry==NULL)
     {
         printf("ERROR: couldn't allocate memory for a new model handling table entry\n");
@@ -59,7 +59,7 @@ struct entry* gfx_create_model_entry()
     return current_entry;
 }
 
-int gfx_select_entry(struct entry* entry_address)
+int gfx_select_entry(struct model* entry_address)
 {
     selected_entry=entry_address;
     if(selected_entry->next_entry==NULL)
@@ -69,13 +69,13 @@ int gfx_select_entry(struct entry* entry_address)
     return TABLE_OK;
 }
 
-struct entry* gfx_select_first_entry()
+struct model* gfx_select_first_entry()
 {
     selected_entry=initial_entry;
     return selected_entry;
 }
 
-struct entry* gfx_next_entry()
+struct model* gfx_next_entry()
 {
     if(selected_entry->next_entry==NULL)
     {
@@ -85,11 +85,11 @@ struct entry* gfx_next_entry()
     return selected_entry;
 }
 
-void gfx_delete_model_entry(struct entry* entry_address)
+void gfx_delete_model_entry(struct model* entry_address)
 {
     current_entry=entry_address;
-    struct entry *previous_entry;
-    struct entry *next_entry;
+    struct model *previous_entry;
+    struct model *next_entry;
     
     /*if this is the only entry*/
     if(current_entry->last_entry==NULL && current_entry->next_entry==NULL)

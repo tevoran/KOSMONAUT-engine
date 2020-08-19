@@ -36,7 +36,7 @@ void gfx_camera_location(struct vec3f position);
 
 /*models*/
 /*management*/
-struct entry
+struct model
 {
     /*list related members*/
     void *last_entry;
@@ -54,18 +54,18 @@ struct entry
     GLfloat world_transform_matrix[4][4];
 };
 
-struct entry* gfx_create_model_entry();
-int gfx_select_entry(struct entry* entry_address);
-struct entry* gfx_select_first_entry();
-struct entry* gfx_next_entry();
-void gfx_delete_model_entry(struct entry* entry_address);
+struct model* gfx_create_model_entry();
+int gfx_select_entry(struct model* entry_address);
+struct model* gfx_select_first_entry();
+struct model* gfx_next_entry();
+void gfx_delete_model_entry(struct model* entry_address);
 
 /*transformation*/
-void gfx_update_model_location(struct entry* model, struct vec3f location);
+void gfx_update_model_location(struct model* model, struct vec3f location);
 
 /*primitives*/
 /*they return a uint32_t handle for identification purposes*/
-struct entry* gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color);
-struct entry* gfx_create_cube(struct vec3f location, struct vec3f color, float size);
+struct model* gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color);
+struct model* gfx_create_cube(struct vec3f location, struct vec3f color, float size);
 
 #endif

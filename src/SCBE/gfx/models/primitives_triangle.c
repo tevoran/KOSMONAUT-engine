@@ -6,10 +6,10 @@
 #include <GL/glew.h>
 
 
-struct entry* gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color) /*returns a uint32_t handle*/
+struct model* gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color) /*returns a uint32_t handle*/
 {
     
-    struct entry* model_entry=gfx_create_model_entry();
+    struct model* model_entry=gfx_create_model_entry();
 
     
     GLfloat triangle_data[]=
