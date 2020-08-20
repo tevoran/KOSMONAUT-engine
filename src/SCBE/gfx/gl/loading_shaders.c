@@ -41,7 +41,8 @@ GLuint gfx_loading_shaders()
         
         //allocating memory
         vertex_shader_string=malloc(shader_size+1);
-        fread(vertex_shader_string, shader_size+1,1,shader_file);
+        fread(vertex_shader_string, shader_size,1,shader_file);
+        vertex_shader_string[shader_size] = '\0';
         
         printf("done\n");
 
@@ -62,7 +63,8 @@ GLuint gfx_loading_shaders()
         
         //allocating memory
         fragment_shader_string=malloc(shader_size+1);
-        fread(fragment_shader_string, shader_size+1,1,shader_file);
+        fread(fragment_shader_string, shader_size,1,shader_file);
+        fragment_shader_string[shader_size] = '\0';
         printf("done\n");
         
     //creating shaders

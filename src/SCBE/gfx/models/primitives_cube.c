@@ -10,6 +10,8 @@ struct model* gfx_create_cube(struct vec3f location, struct vec3f color, float s
 {
     struct model* model_entry=gfx_create_model_entry();
     
+    /*this object doesn't use an index buffer*/
+    model_entry->index_bufferID=0;
     
     
     GLfloat cube_data[]=
@@ -109,14 +111,10 @@ struct model* gfx_create_cube(struct vec3f location, struct vec3f color, float s
     model_entry->num_vertices=sizeof(cube_data)/(6*sizeof(GLfloat));
     
     /*saving OpenGL array ID*/
-    GLuint cube_arrayID;
-    glGenVertexArrays(1, &cube_arrayID);
-    model_entry->arrayID=cube_arrayID;
+    glGenVertexArrays(1, &model_entry->arrayID);
     
     /*saving OpenGL vertex buffer ID*/
-    GLuint vertex_bufferID;
-    glGenBuffers(1, &vertex_bufferID);
-    model_entry->vertex_bufferID=vertex_bufferID;
+    glGenBuffers(1, &model_entry->vertex_bufferID);
 
 
     glBindVertexArray(model_entry->arrayID);
@@ -130,6 +128,10 @@ struct model* gfx_create_cube(struct vec3f location, struct vec3f color, float s
     glEnableVertexAttribArray(1);
     
     gfx_update_model_location(model_entry,location);
+    
+    /*clean up*/
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
         
     return model_entry;
 }

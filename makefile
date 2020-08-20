@@ -1,7 +1,7 @@
 CC=gcc
 SRC:=$(shell find . -name *.c)
 
-CFLAGS= -Isrc/SCBE/ -lSDL2 -lGL -lGLEW -lm -o SBC
+CFLAGS= -Isrc/SCBE/ -lSDL2 -lGL -lGLEW -lm -o SBC -g
 
 main: $(SRC)
 

@@ -7,11 +7,13 @@
 
 
 /*corner1 and corner2 are relative to the triangle's position*/
-struct model* gfx_create_triangle(struct vec3f position, struct vec3f corner1, struct vec3f corner2, struct vec3f color) /*returns a uint32_t handle*/
+struct model* gfx_create_triangle(struct vec3f location, struct vec3f corner1, struct vec3f corner2, struct vec3f color) /*returns a uint32_t handle*/
 {
     
     struct model* model_entry=gfx_create_model_entry();
 
+    /*this object doesn't use an index buffer*/
+    model_entry->index_bufferID=0;
     
     GLfloat triangle_data[]=
     {
@@ -29,10 +31,8 @@ struct model* gfx_create_triangle(struct vec3f position, struct vec3f corner1, s
     
     model_entry->num_vertices=3; /*value is three, because this is a triangle*/
     
-    /*saving OpenGL array ID*/
-    GLuint triangle_arrayID;
-    glGenVertexArrays(1, &triangle_arrayID);
-    model_entry->arrayID=triangle_arrayID;
+    /*saving OpenGL array ID*/;
+    glGenVertexArrays(1, &model_entry->arrayID);
     
     /*saving OpenGL vertex buffer ID*/
     GLuint vertex_bufferID;
@@ -51,8 +51,11 @@ struct model* gfx_create_triangle(struct vec3f position, struct vec3f corner1, s
     glEnableVertexAttribArray(1);
     
     
-    gfx_update_model_location(model_entry,position);
+    gfx_update_model_location(model_entry,location);
 
+    /*clean up*/
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     return model_entry;
 }

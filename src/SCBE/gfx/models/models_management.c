@@ -32,6 +32,7 @@ struct model* gfx_create_model_entry()
             }
         initial_entry->last_entry=NULL;
         initial_entry->next_entry=NULL;
+        initial_entry->index_bufferID=0;
         return initial_entry;
     }
 
@@ -56,6 +57,7 @@ struct model* gfx_create_model_entry()
     /*marking it as the last entry*/
     current_entry->next_entry=NULL; 
     current_entry->last_entry=last_entry;
+    current_entry->index_bufferID=0;
     return current_entry;
 }
 

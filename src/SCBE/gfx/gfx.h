@@ -10,6 +10,8 @@
 #define GFX_TRUE 1
 #define GFX_FALSE 0
 #define GFX_ERROR 0xFFFFFFFF
+#define GFX_NO_ERROR 0
+#define GFX_ERROR_NULL 0
 
 /*constants for handle handling*/
 #define ENTRY_IS_A_NODE 0xFFFFFFFE
@@ -47,8 +49,11 @@ struct model
     
     /*OpenGL related members*/
     uint32_t num_vertices;
+    uint32_t num_indices;
     GLuint arrayID;
     GLuint vertex_bufferID;
+    GLuint index_bufferID;
+    GLvoid *index_data;
     
     /*transformation members*/
     GLfloat world_transform_matrix[4][4];
@@ -64,8 +69,25 @@ void gfx_delete_model_entry(struct model* entry_address);
 void gfx_update_model_location(struct model* model, struct vec3f location);
 
 /*primitives*/
-/*they return a uint32_t handle for identification purposes*/
-struct model* gfx_create_triangle(struct vec3f vertex1, struct vec3f vertex2, struct vec3f vertex3, struct vec3f color);
-struct model* gfx_create_cube(struct vec3f location, struct vec3f color, float size);
+/*they return a struct model pointer for identification purposes*/
+struct model* gfx_create_triangle(
+    struct vec3f location,
+    struct vec3f corner1, 
+    struct vec3f corner2, 
+    struct vec3f color);
+struct model* gfx_create_cube(
+    struct vec3f location, 
+    struct vec3f color, 
+    float size);
+struct model* gfx_load_model(char *file_location, struct vec3f location);
+
+/*model load functions*/
+int model_load_obj_model(
+    char *file_location,
+    GLfloat **vertices, 
+    GLuint *num_vertices, 
+    GLuint vertex_elements,
+    GLuint **indices, 
+    GLuint *num_indices);
 
 #endif
