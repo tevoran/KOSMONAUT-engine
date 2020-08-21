@@ -51,7 +51,13 @@ struct model* gfx_create_triangle(struct vec3f location, struct vec3f corner1, s
     glEnableVertexAttribArray(1);
     
     
+    /*gfx engine stuff*/
     gfx_update_model_location(model_entry,location);
+    struct vec3f rot_axis;
+    rot_axis.x=0;
+    rot_axis.y=1;
+    rot_axis.z=0;
+    gfx_model_rotate(model_entry, 0, rot_axis);
 
     /*clean up*/
     glBindVertexArray(0);

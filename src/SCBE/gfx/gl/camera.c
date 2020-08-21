@@ -49,3 +49,8 @@ void gfx_camera_location(struct vec3f position)
     GLint cam_translation_matrix_reference=glGetUniformLocation(shader_program, "cam_translationMatrix");
     glUniformMatrix4fv(cam_translation_matrix_reference,1,GL_FALSE,&cam_translation_matrix[0][0]);
 }
+
+void gfx_camera_rotate(float x_rotation, float y_rotation, float z_rotation)
+{
+    
+}

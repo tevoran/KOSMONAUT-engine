@@ -27,6 +27,14 @@ struct vec3d /*double*/
     double z;
 };
 
+struct vec4f /*float*/
+{
+    float x;
+    float y;
+    float z;
+    float w;
+};
+
 /*scaling vector*/
 struct vec3f vec3f_scale(float a, struct vec3f b);
 struct vec3d vec3d_scale(float a, struct vec3d b);
@@ -34,6 +42,15 @@ struct vec3d vec3d_scale(float a, struct vec3d b);
 /*vector addition*/
 struct vec3f vec3f_add(struct vec3f a, struct vec3f b);
 struct vec3d vec3d_add(struct vec3d a, struct vec3d b);
+
+/*dot product*/
+float dot_product3f(struct vec3f a, struct vec3f b);
+
+/*cross product*/
+struct vec3f cross_product(struct vec3f a, struct vec3f b);
+
+/*normalizing vector*/
+struct vec4f normalize4f(struct vec4f a);
 
 /*vector rotation*/
 /*x-axis*/

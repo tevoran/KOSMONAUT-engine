@@ -66,7 +66,14 @@ struct model* gfx_load_model(char *file_location, struct vec3f location)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     
+    /*doing gfx engine stuff*/
     gfx_update_model_location(model, location);
+    
+    struct vec3f rot_axis;
+    rot_axis.x=0;
+    rot_axis.y=1;
+    rot_axis.z=0;
+    gfx_model_rotate(model, 0, rot_axis);
     
     return model;
 }

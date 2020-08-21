@@ -40,12 +40,17 @@ int main()
 
     struct vec3f cam_location={0,0,0};
     struct vec2f view_direction={0,0};
-    gfx_create_camera(cam_location,view_direction, 10000, 0.5*PI);
+    gfx_create_camera(cam_location,view_direction, 1000, 0.5*PI);
 
     
         struct vec3f pos={1,1.,4};
         struct vec3f col={1,0,0};
         struct model* cube1=gfx_create_cube(pos,col,0.4);
+        struct vec3f rot;
+        rot.x=0.01;
+        rot.y=1.11;
+        rot.z=0.001;
+        float r1=0;
         
         pos.x=1;
         pos.z=7;
@@ -65,11 +70,14 @@ int main()
     struct vec3f col2={0.9,0.8,0.3};
     struct model* tri1=gfx_create_triangle(pos,pos2,pos3,col2);
 
-    struct vec3f pos_model={10,0,40};
-    struct model* cat=gfx_load_model("data/models/test/cat.obj",pos_model);
     
-    struct vec3f pos_model2={-10,0,40};
-    struct model* cat2=gfx_load_model("data/models/test/cat.obj",pos_model2);
+    struct vec3f rot_axis;
+    rot_axis.x=1;
+    rot_axis.y=1;
+    rot_axis.z=0;
+    struct vec3f pos_model={0,0,100};
+    struct model* cat=gfx_load_model("data/models/test/cat.obj",pos_model);
+
 
     glPolygonMode(GL_FRONT, GL_FILL);
     
@@ -77,7 +85,7 @@ int main()
     int lasttick=SDL_GetTicks();
     
     float i=0;
-    
+    float r=0;
     while(engine_get_event().type!=SDL_QUIT) /*while not closing the window the main loop is continuing*/
     {
     /*FPS count*/
@@ -89,6 +97,10 @@ int main()
     }
     FPS++;
 
+    r=r+0.0005;
+    gfx_model_rotate(cat, r, rot_axis);
+    r1=r1+0.00013;
+    gfx_model_rotate(cube1,r1,rot);
 
     i=i+0.00025;
     pos.x=4*sin(i);

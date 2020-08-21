@@ -44,6 +44,35 @@ struct vec3d vec3d_add(struct vec3d a, struct vec3d b)
     return c;
 }
 
+/*normalizing vector*/
+struct vec4f normalize4f(struct vec4f a)
+{
+    float length=sqrt(a.x*a.x+a.y*a.y+a.z*a.z+a.w*a.w);
+    struct vec4f b;
+    b.x=a.x/length;
+    b.y=a.y/length;
+    b.z=a.z/length;
+    b.w=a.w/length;
+    return b;
+}
+
+
+/*dot product*/
+float dot_product(struct vec3f a, struct vec3f b)
+{
+    return a.x*b.x+a.y*b.y+a.z*b.z;
+}
+
+/*cross product*/
+struct vec3f cross_product(struct vec3f a, struct vec3f b)
+{
+    struct vec3f c;
+    c.x=a.y*b.z-a.z*b.y;
+    c.y=a.z*b.x-a.x*b.z;
+    c.z=a.x*b.y-a.y*b.x;
+    return c;
+}
+
 /*rotation*/
 /*x-axis*/
 struct vec3f vec3f_rotate_x(float rotation, struct vec3f a)
@@ -101,3 +130,4 @@ struct vec3d vec3d_rotate_z(float rotation, struct vec3d a)
     c.z=a.z;
     return c;
 }
+
