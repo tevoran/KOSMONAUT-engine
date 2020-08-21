@@ -35,6 +35,7 @@ struct vec4f /*float*/
     float w;
 };
 
+
 /*scaling vector*/
 struct vec3f vec3f_scale(float a, struct vec3f b);
 struct vec3d vec3d_scale(float a, struct vec3d b);
@@ -64,5 +65,6 @@ struct vec3d vec3d_rotate_y(float rotation, struct vec3d a);
 /*z-axis*/
 struct vec3f vec3f_rotate_z(float rotation, struct vec3f a);
 struct vec3d vec3d_rotate_z(float rotation, struct vec3d a);
+
 
 #endif

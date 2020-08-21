@@ -19,11 +19,9 @@ void gfx_new_frame()
         GLint world_transform_matrix_reference=glGetUniformLocation(shader_program, "world_transformMatrix");
         glUniformMatrix4fv(world_transform_matrix_reference,1,GL_FALSE,&model_list_entry->world_transform_matrix[0][0]);
         
-        GLint rotor_matrix1_reference=glGetUniformLocation(shader_program, "rotorMatrix1");
-        glUniformMatrix4fv(rotor_matrix1_reference,1,GL_FALSE,&model_list_entry->rotation_matrix_rotor1[0][0]);
+        GLint rotation_matrix_reference=glGetUniformLocation(shader_program, "rotationMatrix");
+        glUniformMatrix4fv(rotation_matrix_reference,1,GL_FALSE,&model_list_entry->rotation_matrix[0][0]);
         
-        GLint rotor_matrix2_reference=glGetUniformLocation(shader_program, "rotorMatrix2");
-        glUniformMatrix4fv(rotor_matrix2_reference,1,GL_FALSE,&model_list_entry->rotation_matrix_rotor2[0][0]);
         
         /*drawing everything*/
         /*if no index buffer available*/

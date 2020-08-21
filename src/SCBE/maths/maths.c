@@ -130,4 +130,3 @@ struct vec3d vec3d_rotate_z(float rotation, struct vec3d a)
     c.z=a.z;
     return c;
 }
-

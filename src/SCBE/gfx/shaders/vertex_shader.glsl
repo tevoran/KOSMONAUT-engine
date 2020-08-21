@@ -13,15 +13,14 @@ uniform mat4 cam_translationMatrix; /*this matrix is used for making the camera 
  
 /*model stuff*/
 uniform mat4 world_transformMatrix;/*used for conversion of local to world space*/
-uniform mat4 rotorMatrix1;
-uniform mat4 rotorMatrix2;
+uniform mat4 rotationMatrix;
 
 
 void main(){
     vec4 vertexPosition = vec4(vertexPosition_worldspace.xyz, 1.0);
     
     
-    vertexPosition = projectionMatrix * cam_translationMatrix * world_transformMatrix * rotorMatrix2 * vertexPosition * rotorMatrix1;
+    vertexPosition = projectionMatrix * cam_translationMatrix * world_transformMatrix * rotationMatrix * vertexPosition;
     
     /*if vertex is behind the camera, then it is moved out of sight*/
     if(vertexPosition.z<0)

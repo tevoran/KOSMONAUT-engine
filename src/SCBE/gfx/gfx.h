@@ -58,8 +58,7 @@ struct model
     
     /*transformation members*/
     GLfloat world_transform_matrix[4][4];
-    GLfloat rotation_matrix_rotor1[4][4]; /*first executed matrix*/
-    GLfloat rotation_matrix_rotor2[4][4]; /*second executed matrix*/
+    GLfloat rotation_matrix[4][4];
 };
 
 struct model* gfx_create_model_entry();

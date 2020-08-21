@@ -67,13 +67,13 @@ struct model* gfx_load_model(char *file_location, struct vec3f location)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     
     /*doing gfx engine stuff*/
-    gfx_update_model_location(model, location);
+    gfx_update_model_location(model, location); /*placing it somewhere in the world*/
     
     struct vec3f rot_axis;
     rot_axis.x=0;
-    rot_axis.y=1;
+    rot_axis.y=0;
     rot_axis.z=0;
-    gfx_model_rotate(model, 0, rot_axis);
+    gfx_model_rotate(model, 0, rot_axis); /*setting up the basic rotation matrix*/
     
     return model;
 }
