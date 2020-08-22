@@ -27,7 +27,13 @@ int engine_init(char *window_name, char *config_file)
 		return ENGINE_SDL_ERROR;
 	}
 	
-	window=SDL_CreateWindow(window_name,SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,config.resolution_x,config.resolution_y,SDL_WINDOW_OPENGL);
+	window=SDL_CreateWindow(
+		window_name,
+		SDL_WINDOWPOS_UNDEFINED,
+		SDL_WINDOWPOS_UNDEFINED,
+		config.resolution_x,
+		config.resolution_y,
+		SDL_WINDOW_OPENGL);
 	if(window==NULL)
 	{
 		return ENGINE_SDL_ERROR;

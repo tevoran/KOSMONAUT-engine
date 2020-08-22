@@ -25,8 +25,12 @@ int model_load_obj_model(
 	/*counting vertices and indices*/
 	*num_vertices=0;
 	*num_indices=0;
+
 	char file_line[256];
-	
+
+	char face[8][256];
+
+
 	while(fgets(file_line, 256, model_file)!=NULL)
 	{
 		if(strstr(file_line, "v ")!=NULL)
@@ -38,7 +42,8 @@ int model_load_obj_model(
 			*num_indices=*num_indices+6;
 		}
 	}
-	
+	printf("vertices: %i\nindices: %i\n", *num_vertices, *num_indices);
+
 	/*allocating memory for vertices and indices*/
 	*vertices=malloc((*num_vertices)*vertex_elements*sizeof(GLfloat));
 	GLfloat *vertices_write=*vertices;

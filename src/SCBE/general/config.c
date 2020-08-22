@@ -32,5 +32,8 @@ int engine_read_config(char *config_file_location)
 	}
 	
 	printf("Resolution: %ix%i\n", config.resolution_x, config.resolution_y);
+
+	fclose(config_file);
+	
 	return ENGINE_NO_ERROR;
 }

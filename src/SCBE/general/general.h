@@ -38,7 +38,8 @@ struct config
 
 int engine_read_config(char *config_file_location);
 
-/*return functions, so that it's not necessary to access the global variables directly from the gfx engine*/
+/*return functions, so that it's not necessary to access
+the global variables directly from the gfx engine*/
 SDL_Window* engine_get_window();
 SDL_Event engine_get_event();
 struct config engine_config_state();
