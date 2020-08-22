@@ -1,0 +1,22 @@
+The config file contains important information for the engine to run.
+There are several possible commands for the config file. And it is only
+possible to have one command per line. Everything after the first command
+in a line gets ignored. The commands are:
+
+
+resx
+
+resy
+
+
+resx
+
+The resx command sets the resolution in x direction to a certain value.
+An example would be "resx=1920". This sets the resolution to 1920 pixels
+in x direction.
+
+resy
+
+The resy command sets the resolution in y direction to a certain value.
+An example would be "resy=1080". This sets the resolution to 1080 pixels
+in y direction.

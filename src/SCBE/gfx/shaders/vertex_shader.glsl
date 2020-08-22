@@ -17,24 +17,24 @@ uniform mat4 rotationMatrix;
 
 
 void main(){
-    vec4 vertexPosition = vec4(vertexPosition_worldspace.xyz, 1.0);
-    
-    
-    vertexPosition = projectionMatrix * cam_translationMatrix * world_transformMatrix * rotationMatrix * vertexPosition;
-    
-    /*if vertex is behind the camera, then it is moved out of sight*/
-    if(vertexPosition.z<0)
-    {
-        vertexPosition.xyzw = vec4(10,10,10,1);
-    }
-    
+	vec4 vertexPosition = vec4(vertexPosition_worldspace.xyz, 1.0);
+	
+	
+	vertexPosition = projectionMatrix * cam_translationMatrix * world_transformMatrix * rotationMatrix * vertexPosition;
+	
+	/*if vertex is behind the camera, then it is moved out of sight*/
+	if(vertexPosition.z<0)
+	{
+		vertexPosition.xyzw = vec4(10,10,10,1);
+	}
+	
 
-    /*giving OpenGL the new position*/
-    gl_Position = vertexPosition;
-    
+	/*giving OpenGL the new position*/
+	gl_Position = vertexPosition;
+	
 
-    /*giving data to the fragment shader*/
-    fragment_depth = vertexPosition.z;
-    fragment_color = vertex_color;
-    
+	/*giving data to the fragment shader*/
+	fragment_depth = vertexPosition.z;
+	fragment_color = vertex_color;
+	
 }

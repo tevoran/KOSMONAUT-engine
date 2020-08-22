@@ -40,24 +40,24 @@ void gfx_camera_location(struct vec3f position);
 /*management*/
 struct model
 {
-    /*list related members*/
-    void *last_entry;
-    void *next_entry;
-    
-    /*mesh related entry*/
-    void *model_data;
-    
-    /*OpenGL related members*/
-    uint32_t num_vertices;
-    uint32_t num_indices;
-    GLuint arrayID;
-    GLuint vertex_bufferID;
-    GLuint index_bufferID;
-    GLvoid *index_data;
-    
-    /*transformation members*/
-    GLfloat world_transform_matrix[4][4];
-    GLfloat rotation_matrix[4][4];
+	/*list related members*/
+	void *last_entry;
+	void *next_entry;
+	
+	/*mesh related entry*/
+	void *model_data;
+	
+	/*OpenGL related members*/
+	uint32_t num_vertices;
+	uint32_t num_indices;
+	GLuint arrayID;
+	GLuint vertex_bufferID;
+	GLuint index_bufferID;
+	GLvoid *index_data;
+	
+	/*transformation members*/
+	GLfloat world_transform_matrix[4][4];
+	GLfloat rotation_matrix[4][4];
 };
 
 struct model* gfx_create_model_entry();
@@ -73,23 +73,23 @@ void gfx_model_rotate(struct model* model, float rotation, struct vec3f rot_axis
 /*primitives*/
 /*they return a struct model pointer for identification purposes*/
 struct model* gfx_create_triangle(
-    struct vec3f location,
-    struct vec3f corner1, 
-    struct vec3f corner2, 
-    struct vec3f color);
+	struct vec3f location,
+	struct vec3f corner1, 
+	struct vec3f corner2, 
+	struct vec3f color);
 struct model* gfx_create_cube(
-    struct vec3f location, 
-    struct vec3f color, 
-    float size);
+	struct vec3f location, 
+	struct vec3f color, 
+	float size);
 struct model* gfx_load_model(char *file_location, struct vec3f location);
 
 /*model load functions*/
 int model_load_obj_model(
-    char *file_location,
-    GLfloat **vertices, 
-    GLuint *num_vertices, 
-    GLuint vertex_elements,
-    GLuint **indices, 
-    GLuint *num_indices);
+	char *file_location,
+	GLfloat **vertices, 
+	GLuint *num_vertices, 
+	GLuint vertex_elements,
+	GLuint **indices, 
+	GLuint *num_indices);
 
 #endif

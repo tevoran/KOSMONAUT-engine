@@ -9,30 +9,30 @@
 /*define different vectors*/
 struct vec2f
 {
-    float x;
-    float y;
+	float x;
+	float y;
 };
 
 struct vec3f /*float*/
 {
-    float x;
-    float y;
-    float z;
+	float x;
+	float y;
+	float z;
 };
 
 struct vec3d /*double*/
 {
-    double x;
-    double y;
-    double z;
+	double x;
+	double y;
+	double z;
 };
 
 struct vec4f /*float*/
 {
-    float x;
-    float y;
-    float z;
-    float w;
+	float x;
+	float y;
+	float z;
+	float w;
 };
 
 
