@@ -66,5 +66,7 @@ struct vec3d vec3d_rotate_y(float rotation, struct vec3d a);
 struct vec3f vec3f_rotate_z(float rotation, struct vec3f a);
 struct vec3d vec3d_rotate_z(float rotation, struct vec3d a);
 
+/*matrix multiplication 4x4 matrices*/
+void matrix_multiplication4x4(float a[4][4], float b[4][4], float *result);
 
 #endif
