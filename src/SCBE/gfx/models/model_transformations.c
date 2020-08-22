@@ -31,27 +31,6 @@ void gfx_update_model_location(struct model* model, struct vec3f location)
 
 void gfx_model_rotate(struct model *model, float rotation, struct vec3f rot_axis)
 {
-    /*if these arguments are like this an identity matrix is generated as rotation matrix
-     * it is an initialization or a reset*/
-    if(rotation==0 && rot_axis.x==0 && rot_axis.y==0 && rot_axis.z==0)
-    {
-        for(int iy=0; iy<4; iy++)
-        {
-            for(int ix=0; ix<4; ix++)
-            {
-                if(ix==iy)
-                {
-                    model->rotation_matrix[ix][iy]=1;
-                }
-                else
-                {
-                    model->rotation_matrix[ix][iy]=0;
-                }
-            }
-        }
-
-    }
-    
     /*calculating quaternions*/
     struct vec4f q;
         q.x=rot_axis.x*sin(rotation/2);

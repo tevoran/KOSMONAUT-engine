@@ -30,9 +30,28 @@ struct model* gfx_create_model_entry()
             {
                 printf("ERROR: couldn't allocate memory for a model handling table entry\n");
             }
+            
+        /*initializing data*/
         initial_entry->last_entry=NULL;
         initial_entry->next_entry=NULL;
         initial_entry->index_bufferID=0;
+        
+        /*create identity rotation matrix*/
+        for(int iy=0; iy<4; iy++)
+        {
+            for(int ix=0; ix<4; ix++)
+            {
+                if(ix==iy)
+                {
+                    initial_entry->rotation_matrix[ix][iy]=1;
+                }
+                else
+                {
+                    initial_entry->rotation_matrix[ix][iy]=0;
+                }
+            }
+        }
+
         return initial_entry;
     }
 
@@ -53,11 +72,30 @@ struct model* gfx_create_model_entry()
     }
     
     void* last_entry=current_entry;
+    
+    /*initializing data*/
     current_entry=current_entry->next_entry;
     /*marking it as the last entry*/
     current_entry->next_entry=NULL; 
     current_entry->last_entry=last_entry;
     current_entry->index_bufferID=0;
+    
+    /*create identity rotation matrix*/
+    for(int iy=0; iy<4; iy++)
+    {
+        for(int ix=0; ix<4; ix++)
+        {
+            if(ix==iy)
+            {
+                current_entry->rotation_matrix[ix][iy]=1;
+            }
+            else
+            {
+                current_entry->rotation_matrix[ix][iy]=0;
+            }
+        }
+    }
+    
     return current_entry;
 }
 

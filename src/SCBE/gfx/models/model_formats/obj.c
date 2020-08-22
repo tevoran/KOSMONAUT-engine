@@ -91,7 +91,7 @@ int model_load_obj_model(
         {
             if(sscanf(
                 file_line,
-                "f %u/%u/%u %u/%u/%u %u/%u/%u %u/%u/%u\n",
+                "f%*[ ]%u/%u/%u %u/%u/%u %u/%u/%u %u/%u/%u\n",
                 &index[0], &garbage[0], &poop[0],
                 &index[1], &garbage[1], &poop[1],
                 &index[2], &garbage[2], &poop[2],

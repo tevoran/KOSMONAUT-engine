@@ -129,11 +129,6 @@ struct model* gfx_create_cube(struct vec3f location, struct vec3f color, float s
     
     /*gfx engine stuff*/
     gfx_update_model_location(model_entry,location);
-    struct vec3f rot_axis;
-    rot_axis.x=0;
-    rot_axis.y=0;
-    rot_axis.z=0;
-    gfx_model_rotate(model_entry, 0, rot_axis);
     
     /*clean up*/
     glBindVertexArray(0);
