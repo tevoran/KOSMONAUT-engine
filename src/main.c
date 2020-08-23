@@ -48,7 +48,7 @@ int main()
 	rot_axis.x=0;
 	rot_axis.y=0;
 	rot_axis.z=1;
-	struct vec3f pos_model={0,0-800,2000};
+	struct vec3f pos_model={0,-800,2000};
 	struct model* cat=gfx_load_model("data/models/test/woman.obj",pos_model);
 	float r=1.5*PI;
 	gfx_model_rotate(cat, r, rot_axis);
@@ -59,7 +59,15 @@ int main()
 	r=1.4*PI;
 	gfx_model_rotate(cat, r, rot_axis);
 	
+
+	struct vec3f cam_axis;
+	cam_axis.x=0;
+	cam_axis.y=0;
+	cam_axis.z=1;
+
 	glPolygonMode(GL_FRONT, GL_FILL);
+
+
 	
 	int FPS=0;
 	int lasttick=SDL_GetTicks();
@@ -82,6 +90,11 @@ int main()
 	r=0.001;
 	gfx_model_rotate(cat, r, rot_axis);
 		
+	cam_axis.x=0;
+	cam_axis.y=1;
+	cam_axis.z=0;
+	gfx_camera_rotate(0.001, cam_axis);
+
 	gfx_new_frame();
 	}
 	exit(0);

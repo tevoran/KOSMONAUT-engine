@@ -34,6 +34,7 @@ void gfx_new_frame(); /*draws the current frame and clears the buffer for the ne
 /*camera*/
 void gfx_create_camera(struct vec3f position, struct vec2f view_direction, float far_z, float fov);
 void gfx_camera_location(struct vec3f position);
+void gfx_camera_rotate(float rotation, struct vec3f rot_axis);
 
 
 /*models*/

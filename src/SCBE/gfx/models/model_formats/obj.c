@@ -77,7 +77,8 @@ int model_load_obj_model(
 		}
 
 		/*format "f v1 v2 v3 v4"*/
-		switch(sscanf(file_line, "f%*[ ]%u%*[ ]%u%*[ ]%u%*[ ]%u", &face[0], &face[1], &face[2], &face[3]))
+		switch(sscanf(file_line, "f%*[ ]%u%*[ ]%u%*[ ]%u%*[ ]%u",
+			&face[0], &face[1], &face[2], &face[3]))
 		{
 			case 3:
 				*num_indices=*num_indices+3;
@@ -89,7 +90,8 @@ int model_load_obj_model(
 		}
 
 		/*format "f v1/vt1 v2/vt2 v3/vt3 v4/vt4"*/
-		switch(sscanf(file_line, "f%*[ ]%u/%*u%*[ ]%u/%*u%*[ ]%u/%*u%*[ ]%u/%*u", &face[0], &face[1], &face[2], &face[3]))
+		switch(sscanf(file_line, "f%*[ ]%u/%*u%*[ ]%u/%*u%*[ ]%u/%*u%*[ ]%u/%*u",
+			&face[0], &face[1], &face[2], &face[3]))
 		{
 			case 3:
 				*num_indices=*num_indices+3;
@@ -101,7 +103,8 @@ int model_load_obj_model(
 		}
 
 		/*format "f v1//n1 v2//n2 v3//n3 v4//n4"*/
-		switch(sscanf(file_line, "f%*[ ]%u//%*u%*[ ]%u//%*u%*[ ]%u//%*u%*[ ]%u//%*u", &face[0], &face[1], &face[2], &face[3]))
+		switch(sscanf(file_line, "f%*[ ]%u//%*u%*[ ]%u//%*u%*[ ]%u//%*u%*[ ]%u//%*u",
+			&face[0], &face[1], &face[2], &face[3]))
 		{
 			case 3:
 				*num_indices=*num_indices+3;
@@ -113,7 +116,8 @@ int model_load_obj_model(
 		}
 
 		/*format "f v1/vt1/n1 v2/vt2/n2 v3/vt3/n3 v4/vt4/n4"*/
-		switch(sscanf(file_line, "f%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u", &face[0], &face[1], &face[2], &face[3]))
+		switch(sscanf(file_line, "f%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u",
+			&face[0], &face[1], &face[2], &face[3]))
 		{
 			case 3:
 				*num_indices=*num_indices+3;
@@ -179,7 +183,8 @@ int model_load_obj_model(
 		{
 
 			/*format "f v1 v2 v3 v4"*/
-			switch(sscanf(file_line, "f%*[ ]%u%*[ ]%u%*[ ]%u%*[ ]%u", &face[0], &face[1], &face[2], &face[3]))
+			switch(sscanf(file_line, "f%*[ ]%u%*[ ]%u%*[ ]%u%*[ ]%u",
+				&face[0], &face[1], &face[2], &face[3]))
 			{
 				case 3:
 					indices_write=obj_write_face3(face, indices_write);
@@ -191,7 +196,8 @@ int model_load_obj_model(
 			}
 
 			/*format "f v1/vt1 v2/vt2 v3/vt3 v4/vt4"*/
-			switch(sscanf(file_line, "f%*[ ]%u/%*u%*[ ]%u/%*u%*[ ]%u/%*u%*[ ]%u/%*u", &face[0], &face[1], &face[2], &face[3]))
+			switch(sscanf(file_line, "f%*[ ]%u/%*u%*[ ]%u/%*u%*[ ]%u/%*u%*[ ]%u/%*u",
+				&face[0], &face[1], &face[2], &face[3]))
 			{
 				case 3:
 					indices_write=obj_write_face3(face, indices_write);
@@ -203,7 +209,8 @@ int model_load_obj_model(
 			}
 
 			/*format "f v1//n1 v2//n2 v3//n3 v4//n4"*/
-			switch(sscanf(file_line, "f%*[ ]%u//%*u%*[ ]%u//%*u%*[ ]%u//%*u%*[ ]%u//%*u", &face[0], &face[1], &face[2], &face[3]))
+			switch(sscanf(file_line, "f%*[ ]%u//%*u%*[ ]%u//%*u%*[ ]%u//%*u%*[ ]%u//%*u",
+				&face[0], &face[1], &face[2], &face[3]))
 			{
 				case 3:
 					indices_write=obj_write_face3(face, indices_write);
@@ -215,7 +222,8 @@ int model_load_obj_model(
 			}
 
 			/*format "f v1/vt1/n1 v2/vt2/n2 v3/vt3/n3 v4/vt4/n4"*/
-			switch(sscanf(file_line, "f%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u", &face[0], &face[1], &face[2], &face[3]))
+			switch(sscanf(file_line, "f%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u",
+				&face[0], &face[1], &face[2], &face[3]))
 			{
 				case 3:
 					indices_write=obj_write_face3(face, indices_write);
