@@ -1,0 +1,5 @@
+#ignore final compiled executable
+SBC
+
+#ignore gprof debug files
+gmon.out
