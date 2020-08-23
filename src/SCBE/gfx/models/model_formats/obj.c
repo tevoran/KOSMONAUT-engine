@@ -225,62 +225,6 @@ int model_load_obj_model(
 					indices_write=obj_write_face4(face, indices_write);
 					break;
 			}
-			/*if(sscanf(
-				file_line,
-				"f%*[ ]%u/%u/%u %u/%u/%u %u/%u/%u %u/%u/%u\n",
-				&index[0], &garbage[0], &poop[0],
-				&index[1], &garbage[1], &poop[1],
-				&index[2], &garbage[2], &poop[2],
-				&index[3], &garbage[3], &poop[3])==12)
-				{
-					/*decrementing by one for meeting OpenGL requirements*/
-			/*		*indices_write=index[0]-1;
-					indices_write++;
-			
-					*indices_write=index[1]-1;
-					indices_write++;
-			
-					*indices_write=index[2]-1;
-					indices_write++;
-			
-					*indices_write=index[2]-1;
-					indices_write++;
-
-					*indices_write=index[3]-1;
-					indices_write++;
-		
-					*indices_write=index[0]-1;
-					indices_write++;
-				}
-				
-			if(sscanf(
-				file_line,
-				"f %u//%u %u//%u %u//%u %u//%u\n",
-				&index[0], &poop[0],
-				&index[1], &poop[1],
-				&index[2], &poop[2],
-				&index[3], &poop[3])==8)
-				{
-					/*decrementing by one for meeting OpenGL requirements*/
-			/*		*indices_write=index[0]-1;
-					indices_write++;
-			
-					*indices_write=index[1]-1;
-					indices_write++;
-			
-					*indices_write=index[2]-1;
-					indices_write++;
-			
-					*indices_write=index[2]-1;
-					indices_write++;
-
-					*indices_write=index[3]-1;
-					indices_write++;
-		
-					*indices_write=index[0]-1;
-					indices_write++;
-				}
-			*/	
 			
 		}
 	}
