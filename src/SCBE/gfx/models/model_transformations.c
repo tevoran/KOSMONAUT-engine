@@ -51,7 +51,7 @@ void gfx_model_rotate(struct model *model, float rotation, struct vec3f rot_axis
 	float new_rotation_matrix[4][4];
 	
 	/*calculating the new rotation matrix that is sent to the shader*/
-	matrix_multiplication4x4(current_rotation_matrix, model->rotation_matrix, &new_rotation_matrix[0][0]);
+	matrix_multiplication4x4(&current_rotation_matrix[0][0], &model->rotation_matrix[0][0], &new_rotation_matrix[0][0]);
 
 	
 	/*saving the rotation matrix in the model struct for the new_frame command

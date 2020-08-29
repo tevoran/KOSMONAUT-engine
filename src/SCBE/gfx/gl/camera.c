@@ -100,7 +100,7 @@ void gfx_camera_rotate(float rotation, struct vec3f rot_axis)
 	GLfloat new_rotation_matrix[4][4];
 	
 	/*calculating the new rotation matrix that is sent to the shader*/
-	matrix_multiplication4x4(current_rotation_matrix, cam_rotation_matrix, &new_rotation_matrix[0][0]);
+	matrix_multiplication4x4(&current_rotation_matrix[0][0], &cam_rotation_matrix[0][0], &new_rotation_matrix[0][0]);
 
 	/*saving the rotation matrix*/
 	for(int ix=0,iy=0; iy<4; ix++)

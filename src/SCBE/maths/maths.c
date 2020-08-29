@@ -132,18 +132,16 @@ struct vec3d vec3d_rotate_z(float rotation, struct vec3d a)
 }
 
 /*matrix multiplication 4x4 matrices*/
-void matrix_multiplication4x4(float a[4][4], float b[4][4], float *result)
+void matrix_multiplication4x4(float *a, float *b, float *result)
 {
 	for(int y=0; y<4; y++)
 	{
-		for(int x=0; x<4; x++)
+		for (int x = 0; x < 4; x++)
 		{
-			*((result+x*4)+y)=0;
-			
-			for(int i=0; i<4; i++)
-			{
-				*((result+x*4)+y)+=a[x][i]*b[i][y];
-			}
+			*((result+x*4)+y)=*(a+x*4)*(*(b+y))
+							+*((a+x*4)+1)*(*((b+1*4)+y))
+							+*((a+x*4)+2)*(*((b+2*4)+y))
+							+*((a+x*4)+3)*(*((b+3*4)+y));
 		}
 	}
 }
