@@ -46,10 +46,10 @@ int main()
 
 	struct vec3f rot_axis;
 	rot_axis.x=0;
-	rot_axis.y=0;
-	rot_axis.z=1;
-	struct vec3f pos_model={0,-800,2000};
-	struct model* cat=gfx_load_model("data/models/test/woman.obj",pos_model);
+	rot_axis.y=1;
+	rot_axis.z=0;
+	struct vec3f pos_model={0,0,40};
+	struct model* cat=gfx_load_model("data/models/stealth/stealth.obj",pos_model);
 	float r=1.5*PI;
 	gfx_model_rotate(cat, r, rot_axis);
 
@@ -85,15 +85,15 @@ int main()
 	FPS++;
 
 	rot_axis.x=0;
-	rot_axis.y=0;
-	rot_axis.z=1;
+	rot_axis.y=1;
+	rot_axis.z=0;
 	r=0.001;
 	gfx_model_rotate(cat, r, rot_axis);
 		
 	cam_axis.x=0;
 	cam_axis.y=1;
 	cam_axis.z=0;
-	gfx_camera_rotate(0.001, cam_axis);
+	gfx_camera_rotate(0.000, cam_axis);
 
 	gfx_new_frame();
 	}
