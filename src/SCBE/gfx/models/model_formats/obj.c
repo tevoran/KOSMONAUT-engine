@@ -8,7 +8,7 @@
 #include <assert.h>
 
 /*helper functions*/
-GLuint * obj_write_face3(unsigned int face_indices[4], GLuint *index_pointer)
+static inline GLuint * obj_write_face3(unsigned int face_indices[4], GLuint *index_pointer)
 {
 	*index_pointer=face_indices[0]-1;
 	index_pointer++;
@@ -18,27 +18,6 @@ GLuint * obj_write_face3(unsigned int face_indices[4], GLuint *index_pointer)
 	index_pointer++;
 	return index_pointer;
 }
-
-GLuint * obj_write_face4(unsigned int face_indices[4], GLuint *index_pointer)
-{
-	/*first triangle*/
-	*index_pointer=face_indices[0]-1;
-	index_pointer++;
-	*index_pointer=face_indices[1]-1;
-	index_pointer++;
-	*index_pointer=face_indices[2]-1;
-	index_pointer++;
-
-	/*second triangle*/
-	*index_pointer=face_indices[2]-1;
-	index_pointer++;
-	*index_pointer=face_indices[3]-1;
-	index_pointer++;
-	*index_pointer=face_indices[0]-1;
-	index_pointer++;
-	return index_pointer;
-}
-
 
 
 
@@ -70,7 +49,7 @@ int model_load_obj_model(
 	char *current_token;
 	unsigned int current_vertices=0;
 	unsigned int current_indices=0;
-	unsigned int face[4]={0,0,0,0};
+	unsigned int face[3]={0,0,0};
 	while(fgets(file_line, 1024, model_file)!=NULL)
 	{
 		/*if a vertex is found*/
@@ -106,7 +85,6 @@ int model_load_obj_model(
 		}
 		
 	}
-	printf("vertices: %i\nindices: %i\npolygons: %i\n", *num_vertices, *num_indices, *num_indices/3);
 
 	/*allocating memory for vertices and indices*/
 	*vertices=malloc((*num_vertices)*vertex_elements*sizeof(GLfloat));
@@ -151,15 +129,11 @@ int model_load_obj_model(
 	
 	/*writing indices from file to memory in an OpenGL conform manner*/
 	fseek(model_file, 0, SEEK_SET);
-	
-	GLuint index[4];
-	GLuint garbage[4];
-	GLuint poop[4];
+
 	
 	face[0]=0;
 	face[1]=0;
 	face[2]=0;
-	face[3]=0;
 	while(fgets(file_line, 1024, model_file)!=NULL)
 	{
 
@@ -192,7 +166,6 @@ int model_load_obj_model(
 		}
 	}
 	assert(indices_write - *indices == *num_indices);
-	printf("%u, %zu\n", *num_vertices, vertices_write - *vertices);
 	assert((vertices_write - *vertices) / 6 == *num_vertices);
 	fclose(model_file);
 	
