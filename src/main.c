@@ -50,7 +50,7 @@ int main()
 	rot_axis.z=0;
 	struct vec3f pos_model={0,0,40};
 	struct model* cat=gfx_load_model("data/models/stealth/stealth.obj",pos_model);
-	float r=1.5*PI;
+	float r=0.6*PI;
 	gfx_model_rotate(cat, r, rot_axis);
 
 	rot_axis.x=0;

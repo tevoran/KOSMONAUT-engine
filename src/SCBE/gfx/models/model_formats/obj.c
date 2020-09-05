@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <GL/glew.h>
-
+#include <assert.h>
 
 /*helper functions*/
 GLuint * obj_write_face3(unsigned int face_indices[4], GLuint *index_pointer)
@@ -65,71 +65,48 @@ int model_load_obj_model(
 	*num_vertices=0;
 	*num_indices=0;
 
-	char file_line[256];
+	char file_line[1024];
 
+	char *current_token;
+	unsigned int current_vertices=0;
+	unsigned int current_indices=0;
 	unsigned int face[4]={0,0,0,0};
-
-	while(fgets(file_line, 256, model_file)!=NULL)
+	while(fgets(file_line, 1024, model_file)!=NULL)
 	{
+		/*if a vertex is found*/
 		if(strstr(file_line, "v ")!=NULL)
 		{
-			*num_vertices=*num_vertices+1;
+			++*num_vertices;
 		}
 
-		/*format "f v1 v2 v3 v4"*/
-		switch(sscanf(file_line, "f%*[ ]%u%*[ ]%u%*[ ]%u%*[ ]%u",
-			&face[0], &face[1], &face[2], &face[3]))
+		/* if a face is found*/
+		if(strstr(file_line, "f ")!=NULL)
 		{
-			case 3:
-				*num_indices=*num_indices+3;
-				break;
+			strtok(file_line, " ");
+			current_token=strtok(NULL, " ");
 
-			case 4:
-				*num_indices=*num_indices+6; 
-				break;
+			/*walking through the string to calculate the necessary indices*/
+			face[0]=0;
+			current_vertices=0;
+			while(current_token!=NULL)
+			{
+				int n = sscanf(current_token, "%u", &face[0]);
+				assert(n == 1);
+				current_vertices++;
+				face[0]=0;
+
+				/*getting new token*/
+				current_token=strtok(NULL, " ");
+			}
+
+			assert(current_vertices >= 3);
+			/*calculating additional indices out of the number of vertices per face*/
+
+			*num_indices += 3*current_vertices-6;
 		}
-
-		/*format "f v1/vt1 v2/vt2 v3/vt3 v4/vt4"*/
-		switch(sscanf(file_line, "f%*[ ]%u/%*u%*[ ]%u/%*u%*[ ]%u/%*u%*[ ]%u/%*u",
-			&face[0], &face[1], &face[2], &face[3]))
-		{
-			case 3:
-				*num_indices=*num_indices+3;
-				break;
-
-			case 4:
-				*num_indices=*num_indices+6; 
-				break;
-		}
-
-		/*format "f v1//n1 v2//n2 v3//n3 v4//n4"*/
-		switch(sscanf(file_line, "f%*[ ]%u//%*u%*[ ]%u//%*u%*[ ]%u//%*u%*[ ]%u//%*u",
-			&face[0], &face[1], &face[2], &face[3]))
-		{
-			case 3:
-				*num_indices=*num_indices+3;
-				break;
-
-			case 4:
-				*num_indices=*num_indices+6; 
-				break;
-		}
-
-		/*format "f v1/vt1/n1 v2/vt2/n2 v3/vt3/n3 v4/vt4/n4"*/
-		switch(sscanf(file_line, "f%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u",
-			&face[0], &face[1], &face[2], &face[3]))
-		{
-			case 3:
-				*num_indices=*num_indices+3;
-				break;
-
-			case 4:
-				*num_indices=*num_indices+6; 
-				break;
-		}
-
+		
 	}
-	printf("vertices: %i\nindices: %i\n", *num_vertices, *num_indices);
+	printf("vertices: %i\nindices: %i\npolygons: %i\n", *num_vertices, *num_indices, *num_indices/3);
 
 	/*allocating memory for vertices and indices*/
 	*vertices=malloc((*num_vertices)*vertex_elements*sizeof(GLfloat));
@@ -143,16 +120,17 @@ int model_load_obj_model(
 
 	struct vec3f vertex;
 	
-	while(fgets(file_line, 256, model_file)!=NULL)
+	while(fgets(file_line, 1024, model_file)!=NULL)
 	{
 		if(strstr(file_line, "v ")!=NULL)
 		{
-			sscanf(
+			int n = sscanf(
 				file_line,
 				"v%*[ ]%f %f %f\n",
 				&vertex.x,
 				&vertex.y,
 				&vertex.z);
+			assert(n == 3);
 				
 			*vertices_write=vertex.x;
 			vertices_write++;
@@ -169,6 +147,7 @@ int model_load_obj_model(
 			}
 		}
 	}
+
 	
 	/*writing indices from file to memory in an OpenGL conform manner*/
 	fseek(model_file, 0, SEEK_SET);
@@ -177,66 +156,44 @@ int model_load_obj_model(
 	GLuint garbage[4];
 	GLuint poop[4];
 	
-	while(fgets(file_line, 256, model_file)!=NULL)
+	face[0]=0;
+	face[1]=0;
+	face[2]=0;
+	face[3]=0;
+	while(fgets(file_line, 1024, model_file)!=NULL)
 	{
+
+		/* if a face is found*/
 		if(strstr(file_line, "f ")!=NULL)
 		{
-
-			/*format "f v1 v2 v3 v4"*/
-			switch(sscanf(file_line, "f%*[ ]%u%*[ ]%u%*[ ]%u%*[ ]%u",
-				&face[0], &face[1], &face[2], &face[3]))
-			{
-				case 3:
-					indices_write=obj_write_face3(face, indices_write);
-					break;
-
-				case 4:
-					indices_write=obj_write_face4(face, indices_write);
-					break;
-			}
-
-			/*format "f v1/vt1 v2/vt2 v3/vt3 v4/vt4"*/
-			switch(sscanf(file_line, "f%*[ ]%u/%*u%*[ ]%u/%*u%*[ ]%u/%*u%*[ ]%u/%*u",
-				&face[0], &face[1], &face[2], &face[3]))
-			{
-				case 3:
-					indices_write=obj_write_face3(face, indices_write);
-					break;
-
-				case 4:
-					indices_write=obj_write_face4(face, indices_write);
-					break;
-			}
-
-			/*format "f v1//n1 v2//n2 v3//n3 v4//n4"*/
-			switch(sscanf(file_line, "f%*[ ]%u//%*u%*[ ]%u//%*u%*[ ]%u//%*u%*[ ]%u//%*u",
-				&face[0], &face[1], &face[2], &face[3]))
-			{
-				case 3:
-					indices_write=obj_write_face3(face, indices_write);
-					break;
-
-				case 4:
-					indices_write=obj_write_face4(face, indices_write);
-					break;
-			}
-
-			/*format "f v1/vt1/n1 v2/vt2/n2 v3/vt3/n3 v4/vt4/n4"*/
-			switch(sscanf(file_line, "f%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u%*[ ]%u/%*u/%*u",
-				&face[0], &face[1], &face[2], &face[3]))
-			{
-				case 3:
-					indices_write=obj_write_face3(face, indices_write);
-					break;
-
-				case 4:
-					indices_write=obj_write_face4(face, indices_write);
-					break;
-			}
 			
+			strtok(file_line, " ");
+			current_token=strtok(NULL, " ");
+
+			face[0] = face[1] = face[2] = 0;
+			/*getting first vertex for the face*/
+			for(int i = 0; i < 2; i++)
+			{
+				int n = sscanf(current_token, "%u", &face[i]);
+				assert(n == 1);
+				current_token=strtok(NULL, " ");
+				assert(current_token);
+			}
+
+			/*looping through the rest of the face for all the other polygons*/
+			while(current_token != NULL)
+			{
+				int n = sscanf(current_token, "%u", &face[2]);
+				assert(n == 1);
+				indices_write=obj_write_face3(face, indices_write);
+				current_token=strtok(NULL, " ");
+				face[1] = face[2];
+			}
 		}
 	}
-	
+	assert(indices_write - *indices == *num_indices);
+	printf("%u, %zu\n", *num_vertices, vertices_write - *vertices);
+	assert((vertices_write - *vertices) / 6 == *num_vertices);
 	fclose(model_file);
 	
 	return GFX_NO_ERROR;
