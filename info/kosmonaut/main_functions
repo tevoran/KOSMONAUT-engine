@@ -1,0 +1,98 @@
+Welcome to the Star Battle Command Engine description.
+
+
+In this document I will explain the main functions that are provided by the kosmonaut game engine.
+
+The engine is written in C, due to the lack of easily accessible 3d game engines for C. Sadly the vast majority
+is written in C++, which is an issue if you want to stick strictly to C. So this engine uses SDL2 and, as a
+difference to most relevant 3d game engines in C, it uses modern OpenGL. The currently used version of OpenGL
+is 4.5.
+
+Currently the functionality of the engine is still restricted but there are following important functions:
+
+int engine_init(char *window_name, char *config_file)
+
+void gfx_new_frame()
+
+void gfx_create_camera(struct vec3f position, float far_z, float fov)
+
+void gfx_camera_location(struct vec3f position)
+
+void gfx_camera_rotate(float rotation, struct vec3f rot_axis)
+
+struct model* gfx_create_triangle(
+	struct vec3f location,
+	struct vec3f corner1, 
+	struct vec3f corner2, 
+	struct vec3f color)
+
+struct model* gfx_create_cube(
+	struct vec3f location, 
+	struct vec3f color, 
+	float size)
+
+struct model* gfx_load_model(char *file_location, struct vec3f location)
+
+
+DESCRIPTION OF THESE FUNCTIONS
+
+int engine_init(char *window_name, char *config_file)
+
+This function initializes the engine and takes a string with with the intended name of the game window and
+another string with the adress of the engine configuration file. This configuration file contains information
+like the used resolution.
+
+
+
+void gfx_new_frame()
+
+gfx_new_frame() is used for drawing everything onto the window. It also clears the framebuffer for the next
+frame. 
+
+
+
+CAMERA FUNCTIONS
+
+void gfx_create_camera(struct vec3f position, float far_z, float fov)
+
+It is also not surprising what this function does. It creates a camera at a certain location with a certain
+maximum viewing distance as a float in far_z. It also needs a field of view in radians. Without this function
+there is nothing that can be seen.
+
+
+void gfx_camera_location(struct vec3f position)
+
+This sets the camera to a certain location.
+
+
+void gfx_camera_rotate(float rotation, struct vec3f rot_axis)
+
+This function rotates the camera around a free rotation axis with a certain rotation. The rotation axis can
+be chosen freely. And different rotations will always be added upon another.
+
+
+
+MODEL AND OBJECT RELATED FUNCTIONS
+
+struct model* gfx_create_triangle(
+	struct vec3f location,
+	struct vec3f corner1, 
+	struct vec3f corner2, 
+	struct vec3f color)
+
+
+Used for the creation of a triangle at a location with two corners as offsets to its location. Additionally
+the triangle has a color.
+
+
+struct model* gfx_create_cube(
+	struct vec3f location, 
+	struct vec3f color, 
+	float size)
+
+The function creates a cube around a central location in a certain color with a certain size.
+
+
+struct model* gfx_load_model(char *file_location, struct vec3f location)
+
+This creates a model from a model that is stored in a file. Currently only .obj files are supported.

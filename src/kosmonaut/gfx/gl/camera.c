@@ -22,7 +22,7 @@ GLfloat cam_rotation_matrix[4][4]=
 
 
 
-void gfx_create_camera(struct vec3f position, struct vec2f view_direction, float far_z, float fov)
+void gfx_create_camera(struct vec3f position, float far_z, float fov)
 { 
 	/*get current config state*/
 	struct config config=engine_config_state();
