@@ -22,6 +22,17 @@ int gfx_init()
 	glClearDepth(1.0f);
 	glDepthRange(0.0f,1.0f);
 	
+	/*enabling wireframe mode if activated in the config file*/
+	struct config config=engine_config_state();
+	if(config.wireframe_mode==ENGINE_TRUE)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
 	/*setting background color as black*/
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

@@ -8,6 +8,7 @@ resx
 
 resy
 
+wireframe
 
 resx
 
@@ -15,8 +16,15 @@ The resx command sets the resolution in x direction to a certain value.
 An example would be "resx=1920". This sets the resolution to 1920 pixels
 in x direction.
 
+
 resy
 
 The resy command sets the resolution in y direction to a certain value.
 An example would be "resy=1080". This sets the resolution to 1080 pixels
 in y direction.
+
+
+wireframe
+
+If this command is used then everything is rendered in wireframe mode instead
+of the regular rendering

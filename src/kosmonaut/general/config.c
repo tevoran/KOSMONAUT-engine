@@ -13,6 +13,7 @@ int engine_read_config(char *config_file_location)
 	or if there is no config file at all*/
 	config.resolution_x=800;
 	config.resolution_y=600;
+	config.wireframe_mode=ENGINE_FALSE;
 
 	/*if there is no config file then leave*/
 	if(config_file==NULL)
@@ -23,12 +24,16 @@ int engine_read_config(char *config_file_location)
 	char file_line[256];
 	
 	/*reading the config file line wise*/
-
 	while(fgets(file_line, 256, config_file)!=NULL)
 	{
 		/*interpreting config file*/
 		sscanf(file_line, "resx=%u", &config.resolution_x);
 		sscanf(file_line, "resy=%u", &config.resolution_y);
+
+		if(strstr(file_line, "wireframe")!=NULL)
+		{
+			config.wireframe_mode=ENGINE_TRUE;
+		}
 	}
 	
 	printf("Resolution: %ix%i\n", config.resolution_x, config.resolution_y);

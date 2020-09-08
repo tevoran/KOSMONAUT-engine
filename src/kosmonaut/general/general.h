@@ -7,6 +7,9 @@
 #include <inttypes.h>
 
 
+#define ENGINE_FALSE 0
+#define ENGINE_TRUE 1
+
 /*error returns*/
 #define ENGINE_NO_ERROR 0
 #define ENGINE_ERROR 1
@@ -34,6 +37,8 @@ struct config
 {
 	uint32_t resolution_x;
 	uint32_t resolution_y;
+	uint32_t wireframe_mode;
+	char *log_file;
 };
 
 int engine_read_config(char *config_file_location);
