@@ -14,6 +14,7 @@ int engine_read_config(char *config_file_location)
 	config.resolution_x=800;
 	config.resolution_y=600;
 	config.wireframe_mode=ENGINE_FALSE;
+	config.log_file[0]=0;
 	config.logging_on=ENGINE_FALSE;
 
 	/*if there is no config file then leave*/
@@ -39,7 +40,7 @@ int engine_read_config(char *config_file_location)
 	}
 	
 	/*if a log file is specified then logging is turned on*/
-	if(config.log_file!=NULL)
+	if(config.log_file[0]!=0)
 	{
 		config.logging_on=ENGINE_TRUE;
 	}
