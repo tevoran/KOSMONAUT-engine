@@ -14,6 +14,7 @@ int engine_read_config(char *config_file_location)
 	config.resolution_x=800;
 	config.resolution_y=600;
 	config.wireframe_mode=ENGINE_FALSE;
+	config.logging_on=ENGINE_FALSE;
 
 	/*if there is no config file then leave*/
 	if(config_file==NULL)
@@ -29,13 +30,19 @@ int engine_read_config(char *config_file_location)
 		/*interpreting config file*/
 		sscanf(file_line, "resx=%u", &config.resolution_x);
 		sscanf(file_line, "resy=%u", &config.resolution_y);
-
+		sscanf(file_line, "log=%s", config.log_file);
+		
 		if(strstr(file_line, "wireframe")!=NULL)
 		{
 			config.wireframe_mode=ENGINE_TRUE;
 		}
 	}
 	
+	/*if a log file is specified then logging is turned on*/
+	if(config.log_file!=NULL)
+	{
+		config.logging_on=ENGINE_TRUE;
+	}
 	printf("Resolution: %ix%i\n", config.resolution_x, config.resolution_y);
 
 	fclose(config_file);

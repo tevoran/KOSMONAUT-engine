@@ -10,6 +10,9 @@ resy
 
 wireframe
 
+log
+
+
 resx
 
 The resx command sets the resolution in x direction to a certain value.
@@ -28,3 +31,10 @@ wireframe
 
 If this command is used then everything is rendered in wireframe mode instead
 of the regular rendering
+
+
+log
+
+With log you tell the engine where to put its logging file. The path is relative
+to the main executable and has to be used similar to other commands like
+"log=example/dir/log.out". 

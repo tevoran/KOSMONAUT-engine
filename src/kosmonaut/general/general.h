@@ -31,6 +31,7 @@ struct config config;
 
 /*functions*/
 int engine_init(char *window_name, char *config_file);
+void engine_log(char *logged_message, ...);
 
 /*config*/
 struct config
@@ -38,7 +39,8 @@ struct config
 	uint32_t resolution_x;
 	uint32_t resolution_y;
 	uint32_t wireframe_mode;
-	char *log_file;
+	char log_file[256];
+	int logging_on;
 };
 
 int engine_read_config(char *config_file_location);

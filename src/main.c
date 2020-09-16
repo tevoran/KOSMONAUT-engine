@@ -64,20 +64,20 @@ int main()
 	cam_axis.y=0;
 	cam_axis.z=1;
 
-	glPolygonMode(GL_FRONT, GL_FILL);
-
 
 	
 	int FPS=0;
+
+
 	int lasttick=SDL_GetTicks();
-	
+
 	float i=0;
 	while(engine_get_event().type!=SDL_QUIT) /*while not closing the window the main loop is continuing*/
 	{
 	/*FPS count*/
 	if(SDL_GetTicks()>(lasttick+1000))
 	{
-		printf("FPS: %i\n",FPS);
+		engine_log("FPS: %i\n",FPS);
 		FPS=0;
 		lasttick=SDL_GetTicks();
 	}
