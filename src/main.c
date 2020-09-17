@@ -48,24 +48,22 @@ int main()
 	rot_axis.y=1;
 	rot_axis.z=0;
 	struct vec3f pos_model={0,0,40};
-	struct model* cat=gfx_load_model("data/models/stealth/stealth.obj",pos_model);
+	struct model* ship=gfx_load_model("data/models/stealth/stealth.obj",pos_model);
 	float r=0.6*PI;
-	gfx_model_rotate(cat, r, rot_axis);
+	gfx_model_rotate(ship, r, rot_axis);
 
 	rot_axis.x=0;
 	rot_axis.y=1;
 	rot_axis.z=0;
 	r=1.4*PI;
-	gfx_model_rotate(cat, r, rot_axis);
-	
-
-	struct vec3f cam_axis;
-	cam_axis.x=0;
-	cam_axis.y=0;
-	cam_axis.z=1;
+	gfx_model_rotate(ship, r, rot_axis);
 
 
-	
+
+	struct model* ship2=gfx_copy_model(ship);
+	pos_model.y=pos_model.y+10;
+	gfx_update_model_location(ship2,pos_model);	
+
 	int FPS=0;
 
 
@@ -80,6 +78,7 @@ int main()
 		engine_log("FPS: %i\n",FPS);
 		FPS=0;
 		lasttick=SDL_GetTicks();
+
 	}
 	FPS++;
 
@@ -87,12 +86,8 @@ int main()
 	rot_axis.y=1;
 	rot_axis.z=0;
 	r=0.001;
-	gfx_model_rotate(cat, r, rot_axis);
+	gfx_model_rotate(ship, r, rot_axis);
 		
-	cam_axis.x=0;
-	cam_axis.y=1;
-	cam_axis.z=0;
-	gfx_camera_rotate(0.000, cam_axis);
 
 	gfx_new_frame();
 	}

@@ -1,5 +1,6 @@
 #include "gfx/gfx.h"
 
+#include "general/general.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
@@ -28,7 +29,7 @@ struct model* gfx_create_model_entry()
 			/*if an error occured then show a message*/
 			if(initial_entry==NULL)
 			{
-				printf("ERROR: couldn't allocate memory for a model handling table entry\n");
+				engine_log("ERROR: couldn't allocate memory for a model handling table entry\n");
 			}
 			
 		/*initializing data*/
@@ -68,7 +69,7 @@ struct model* gfx_create_model_entry()
 	current_entry->next_entry=malloc(sizeof(struct model));
 	if(current_entry->next_entry==NULL)
 	{
-		printf("ERROR: couldn't allocate memory for a new model handling table entry\n");
+		engine_log("ERROR: couldn't allocate memory for a new model handling table entry\n");
 	}
 	
 	void* last_entry=current_entry;
@@ -123,6 +124,21 @@ struct model* gfx_next_entry()
 	}
 	selected_entry=selected_entry->next_entry;
 	return selected_entry;
+}
+
+struct model* gfx_copy_model(struct model* entry_address)
+{
+	struct model* new_entry=gfx_create_model_entry();
+
+	void *next_entry_save=new_entry->next_entry;
+	void *last_entry_save=new_entry->last_entry;
+
+	*new_entry=*entry_address;
+
+	new_entry->next_entry=next_entry_save;
+	new_entry->last_entry=last_entry_save;
+	
+	return new_entry;
 }
 
 void gfx_delete_model_entry(struct model* entry_address)

@@ -66,6 +66,7 @@ int gfx_select_entry(struct model* entry_address);
 struct model* gfx_select_first_entry();
 struct model* gfx_next_entry();
 void gfx_delete_model_entry(struct model* entry_address);
+struct model* gfx_copy_model(struct model* entry_address);
 
 /*transformation*/
 void gfx_update_model_location(struct model* model, struct vec3f location);

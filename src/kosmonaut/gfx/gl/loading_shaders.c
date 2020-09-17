@@ -43,8 +43,7 @@ GLuint gfx_loading_shaders()
 		vertex_shader_string=malloc(shader_size+1);
 		fread(vertex_shader_string, shader_size,1,shader_file);
 		vertex_shader_string[shader_size] = '\0';
-		
-		printf("done\n");
+
 
 	//loading fragment shader
 
