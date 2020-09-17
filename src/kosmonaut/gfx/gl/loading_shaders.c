@@ -1,5 +1,6 @@
 #include "gfx/gfx.h"
 
+#include "general/general.h"
 #include <GL/glew.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,13 +25,12 @@ GLuint gfx_loading_shaders()
 	GLenum error;
 	
 	//loading vertex shader
-	printf("Loading Vertex Shader...");
-	
 	
 	shader_file=fopen("src/kosmonaut/gfx/shaders/vertex_shader.glsl","r");
 	if(shader_file==NULL)//error message if there is an error while reading the vertex shader file
 	{
 		printf("\n[ERROR] error while reading vertex shader file\n");
+		engine_log("\n[ERROR] error while reading vertex shader file\n");
 		return 1;
 	}
 
@@ -47,12 +47,12 @@ GLuint gfx_loading_shaders()
 		printf("done\n");
 
 	//loading fragment shader
-	printf("Loading Fragment Shader...");
-	
+
 	shader_file=fopen("src/kosmonaut/gfx/shaders/fragment_shader.glsl","r");
 	if(shader_file==NULL)//error message if there is an error while reading the fragment shader file
 	{
 		printf("\n[ERROR] error while reading fragment shader file\n");
+		engine_log("\n[ERROR] error while reading fragment shader file\n");
 		return 1;
 	}
 
@@ -65,13 +65,13 @@ GLuint gfx_loading_shaders()
 		fragment_shader_string=malloc(shader_size+1);
 		fread(fragment_shader_string, shader_size,1,shader_file);
 		fragment_shader_string[shader_size] = '\0';
-		printf("done\n");
 		
 	//creating shaders
 		//vertex shader
 		vertex_shader_reference=glCreateShader(GL_VERTEX_SHADER);
 		if(vertex_shader_reference==GL_INVALID_ENUM)
 		{
+			engine_log("[ERROR] error while creating vertex shader\n");
 			printf("[ERROR] error while creating vertex shader\n");
 			return 1;
 		}
@@ -80,6 +80,7 @@ GLuint gfx_loading_shaders()
 		fragment_shader_reference=glCreateShader(GL_FRAGMENT_SHADER);
 		if(fragment_shader_reference==GL_INVALID_ENUM)
 		{
+			engine_log("[ERROR] error while creating fragment shader\n");
 			printf("[ERROR] error while creating fragment shader\n");
 			return 1;
 		}
@@ -92,6 +93,7 @@ GLuint gfx_loading_shaders()
 		error=glGetError();
 		if(error!=GL_NO_ERROR)
 		{
+			engine_log("[ERROR] error while giving vertex shader source code to OpenGL\n");
 			printf("[ERROR] error while giving vertex shader source code to OpenGL\n");
 			return 1;
 		}
@@ -103,6 +105,7 @@ GLuint gfx_loading_shaders()
 		error=glGetError();
 		if(error!=GL_NO_ERROR)
 		{
+			engine_log("[ERROR] error while giving fragment shader source code to OpenGL\n");
 			printf("[ERROR] error while giving fragment shader source code to OpenGL\n");
 			return 1;
 		}
@@ -116,6 +119,7 @@ GLuint gfx_loading_shaders()
 		
 		if(error!=GL_TRUE)
 		{
+			engine_log("[ERROR] error while compiling vertex shader\n");
 			printf("[ERROR] error while compiling vertex shader\n");
 			
 			//determining error
@@ -125,6 +129,7 @@ GLuint gfx_loading_shaders()
 			
 			GLchar error_msg[max_length];
 			glGetShaderInfoLog(vertex_shader_reference,max_length,&max_length,&error_msg[0]);
+			engine_log("OPENGL ERROR MSG:\n %s\n",error_msg);
 			printf("OPENGL ERROR MSG:\n %s\n",error_msg);
 			
 			return 1;
@@ -139,6 +144,7 @@ GLuint gfx_loading_shaders()
 		
 		if(error!=GL_TRUE)
 		{
+			engine_log("[ERROR] error while compiling fragment shader\n");
 			printf("[ERROR] error while compiling fragment shader\n");
 			
 			//determining error
@@ -148,6 +154,7 @@ GLuint gfx_loading_shaders()
 			
 			GLchar error_msg[max_length];
 			glGetShaderInfoLog(fragment_shader_reference,max_length,&max_length,&error_msg[0]);
+			engine_log("OPENGL ERROR MSG:\n %s\n",error_msg);
 			printf("OPENGL ERROR MSG:\n %s\n",error_msg);
 			
 			return 1;
@@ -159,6 +166,7 @@ GLuint gfx_loading_shaders()
 	shader_program_reference=glCreateProgram();
 	if(shader_program_reference==0)
 	{
+		engine_log("[ERROR] error while creating program\n");
 		printf("[ERROR] error while creating program\n");
 		return 1;
 	}
@@ -170,6 +178,7 @@ GLuint gfx_loading_shaders()
 		error=glGetError();
 		if(error!=GL_NO_ERROR)
 		{
+			engine_log("[ERROR] error while attaching vertex shader\n");
 			printf("[ERROR] error while attaching vertex shader\n");
 			return 1;
 		}
@@ -180,6 +189,7 @@ GLuint gfx_loading_shaders()
 		error=glGetError();
 		if(error!=GL_NO_ERROR)
 		{
+			engine_log("[ERROR] error while attaching fragment shader\n");
 			printf("[ERROR] error while attaching fragment shader\n");
 			return 1;
 		}
@@ -194,6 +204,7 @@ GLuint gfx_loading_shaders()
 	
 	if(error!=GL_TRUE)
 	{
+		engine_log("[ERROR] Program couldn't be linked\n");
 		printf("[ERROR] Program couldn't be linked\n");
 		return 1;
 	}
@@ -205,6 +216,7 @@ GLuint gfx_loading_shaders()
 		error=glGetError();
 		if(error!=GL_NO_ERROR)
 		{
+			engine_log("[ERROR] error while using program\n");
 			printf("[ERROR] error while using program\n");
 			return 1;
 		}

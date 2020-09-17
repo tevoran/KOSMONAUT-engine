@@ -12,15 +12,16 @@ extern SDL_Window *window;
 extern struct config config;
 
 int engine_init(char *window_name, char *config_file)
-{
-	printf("Initialising SBC-Engine...\n");
-	
+{	
 	/*reading config file for initialization, if there is one*/
 	if(engine_read_config(config_file)!=ENGINE_NO_ERROR)
 	{
-		printf("ERROR: error while reading config file at:\n%s",config_file);
+		engine_log("ERROR: error while reading config file at:\n%s",config_file);
 	}
 	
+	/*writing an header to the log file*/
+	engine_log("The log file of the kosmonaut engine is rewritten for each run of the engine.\n\n");
+
 	/*initialising SDL2*/
 	if(SDL_Init(SDL_INIT_EVERYTHING)!=0)
 	{
@@ -42,13 +43,13 @@ int engine_init(char *window_name, char *config_file)
 	/*initialising OpenGL 4.6*/
 	if(SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4)!=0)
 	{
-		printf("ERROR: OpenGL has to be at least version 4.5\n");
+		engine_log("ERROR: OpenGL has to be at least version 4.5\n");
 		return ENGINE_GL_ERROR;
 	}
 	
 	if(SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5)!=0)
 	{
-		printf("ERROR: OpenGL has to be at least version 4.5\n");
+		engine_log("ERROR: OpenGL has to be at least version 4.5\n");
 		return ENGINE_GL_ERROR;
 	}
 	
@@ -66,6 +67,6 @@ int engine_init(char *window_name, char *config_file)
 	
 	/*initialising graphics engine*/
 	gfx_init();
-	printf("Engine successfully initialised\n");
+	engine_log("Engine successfully initialised\n");
 	return ENGINE_NO_ERROR;
 }
