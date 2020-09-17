@@ -12,6 +12,8 @@ Currently the functionality of the engine is still restricted but there are foll
 
 int engine_init(char *window_name, char *config_file)
 
+void engine_log(char *logged_text, ...)
+
 void gfx_new_frame()
 
 void gfx_create_camera(struct vec3f position, float far_z, float fov)
@@ -42,6 +44,11 @@ This function initializes the engine and takes a string with with the intended n
 another string with the adress of the engine configuration file. This configuration file contains information
 like the used resolution.
 
+
+void engine_log(char *logged_text, ...)
+
+The engine_log function is used for saving a log message to the log file, which was specified in the config
+file.
 
 
 void gfx_new_frame()

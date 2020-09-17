@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-FILE *log_file=NULL;
+static FILE *log_file=NULL;
 
 
 void engine_log(char *logged_text, ...)
