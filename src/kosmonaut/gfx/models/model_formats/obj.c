@@ -98,6 +98,7 @@ int model_load_obj_model(
 
 	struct vec3f vertex;
 	
+	int count=0;
 	while(fgets(file_line, 1024, model_file)!=NULL)
 	{
 		if(strstr(file_line, "v ")!=NULL)
@@ -123,6 +124,32 @@ int model_load_obj_model(
 				*vertices_write=0.9f;
 				vertices_write++;
 			}
+
+			/*write texture coordinates*/
+			count++;
+			if(count>50)
+			{
+				*vertices_write=0.0f;
+				vertices_write++;
+				*vertices_write=1.0f;
+				vertices_write++;
+			}
+			else if(count>100)
+			{
+				count=0;
+				*vertices_write=1.0f;
+				vertices_write++;
+				*vertices_write=1.0f;
+				vertices_write++;
+			}
+			else
+			{
+				*vertices_write=1.0f;
+				vertices_write++;
+				*vertices_write=1.0f;
+				vertices_write++;
+			}
+
 		}
 	}
 
@@ -165,8 +192,6 @@ int model_load_obj_model(
 			}
 		}
 	}
-	assert(indices_write - *indices == *num_indices);
-	assert((vertices_write - *vertices) / 6 == *num_vertices);
 	fclose(model_file);
 	
 	return GFX_NO_ERROR;

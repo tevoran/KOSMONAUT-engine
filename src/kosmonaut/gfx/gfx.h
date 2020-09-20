@@ -59,6 +59,9 @@ struct model
 	/*transformation members*/
 	GLfloat world_transform_matrix[4][4];
 	GLfloat rotation_matrix[4][4];
+
+	/*texture members*/
+	GLuint textureID;
 };
 
 struct model* gfx_create_model_entry();
