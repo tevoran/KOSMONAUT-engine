@@ -103,3 +103,9 @@ The function creates a cube around a central location in a certain color with a 
 struct model* gfx_load_model(char *file_location, struct vec3f location)
 
 This creates a model from a model that is stored in a file. Currently only .obj files are supported.
+
+
+struct model* gfx_copy_model(struct model* entry_address)
+
+If a model is loaded via gfx_load_model then it can be copied and used over and over again with the function
+gfx_copy_model. The function returns another model struct pointer, which can be used regularly.

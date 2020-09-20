@@ -39,7 +39,7 @@ int main()
 		
 	}
 
-	struct vec3f cam_location={0,0,0};
+	struct vec3f cam_location={0,10,0};
 	gfx_create_camera(cam_location, 10000, 0.5*PI);
 
 
@@ -58,11 +58,14 @@ int main()
 	r=1.4*PI;
 	gfx_model_rotate(ship, r, rot_axis);
 
+	struct model *model[10000];
 
-
-	struct model* ship2=gfx_copy_model(ship);
-	pos_model.y=pos_model.y+10;
-	gfx_update_model_location(ship2,pos_model);	
+	for(int i=0; i<10000; i++)
+	{
+		model[i]=gfx_copy_model(ship);
+		pos_model.z=pos_model.z+25;
+		gfx_update_model_location(model[i],pos_model);
+	}
 
 	int FPS=0;
 
