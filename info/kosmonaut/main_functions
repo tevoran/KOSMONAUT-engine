@@ -109,3 +109,13 @@ struct model* gfx_copy_model(struct model* entry_address)
 
 If a model is loaded via gfx_load_model then it can be copied and used over and over again with the function
 gfx_copy_model. The function returns another model struct pointer, which can be used regularly.
+
+
+void gfx_update_model_location(struct model* model, struct vec3f location)
+
+Sets a model or primitive to a certain location inside the world.
+
+
+void gfx_model_rotate(struct model* model, float rotation, struct vec3f rot_axis)
+
+Rotates the model or primitive around a rotation axis by the radian given.
