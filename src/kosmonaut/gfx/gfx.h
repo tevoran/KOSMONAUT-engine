@@ -44,9 +44,7 @@ struct model
 	/*list related members*/
 	void *last_entry;
 	void *next_entry;
-	
-	/*mesh related entry*/
-	void *model_data;
+
 	
 	/*OpenGL related members*/
 	uint32_t num_vertices;

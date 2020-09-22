@@ -1,6 +1,5 @@
 #version 450
 
-in vec3 fragment_color;
 in float fragment_depth;
 in vec2 fragment_tex_coord;
 

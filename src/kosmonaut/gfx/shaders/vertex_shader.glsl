@@ -1,10 +1,8 @@
 #version 450
 
 layout(location = 0) in vec3 vertexPosition_worldspace;
-layout(location = 1) in vec3 vertex_color;
-layout(location = 2) in vec2 tex_coord;
+layout(location = 1) in vec2 tex_coord;
 
-out vec3 fragment_color;
 out float fragment_depth;
 out vec2 fragment_tex_coord;
 
@@ -43,6 +41,5 @@ void main(){
 
 	/*giving data to the fragment shader*/
 	fragment_depth = vertexPosition.z;
-	fragment_color = vertex_color;
 	fragment_tex_coord = tex_coord;
 }

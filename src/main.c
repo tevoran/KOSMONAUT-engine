@@ -69,6 +69,29 @@ int main()
 
 	int FPS=0;
 
+	struct vec3f color;
+	color.x=0.8;
+	color.y=0.2;
+	color.z=0.21;
+
+	pos_model.x=10;
+	pos_model.y=10;
+	pos_model.z=30;
+	gfx_create_cube(pos_model, color, 4);
+
+	pos_model.x=-10;
+	color.x=0.9;
+	color.y=0.9;
+	color.z=0.21;
+
+	struct vec3f corner1, corner2;
+	corner1.x=3;
+	corner1.y=4;
+	corner1.z=0;
+	corner2.x=5;
+	corner2.y=0;
+	corner2.z=0;
+	gfx_create_triangle(pos_model, corner1, corner2, color);
 
 	int lasttick=SDL_GetTicks();
 

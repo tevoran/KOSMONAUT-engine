@@ -7,7 +7,7 @@
 #include <GL/glew.h>
 
 
-#define vertex_element_number 8
+#define vertex_element_number 5
 
 struct model* gfx_load_model(char *file_location, struct vec3f location)
 {
@@ -69,11 +69,8 @@ struct model* gfx_load_model(char *file_location, struct vec3f location)
 	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,vertex_element_number*sizeof(float),(void*)0);
 	glEnableVertexAttribArray(0);
 	
-	glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,vertex_element_number*sizeof(float),(void*)(3*sizeof(float)));
+	glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,vertex_element_number*sizeof(float),(void*)(3*sizeof(float)));
 	glEnableVertexAttribArray(1);
-	
-	glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,vertex_element_number*sizeof(float),(void*)(6*sizeof(float)));
-	glEnableVertexAttribArray(2);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->index_bufferID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, model->num_indices*sizeof(GLuint), indices, GL_STATIC_DRAW);

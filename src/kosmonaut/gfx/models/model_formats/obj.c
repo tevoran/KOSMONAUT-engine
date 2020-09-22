@@ -118,12 +118,6 @@ int model_load_obj_model(
 			*vertices_write=vertex.z;
 			vertices_write++;
 			
-			/*write color as well*/
-			for(int i=0; i<3; i++)
-			{
-				*vertices_write=0.9f;
-				vertices_write++;
-			}
 
 			/*write texture coordinates*/
 			count++;
