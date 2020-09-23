@@ -1,5 +1,6 @@
 #include "gfx/gfx.h"
 #include "maths/maths.h"
+#include "general/general.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,6 +40,8 @@ int model_load_obj_model(
 		return GFX_ERROR;
 	}
 
+	engine_log("Reading file: %s\n",file_location);
+	engine_log("Warning: A possible error might occur when a single line contains more than 1024 characters\n");
 	
 	/*counting vertices and indices*/
 	*num_vertices=0;
