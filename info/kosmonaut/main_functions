@@ -92,6 +92,15 @@ Used for the creation of a triangle at a location with two corners as offsets to
 the triangle has a color.
 
 
+struct model* gfx_create_quad(
+	struct vec3f location, 
+	struct vec3f corner1, 
+	struct vec3f corner2, 
+	struct vec3f color) 
+
+Creates a rectangle.
+
+
 struct model* gfx_create_cube(
 	struct vec3f location, 
 	struct vec3f color, 

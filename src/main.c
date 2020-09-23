@@ -93,6 +93,10 @@ int main()
 	corner2.z=0;
 	gfx_create_triangle(pos_model, corner1, corner2, color);
 
+	pos_model.x=0;
+
+	color.x=0.34;
+	gfx_create_quad(pos_model, corner1, corner2, color);
 	int lasttick=SDL_GetTicks();
 
 	float i=0;

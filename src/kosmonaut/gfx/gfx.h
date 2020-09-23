@@ -85,6 +85,11 @@ struct model* gfx_create_cube(
 	struct vec3f color, 
 	float size);
 struct model* gfx_load_model(char *file_location, struct vec3f location);
+struct model* gfx_create_quad(
+	struct vec3f location, 
+	struct vec3f corner1, 
+	struct vec3f corner2, 
+	struct vec3f color);
 
 /*model load functions*/
 int model_load_obj_model(
