@@ -85,18 +85,19 @@ int main()
 	color.z=0.21;
 
 	struct vec3f corner1, corner2;
-	corner1.x=3;
-	corner1.y=4;
+	corner1.x=4;
+	corner1.y=0;
 	corner1.z=0;
-	corner2.x=5;
-	corner2.y=0;
+	corner2.x=0;
+	corner2.y=4;
 	corner2.z=0;
 	gfx_create_triangle(pos_model, corner1, corner2, color);
 
 	pos_model.x=0;
 
 	color.x=0.34;
-	gfx_create_quad(pos_model, corner1, corner2, color);
+	struct model *quad=gfx_create_quad(pos_model, corner1, corner2, color);
+	gfx_model_load_texture("data/textures/smiley.bmp", quad);
 	int lasttick=SDL_GetTicks();
 
 	float i=0;
