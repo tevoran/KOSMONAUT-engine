@@ -26,10 +26,10 @@ struct model* gfx_create_quad(struct vec3f location, struct vec3f corner1, struc
 		0,0,
 		
 		corner1.x,corner1.y,corner1.z,
-		0,1,
+		1,0,
 		
 		corner2.x,corner2.y,corner2.z,
-		1,0,
+		0,1,
 
 		corner1.x+corner2.x, corner1.y+corner2.y, corner1.z+corner2.z,
 		1,1

@@ -55,6 +55,11 @@ void gfx_model_texture_load_bmp(
 		return;
 	}
 
+	/*checking for order of image data*/
+	int32_t data_order=0;
+	fseek(texture_file, 0x16, SEEK_SET);
+	fread(&data_order, sizeof(uint32_t), 1, texture_file);
+
 	/*reading actual image data*/
 	uint32_t pixel_count=(*texture_height)*(*texture_width);
 	*texture_data=malloc(pixel_count*3*sizeof(GLfloat));
@@ -63,21 +68,60 @@ void gfx_model_texture_load_bmp(
 	unsigned char bgr[3];
 	GLfloat rgb[3];
 
-	for(int i=0; i<pixel_count; i++)
+	if(data_order>0)
 	{
-		fseek(texture_file, data_offset+(i*3), SEEK_SET);
-		fread(bgr, sizeof(bgr), 1, texture_file);
-		rgb[0]=(GLfloat)bgr[2]/256;
-		rgb[1]=(GLfloat)bgr[1]/256;
-		rgb[2]=(GLfloat)bgr[0]/256;
-		*texture_data_write=rgb[0];
-		texture_data_write++;
-		*texture_data_write=rgb[1];
-		texture_data_write++;
-		*texture_data_write=rgb[2];
-		texture_data_write++;
-
+		for(int i=0; i<pixel_count; i++)
+		{
+			fseek(texture_file, data_offset+(i*3), SEEK_SET);
+			fread(bgr, sizeof(bgr), 1, texture_file);
+			rgb[0]=(GLfloat)bgr[2]/256;
+			rgb[1]=(GLfloat)bgr[1]/256;
+			rgb[2]=(GLfloat)bgr[0]/256;
+			*texture_data_write=rgb[0];
+			texture_data_write++;
+			*texture_data_write=rgb[1];
+			texture_data_write++;
+			*texture_data_write=rgb[2];
+			texture_data_write++;
+		}
 	}
+
+	else if(data_order<0)
+	{
+		for(int i=pixel_count; i>0; i--)
+		{
+			fseek(texture_file, data_offset+(i*3), SEEK_SET);
+			fread(bgr, sizeof(bgr), 1, texture_file);
+			rgb[0]=(GLfloat)bgr[2]/256;
+			rgb[1]=(GLfloat)bgr[1]/256;
+			rgb[2]=(GLfloat)bgr[0]/256;
+			*texture_data_write=rgb[0];
+			texture_data_write++;
+			*texture_data_write=rgb[1];
+			texture_data_write++;
+			*texture_data_write=rgb[2];
+			texture_data_write++;
+		}
+	}
+
+	else
+	{
+		engine_log("Texture file at %s is neither a top-down or a bottom-up bitmap.\n", file_location);
+		return;
+	}
+
+	/*logging debug info*/
+	engine_log("\nTexture file %s was read.\n", file_location);
+	engine_log("Resolution: %ix%i\n", *texture_height, *texture_width);
+	engine_log("Image data size: %i bytes\n", ((*texture_height)*(*texture_width)*3));
+	if(data_order>0)
+		{
+			engine_log("Bottom-Up bitmap file\n\n");
+		}
+	if(data_order<0)
+		{
+			engine_log("Top-Down bitmap file\n\n");
+		}
 
 	fclose(texture_file);
 
