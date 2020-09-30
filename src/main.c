@@ -77,7 +77,7 @@ int main()
 	pos_model.x=10;
 	pos_model.y=10;
 	pos_model.z=30;
-	gfx_create_cube(pos_model, color, 4);
+	struct model *cube=gfx_create_cube(pos_model, color, 4);
 
 	pos_model.x=-10;
 	color.x=0.9;
@@ -91,13 +91,15 @@ int main()
 	corner2.x=0;
 	corner2.y=4;
 	corner2.z=0;
-	gfx_create_triangle(pos_model, corner1, corner2, color);
+	struct model *tri=gfx_create_triangle(pos_model, corner1, corner2, color);
 
 	pos_model.x=0;
 
 	color.x=0.34;
 	struct model *quad=gfx_create_quad(pos_model, corner1, corner2, color);
 	gfx_model_load_texture("data/textures/smiley.bmp", quad);
+	gfx_model_load_texture("data/textures/box.bmp", cube);
+	gfx_model_load_texture("data/textures/smiley.bmp", tri);
 	int lasttick=SDL_GetTicks();
 
 	float i=0;
@@ -118,7 +120,7 @@ int main()
 	rot_axis.z=0;
 	r=0.001;
 	gfx_model_rotate(ship, r, rot_axis);
-		
+	gfx_model_rotate(cube, r, rot_axis);
 
 	gfx_new_frame();
 	}

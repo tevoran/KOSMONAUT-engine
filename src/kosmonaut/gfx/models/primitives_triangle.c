@@ -23,13 +23,13 @@ struct model* gfx_create_triangle(struct vec3f location, struct vec3f corner1, s
 	GLfloat triangle_data[]=
 	{
 		0,0,0,
-		1,1,
+		0,0,
 		
 		corner1.x,corner1.y,corner1.z,
-		1,1,
+		1,0,
 		
 		corner2.x,corner2.y,corner2.z,
-		1,1,
+		0,1,
 	};
 	
 	

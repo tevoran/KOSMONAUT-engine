@@ -20,8 +20,6 @@ void gfx_model_load_texture(char *file_location, struct model *model)
 			&texture_height,
 			&texture_width);
 	}
-
-	printf("Texture resolution %ix%i\n", texture_height, texture_width);
 	
 	glGenTextures(1, &model->textureID);
 	glBindTexture(GL_TEXTURE_2D, model->textureID);
