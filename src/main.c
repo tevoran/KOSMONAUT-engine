@@ -49,6 +49,7 @@ int main()
 	rot_axis.z=0;
 	struct vec3f pos_model={0,0,40};
 	struct model* ship=gfx_load_model("data/models/stealth/stealth.obj",pos_model);
+	gfx_model_load_texture("data/textures/stealth.bmp", ship);
 	float r=0.6*PI;
 	gfx_model_rotate(ship, r, rot_axis);
 
@@ -97,7 +98,7 @@ int main()
 
 	color.x=0.34;
 	struct model *quad=gfx_create_quad(pos_model, corner1, corner2, color);
-	gfx_model_load_texture("data/textures/smiley.bmp", quad);
+	gfx_model_load_texture("data/textures/stealth.bmp", quad);
 	gfx_model_load_texture("data/textures/box.bmp", cube);
 	gfx_model_load_texture("data/textures/smiley.bmp", tri);
 	int lasttick=SDL_GetTicks();

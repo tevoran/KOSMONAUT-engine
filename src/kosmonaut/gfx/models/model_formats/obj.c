@@ -47,6 +47,8 @@ int model_load_obj_model(
 	*num_vertices=0;
 	*num_indices=0;
 
+	unsigned int num_tex_coords=0;
+
 	char file_line[1024];
 
 	char *current_token;
@@ -59,6 +61,12 @@ int model_load_obj_model(
 		if(strstr(file_line, "v ")!=NULL)
 		{
 			++*num_vertices;
+		}
+
+		/*if a texture coordinate is found*/
+		if(strstr(file_line, "vt ")!=NULL)
+		{
+			++num_tex_coords;
 		}
 
 		/* if a face is found*/
@@ -89,64 +97,121 @@ int model_load_obj_model(
 		
 	}
 
+	engine_log("Number of vertices: %i\n", *num_vertices);
+	engine_log("Number of polygons: %i\n", *num_indices/3);
+
+	/*creating a texture coordinates array for using the indices in the .obj file*/
+	float *tex_coords_array=malloc(num_tex_coords*sizeof(float)*2);
+	float *tex_coords_write=tex_coords_array;
+
+	float u=0, v=0;
+	fseek(model_file, 0, SEEK_SET);
+	while(fgets(file_line, 1024, model_file)!=NULL)
+	{
+		if(sscanf(file_line, "vt%*[ ]%f %f", &u, &v) == 2)
+		{
+			*tex_coords_write=u;
+			tex_coords_write++;
+			*tex_coords_write=v;
+			tex_coords_write++;
+		}
+	}
+
+	/*creating a vertex array for using the indices in the .obj file*/
+	float *vertex_array=malloc(*num_vertices*sizeof(float)*3);
+	float *vertex_array_write=vertex_array;
+
+	struct vec3f vertex;
+	fseek(model_file, 0, SEEK_SET);
+	while(fgets(file_line, 1024, model_file)!=NULL)
+	{
+		if(sscanf(file_line, "v%*[ ]%f %f %f", &vertex.x, &vertex.y, &vertex.z) == 3)
+		{
+			*vertex_array_write=vertex.x;
+			vertex_array_write++;
+			*vertex_array_write=vertex.y;
+			vertex_array_write++;
+			*vertex_array_write=vertex.z;
+			vertex_array_write++;
+		}
+	}
+
 	/*allocating memory for vertices and indices*/
 	*vertices=malloc((*num_vertices)*vertex_elements*sizeof(GLfloat));
 	GLfloat *vertices_write=*vertices;
-	
+
 	*indices=malloc((*num_indices)*sizeof(GLuint));
 	GLuint *indices_write=*indices;
+
 	
 	/*writing vertices from file to memory in an OpenGL conform manner*/
 	fseek(model_file, 0, SEEK_SET);
+	float *vertex_array_read=vertex_array;
+	float *tex_coords_read=tex_coords_array;
 
-	struct vec3f vertex;
-	
-	int count=0;
+	face[0]=0;
+	face[1]=0;
+	face[2]=0;
 	while(fgets(file_line, 1024, model_file)!=NULL)
 	{
-		if(strstr(file_line, "v ")!=NULL)
+		if(strstr(file_line, "f ")!=NULL)
 		{
-			int n = sscanf(
-				file_line,
-				"v%*[ ]%f %f %f\n",
-				&vertex.x,
-				&vertex.y,
-				&vertex.z);
-			assert(n == 3);
-				
-			*vertices_write=vertex.x;
-			vertices_write++;
-			*vertices_write=vertex.y;
-			vertices_write++;
-			*vertices_write=vertex.z;
-			vertices_write++;
-			
+			strtok(file_line, " ");
+			current_token=strtok(NULL, " ");
+			while(current_token!=NULL)
+			{
+				switch(sscanf(current_token, "%d/%d/%d", &face[0], &face[1], &face[2]))
+				{
+					/*writing vertices without a known texture*/
+					case 1:
+						vertex_array_read=vertex_array+(3*(face[0]-1));
+						vertices_write=(*vertices+(vertex_elements*(face[0]-1)));
 
-			/*write texture coordinates*/
-			count++;
-			if(count>50)
-			{
-				*vertices_write=0.0f;
-				vertices_write++;
-				*vertices_write=1.0f;
-				vertices_write++;
-			}
-			else if(count>100)
-			{
-				count=0;
-				*vertices_write=1.0f;
-				vertices_write++;
-				*vertices_write=1.0f;
-				vertices_write++;
-			}
-			else
-			{
-				*vertices_write=1.0f;
-				vertices_write++;
-				*vertices_write=1.0f;
-				vertices_write++;
-			}
+						*vertices_write=*vertex_array_read;
+						vertices_write++;
+						vertex_array_read++;
 
+						*vertices_write=*vertex_array_read;
+						vertices_write++;
+						vertex_array_read++;
+
+						*vertices_write=*vertex_array_read;
+						vertices_write++;
+						vertex_array_read++;		
+					break;
+
+
+					/*writing vertices with a knon texture*/
+					case 3:
+						vertex_array_read=vertex_array+(3*(face[0]-1));
+						vertices_write=(*vertices+(vertex_elements*(face[0]-1)));
+
+						*vertices_write=*vertex_array_read;
+						vertices_write++;
+						vertex_array_read++;
+
+						*vertices_write=*vertex_array_read;
+						vertices_write++;
+						vertex_array_read++;
+
+						*vertices_write=*vertex_array_read;
+						vertices_write++;
+						vertex_array_read++;
+
+						tex_coords_read=tex_coords_array+(2*(face[1]-1));
+
+						*vertices_write=*tex_coords_read;
+						vertices_write++;
+						tex_coords_read++;
+
+						*vertices_write=*tex_coords_read;
+						vertices_write++;
+						tex_coords_read++;
+					break;
+				}
+
+				current_token=strtok(NULL, " ");
+			}
 		}
 	}
 
