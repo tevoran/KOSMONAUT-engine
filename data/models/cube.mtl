@@ -1,4 +1,4 @@
-# Blender MTL File: 'stealth.blend'
+# Blender MTL File: 'None'
 # Material Count: 1
 
 newmtl Material
@@ -10,4 +10,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd /home/johannes/Documents/Code/SBC/data/textures/stealth.png
+map_Kd /home/johannes/Documents/Code/SBC/data/textures/cube.png

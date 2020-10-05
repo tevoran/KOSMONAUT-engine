@@ -91,14 +91,16 @@ int model_load_obj_model(
 
 			assert(current_vertices >= 3);
 			/*calculating additional indices out of the number of vertices per face*/
-
 			*num_indices += 3*current_vertices-6;
 		}
 		
 	}
 
-	engine_log("Number of vertices: %i\n", *num_vertices);
+	engine_log("Number of vertices in file: %i\n", *num_vertices);
 	engine_log("Number of polygons: %i\n", *num_indices/3);
+
+	*num_vertices=*num_indices;
+	*num_indices=*num_indices;
 
 	/*creating a texture coordinates array for using the indices in the .obj file*/
 	float *tex_coords_array=malloc(num_tex_coords*sizeof(float)*2);
@@ -137,7 +139,8 @@ int model_load_obj_model(
 	}
 
 	/*allocating memory for vertices and indices*/
-	*vertices=malloc((*num_vertices)*vertex_elements*sizeof(GLfloat));
+	/* *num_indices is the maximum possible number of vertices in the vertex buffer*/
+	*vertices=malloc((*num_indices)*vertex_elements*sizeof(GLfloat));
 	GLfloat *vertices_write=*vertices;
 
 	*indices=malloc((*num_indices)*sizeof(GLuint));
@@ -152,20 +155,26 @@ int model_load_obj_model(
 	face[0]=0;
 	face[1]=0;
 	face[2]=0;
+	vertices_write=*vertices;
+	indices_write=*indices;
+
+	unsigned int current_index=0;
 	while(fgets(file_line, 1024, model_file)!=NULL)
 	{
+		unsigned int current_num_vertices=0;
 		if(strstr(file_line, "f ")!=NULL)
 		{
 			strtok(file_line, " ");
 			current_token=strtok(NULL, " ");
+			/*writing vertices*/
 			while(current_token!=NULL)
 			{
 				switch(sscanf(current_token, "%d/%d/%d", &face[0], &face[1], &face[2]))
 				{
-					/*writing vertices without a known texture*/
 					case 1:
+						/*writing vertices without a known texture*/
 						vertex_array_read=vertex_array+(3*(face[0]-1));
-						vertices_write=(*vertices+(vertex_elements*(face[0]-1)));
+						current_num_vertices++;
 
 						*vertices_write=*vertex_array_read;
 						vertices_write++;
@@ -177,14 +186,21 @@ int model_load_obj_model(
 
 						*vertices_write=*vertex_array_read;
 						vertices_write++;
-						vertex_array_read++;		
+						vertex_array_read++;
+
+						/*pseudo texture coords*/
+						*vertices_write=0;
+						vertices_write++;
+
+						*vertices_write=0;
+						vertices_write++;
 					break;
 
 
-					/*writing vertices with a knon texture*/
 					case 3:
+						/*writing vertices with a known texture*/
 						vertex_array_read=vertex_array+(3*(face[0]-1));
-						vertices_write=(*vertices+(vertex_elements*(face[0]-1)));
+						current_num_vertices++;
 
 						*vertices_write=*vertex_array_read;
 						vertices_write++;
@@ -197,6 +213,7 @@ int model_load_obj_model(
 						*vertices_write=*vertex_array_read;
 						vertices_write++;
 						vertex_array_read++;
+
 
 						tex_coords_read=tex_coords_array+(2*(face[1]-1));
 
@@ -207,53 +224,58 @@ int model_load_obj_model(
 						*vertices_write=*tex_coords_read;
 						vertices_write++;
 						tex_coords_read++;
+
 					break;
 				}
 
 				current_token=strtok(NULL, " ");
 			}
+
+			/*writing indices*/
+			/*first polygon*/
+			unsigned int index[3];
+			index[0]=current_index;
+			current_index++;
+			index[1]=current_index;
+			current_index++;
+			index[2]=current_index;
+			current_index++;
+
+			*indices_write=index[0];
+			indices_write++;
+			current_num_vertices--;
+
+			*indices_write=index[1];
+			indices_write++;
+			current_num_vertices--;
+
+			*indices_write=index[2];
+			indices_write++;
+			current_num_vertices--;
+
+			while(current_num_vertices>0)
+			{
+				index[1]=index[2];
+				index[2]=current_index;
+				current_index++;
+
+				*indices_write=index[0];
+				indices_write++;
+
+				*indices_write=index[1];
+				indices_write++;
+
+				*indices_write=index[2];
+				indices_write++;
+				current_num_vertices--;
+			}
 		}
 	}
+	*num_vertices=current_index;
+	engine_log("Number of vertices in engine: %i\n", *num_vertices);
 
-	
-	/*writing indices from file to memory in an OpenGL conform manner*/
-	fseek(model_file, 0, SEEK_SET);
-
-	
-	face[0]=0;
-	face[1]=0;
-	face[2]=0;
-	while(fgets(file_line, 1024, model_file)!=NULL)
-	{
-
-		/* if a face is found*/
-		if(strstr(file_line, "f ")!=NULL)
-		{
-			
-			strtok(file_line, " ");
-			current_token=strtok(NULL, " ");
-
-			face[0] = face[1] = face[2] = 0;
-			/*getting first vertex for the face*/
-			for(int i = 0; i < 2; i++)
-			{
-				int n = sscanf(current_token, "%u", &face[i]);
-				assert(n == 1);
-				current_token=strtok(NULL, " ");
-				assert(current_token);
-			}
-
-			/*looping through the rest of the face for all the other polygons*/
-			while(current_token != NULL)
-			{
-				int n = sscanf(current_token, "%u", &face[2]);
-				assert(n == 1);
-				indices_write=obj_write_face3(face, indices_write);
-				current_token=strtok(NULL, " ");
-				face[1] = face[2];
-			}
-		}
-	}
+	free(vertex_array);
+	free(tex_coords_array);
 	fclose(model_file);
 	
 	return GFX_NO_ERROR;

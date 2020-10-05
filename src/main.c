@@ -94,11 +94,9 @@ int main()
 	corner2.z=0;
 	struct model *tri=gfx_create_triangle(pos_model, corner1, corner2, color);
 
-	pos_model.x=0;
+	pos_model.x=20;
 
 	color.x=0.34;
-	struct model *quad=gfx_create_quad(pos_model, corner1, corner2, color);
-	gfx_model_load_texture("data/textures/stealth.bmp", quad);
 	gfx_model_load_texture("data/textures/box.bmp", cube);
 	gfx_model_load_texture("data/textures/smiley.bmp", tri);
 	int lasttick=SDL_GetTicks();
