@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <GL/glew.h>
+#include <string.h>
 
 void gfx_model_load_texture(char *file_location, struct model *model)
 {

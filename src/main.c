@@ -3,14 +3,16 @@
 #include <SDL2/SDL.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 #include "general/general.h"
 #include "gfx/gfx.h"
 #include "maths/maths.h"
 
+#define GLEW_STATIC
+#undef main
 
-
-int main()
+int main(int argc, char **argv[])
 {
 	/*initialisinge game engine*/
 	switch(engine_init("Star Battle Command", "data/config.conf"))

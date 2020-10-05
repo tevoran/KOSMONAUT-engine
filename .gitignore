@@ -1,6 +1,10 @@
 #ignore final compiled executable
 SBC
+SBC.exe
 
 #ignore debug files
 gmon.out
 log.out
+
+#ignore windows folder
+windows
