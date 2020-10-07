@@ -7,10 +7,7 @@ out float fragment_depth;
 out vec2 fragment_tex_coord;
 
 /*camera stuff*/
-uniform mat4 projectionMatrix;  /*it is used for mapping the visible vertices to the normalized device space*/
-uniform mat4 cam_translationMatrix; /*this matrix is used for making the camera the center of the world
- * and the world becomes relative to the camera*/
-uniform mat4 camRotationMatrix;
+uniform mat4 camShaderMatrix;
  
 /*model stuff*/
 uniform mat4 world_transformMatrix;/*used for conversion of local to world space*/
@@ -20,13 +17,10 @@ uniform mat4 rotationMatrix;
 void main(){
 	vec4 vertexPosition = vec4(vertexPosition_worldspace.xyz, 1.0);
 	
-	
-	vertexPosition = projectionMatrix 
-					* camRotationMatrix 
-					* cam_translationMatrix 
+	vertexPosition = camShaderMatrix
 					* world_transformMatrix 
 					* rotationMatrix 
-					* vertexPosition;
+					* vertexPosition;	
 	
 	/*if vertex is behind the camera, then it is moved out of sight*/
 	if(vertexPosition.z<0)

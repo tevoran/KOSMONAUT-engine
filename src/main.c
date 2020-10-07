@@ -148,7 +148,7 @@ int main(int argc, char **argv[])
 		if(keyboard_state[SDL_SCANCODE_ESCAPE])
 		{
 			quit=1;
-			
+
 		}
 		SDL_PollEvent(&event);
 		switch(event.type)

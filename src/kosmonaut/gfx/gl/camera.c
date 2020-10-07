@@ -20,7 +20,29 @@ GLfloat cam_rotation_matrix[4][4]=
 	0, 0, 0, 1
 };
 
+GLfloat projection_matrix[4][4]=
+{
+	1, 0, 0, 0,
+	0, 1, 0, 0,
+	0, 0, 1, 1,
+	0, 0, 0, 0
+};
 
+GLfloat cam_translation_matrix[4][4]=
+{
+	1, 0, 0, 0,
+	0, 1, 0, 0,
+	0, 0, 1, 0,
+	0, 0, 0, 1
+};
+
+GLfloat cam_matrix_for_shader[4][4]=
+{
+	1, 0, 0, 0,
+	0, 1, 0, 0,
+	0, 0, 1, 0,
+	0, 0, 0, 1
+};
 
 void gfx_create_camera(struct vec3f position, float far_z, float fov)
 { 
@@ -29,48 +51,25 @@ void gfx_create_camera(struct vec3f position, float far_z, float fov)
 	float aspect_ratio=(float)config.resolution_x/(float)config.resolution_y;
 
 	/*creating projection matrix and sending it to the vertex shader*/
-	GLfloat projection_matrix[4][4]=
-	{
-		tan(0.5*PI-0.5*fov), 0, 0, 0,
-		0,aspect_ratio*tan(0.5*PI-0.5*fov), 0, 0,
-		0, 0, (1-near_z)/(far_z-near_z), 1,
-		0, 0, 0, 0
-	};
+
+	projection_matrix[0][0]=tan(0.5*PI-0.5*fov);
+	projection_matrix[1][1]=aspect_ratio*tan(0.5*PI-0.5*fov);
+	projection_matrix[2][2]=(1-near_z)/(far_z-near_z);
 	
-	GLint projection_matrix_reference=glGetUniformLocation(shader_program, "projectionMatrix");
-	glUniformMatrix4fv(projection_matrix_reference,1,GL_FALSE,&projection_matrix[0][0]);
 	
 	/*creating the camera translation matrix*/
-	GLfloat cam_translation_matrix[4][4]=
-	{
-		1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		-position.x, -position.y, -position.z, 1
-	};
-	
-	GLint cam_translation_matrix_reference=glGetUniformLocation(shader_program, "cam_translationMatrix");
-	glUniformMatrix4fv(cam_translation_matrix_reference,1,GL_FALSE,&cam_translation_matrix[0][0]);
-
-	/*sending an identity matrix as an initial rotatation matrix*/
-	GLint cam_rotation_matrix_reference=glGetUniformLocation(shader_program, "camRotationMatrix");
-	glUniformMatrix4fv(cam_rotation_matrix_reference, 1, GL_FALSE, &cam_rotation_matrix[0][0]);
+	cam_translation_matrix[3][0]=-position.x;
+	cam_translation_matrix[3][1]=-position.y;
+	cam_translation_matrix[3][2]=-position.z;
 }
 
 
 
 void gfx_camera_location(struct vec3f position)
 {
-	GLfloat cam_translation_matrix[4][4]=
-	{
-		1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		-position.x, -position.y, -position.z, 1
-	};
-	
-	GLint cam_translation_matrix_reference=glGetUniformLocation(shader_program, "cam_translationMatrix");
-	glUniformMatrix4fv(cam_translation_matrix_reference,1,GL_FALSE,&cam_translation_matrix[0][0]);
+	cam_translation_matrix[3][0]=-position.x;
+	cam_translation_matrix[3][1]=-position.y;
+	cam_translation_matrix[3][2]=-position.z;
 }
 
 
@@ -112,7 +111,24 @@ void gfx_camera_rotate(float rotation, struct vec3f rot_axis)
 			iy++;
 		}
 	}
+}
 
-	GLint cam_rotation_matrix_reference=glGetUniformLocation(shader_program, "camRotationMatrix");
-	glUniformMatrix4fv(cam_rotation_matrix_reference, 1, GL_FALSE, &cam_rotation_matrix[0][0]);
+
+/*calculates the the matrix for the shader out of the projection matrix, the camera translation and
+its rotation matrix*/
+void gfx_camera_get_shader_matrix(float shader_matrix[4][4])
+{
+	GLfloat interim_result[4][4];
+	matrix_multiplication4x4(cam_translation_matrix, cam_rotation_matrix, interim_result);
+	matrix_multiplication4x4(interim_result, projection_matrix, cam_matrix_for_shader);
+
+	for(int ix=0,iy=0; iy<4; ix++)
+	{
+		shader_matrix[ix][iy]=cam_matrix_for_shader[ix][iy];
+		if(ix==3)
+		{
+			ix=-1;
+			iy++;
+		}
+	}
 }

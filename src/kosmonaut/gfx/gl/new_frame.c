@@ -10,9 +10,17 @@ extern GLuint shader_program;
 
 void gfx_new_frame()
 {
-	/*drawing all primitives*/
+	/*calculating a single matrix for projection, camera rotation and location*/
+	GLfloat cam_shader_matrix[4][4];
+	gfx_camera_get_shader_matrix(cam_shader_matrix);
+	GLint cam_shader_matrix_reference=glGetUniformLocation(shader_program, "camShaderMatrix");
+	glUniformMatrix4fv(cam_shader_matrix_reference,1,GL_FALSE,&cam_shader_matrix[0][0]);
+
+
+	/*drawing all models*/
 	struct model* model_list_entry=gfx_select_first_entry();
 	
+
 
 	GLint world_transform_matrix_reference=glGetUniformLocation(shader_program, "world_transformMatrix");
 	GLint rotation_matrix_reference=glGetUniformLocation(shader_program, "rotationMatrix");

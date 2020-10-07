@@ -36,6 +36,8 @@ void gfx_create_camera(struct vec3f position, float far_z, float fov);
 void gfx_camera_location(struct vec3f position);
 void gfx_camera_rotate(float rotation, struct vec3f rot_axis);
 
+void gfx_camera_get_shader_matrix(float shader_matrix[4][4]);
+
 
 /*models*/
 /*management*/
