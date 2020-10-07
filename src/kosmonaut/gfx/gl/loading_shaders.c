@@ -26,7 +26,7 @@ GLuint gfx_loading_shaders()
 	
 	//loading vertex shader
 	
-	shader_file=fopen("src/kosmonaut/gfx/shaders/vertex_shader.glsl","r");
+	shader_file=fopen("data/shaders/vertex_shader.glsl","r");
 	if(shader_file==NULL)//error message if there is an error while reading the vertex shader file
 	{
 		printf("\n[ERROR] error while reading vertex shader file\n");
@@ -47,7 +47,7 @@ GLuint gfx_loading_shaders()
 
 	//loading fragment shader
 
-	shader_file=fopen("src/kosmonaut/gfx/shaders/fragment_shader.glsl","r");
+	shader_file=fopen("data/shaders/fragment_shader.glsl","r");
 	if(shader_file==NULL)//error message if there is an error while reading the fragment shader file
 	{
 		printf("\n[ERROR] error while reading fragment shader file\n");
