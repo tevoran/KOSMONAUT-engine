@@ -45,7 +45,7 @@ int engine_read_config(char *config_file_location)
 	{
 		config.logging_on=ENGINE_TRUE;
 	}
-	printf("Resolution: %ix%i\n", config.resolution_x, config.resolution_y);
+	engine_log("Screen resolution: %ix%i\n\n", config.resolution_x, config.resolution_y);
 
 	fclose(config_file);
 	
