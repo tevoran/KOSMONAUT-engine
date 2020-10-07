@@ -145,6 +145,11 @@ int main(int argc, char **argv[])
 			gfx_camera_rotate(ship_rotation_speed*frame_time_f, rot_axis);
 		}
 
+		if(keyboard_state[SDL_SCANCODE_ESCAPE])
+		{
+			quit=1;
+			
+		}
 		SDL_PollEvent(&event);
 		switch(event.type)
 		{
