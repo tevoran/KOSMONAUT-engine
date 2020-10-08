@@ -20,17 +20,16 @@ void gfx_new_frame()
 	/*drawing all models*/
 	struct model* model_list_entry=gfx_select_first_entry();
 	
-
-
 	GLint world_transform_matrix_reference=glGetUniformLocation(shader_program, "world_transformMatrix");
 	GLint rotation_matrix_reference=glGetUniformLocation(shader_program, "rotationMatrix");
+	GLint scaling_matrix_reference=glGetUniformLocation(shader_program, "scalingMatrix");
 	
 	while(model_list_entry!=NULL)
 	{
 		/*using local matrices in vertex shader*/
 		glUniformMatrix4fv(world_transform_matrix_reference,1,GL_FALSE,&model_list_entry->world_transform_matrix[0][0]);
 		glUniformMatrix4fv(rotation_matrix_reference,1,GL_FALSE,&model_list_entry->rotation_matrix[0][0]);
-		
+		glUniformMatrix4fv(scaling_matrix_reference,1,GL_FALSE,&model_list_entry->scaling_matrix[0][0]);		
 		
 		/*drawing everything*/
 		/*if no index buffer available*/

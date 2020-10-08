@@ -53,6 +53,22 @@ struct model* gfx_create_model_entry()
 			}
 		}
 
+		/*create identity scaling matrix*/
+		for(int iy=0; iy<4; iy++)
+		{
+			for(int ix=0; ix<4; ix++)
+			{
+				if(ix==iy)
+				{
+					initial_entry->scaling_matrix[ix][iy]=1;
+				}
+				else
+				{
+					initial_entry->scaling_matrix[ix][iy]=0;
+				}
+			}
+		}
+
 		return initial_entry;
 	}
 
@@ -93,6 +109,22 @@ struct model* gfx_create_model_entry()
 			else
 			{
 				current_entry->rotation_matrix[ix][iy]=0;
+			}
+		}
+	}
+
+	/*create identity scaling matrix*/
+	for(int iy=0; iy<4; iy++)
+	{
+		for(int ix=0; ix<4; ix++)
+		{
+			if(ix==iy)
+			{
+				current_entry->scaling_matrix[ix][iy]=1;
+			}
+			else
+			{
+				current_entry->scaling_matrix[ix][iy]=0;
 			}
 		}
 	}

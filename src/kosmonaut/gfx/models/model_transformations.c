@@ -66,3 +66,10 @@ void gfx_model_rotate(struct model *model, float rotation, struct vec3f rot_axis
 		}
 	}
 }
+
+void gfx_model_scale(struct model *model, struct vec3f scaling_values)
+{
+	model->scaling_matrix[0][0]=scaling_values.x;
+	model->scaling_matrix[1][1]=scaling_values.y;
+	model->scaling_matrix[2][2]=scaling_values.z;
+}

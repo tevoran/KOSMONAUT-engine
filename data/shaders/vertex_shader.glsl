@@ -12,6 +12,7 @@ uniform mat4 camShaderMatrix;
 /*model stuff*/
 uniform mat4 world_transformMatrix;/*used for conversion of local to world space*/
 uniform mat4 rotationMatrix;
+uniform mat4 scalingMatrix;
 
 
 void main(){
@@ -19,7 +20,8 @@ void main(){
 	
 	vertexPosition = camShaderMatrix
 					* world_transformMatrix 
-					* rotationMatrix 
+					* rotationMatrix
+					* scalingMatrix
 					* vertexPosition;	
 	
 	/*if vertex is behind the camera, then it is moved out of sight*/

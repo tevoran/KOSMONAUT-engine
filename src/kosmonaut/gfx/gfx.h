@@ -59,6 +59,7 @@ struct model
 	/*transformation members*/
 	GLfloat world_transform_matrix[4][4];
 	GLfloat rotation_matrix[4][4];
+	GLfloat scaling_matrix[4][4];
 
 	/*texture members*/
 	GLuint textureID;
@@ -74,6 +75,7 @@ struct model* gfx_copy_model(struct model* entry_address);
 /*transformation*/
 void gfx_update_model_location(struct model* model, struct vec3f location);
 void gfx_model_rotate(struct model* model, float rotation, struct vec3f rot_axis);
+void gfx_model_scale(struct model *model, struct vec3f scaling_values);
 
 /*primitives*/
 /*they return a struct model pointer for identification purposes*/
