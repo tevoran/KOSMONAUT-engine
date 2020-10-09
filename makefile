@@ -16,6 +16,7 @@ windows: $(SRC)
 	$(CC_win) $(SRC) $(CFLAGS_win)
 
 kosmonaut: $(SRC_lib)
+	mkdir obj
 	mkdir obj/kosmonaut
 	$(CC) $(SRC_lib) $(CFLAGS_lib)
 	mv *.o obj/kosmonaut
