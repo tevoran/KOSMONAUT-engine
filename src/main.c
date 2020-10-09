@@ -82,11 +82,6 @@ int main(int argc, char **argv[])
 		gfx_update_model_location(cube[i],pos_model);
 	}
 
-	struct vec3f scaling;
-	scaling.x=1;
-	scaling.y=1;
-	scaling.z=1;
-
 	/*time related stuff*/
 	int FPS=0;
 	int lasttick=SDL_GetTicks();
@@ -99,8 +94,6 @@ int main(int argc, char **argv[])
 	float ship_rotation_speed=2.3;
 
 	float scale_test_speed=0.5;
-
-	float t=0;
 
 	int quit=0;
 	while(!quit) /*while not closing the window the main loop is continuing*/
@@ -181,13 +174,9 @@ int main(int argc, char **argv[])
 	rot_axis.z=0;
 	r=cube_rotation_speed*frame_time_f;
 	gfx_model_rotate(cube_origin, r, rot_axis);
-	t=t+0.001;
 	for(int i=0; i<1000; i++)
 	{
 		gfx_model_rotate(cube[i], r, rot_axis);
-
-		scaling.x=scaling.y=scaling.z=5*sin(scale_test_speed*t);
-		gfx_model_scale(cube[i], scaling);
 	}
 
 

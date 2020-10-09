@@ -1,7 +1,6 @@
 The current Star Battle Command and kosmonaut engine roadmap
 
 
--Scaling for models
 -Render speed improvement by rendering only, what is visibile
 -Network support
 -User Interface

@@ -2,6 +2,12 @@
 SBC
 SBC.exe
 
+#ignore kosmonaut library
+libkosmonaut.a
+
+#ignore object files
+obj/kosmonaut/*.o
+
 #ignore debug files
 gmon.out
 log.out
