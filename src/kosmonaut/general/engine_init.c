@@ -18,7 +18,7 @@ int engine_init(char *window_name, char *config_file)
 	{
 		engine_log("ERROR: error while reading config file at:\n%s",config_file);
 	}
-	
+
 	/*writing an header to the log file*/
 	engine_log("The log file of the kosmonaut engine is rewritten for each run of the engine.\n\n");
 
@@ -28,6 +28,7 @@ int engine_init(char *window_name, char *config_file)
 		return ENGINE_SDL_ERROR;
 	}
 	
+
 	window=SDL_CreateWindow(
 		window_name,
 		SDL_WINDOWPOS_UNDEFINED,
@@ -39,6 +40,13 @@ int engine_init(char *window_name, char *config_file)
 	{
 		return ENGINE_SDL_ERROR;
 	}
+	/*if fullscreen is set in the config file then set the window to fullscreen mode*/
+	if(config.fullscreen_mode==ENGINE_TRUE)
+	{
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+		SDL_ShowCursor(SDL_DISABLE);
+	}
+
 	
 	/*initialising OpenGL 4.6*/
 	if(SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4)!=0)

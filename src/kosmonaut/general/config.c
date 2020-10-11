@@ -15,6 +15,7 @@ int engine_read_config(char *config_file_location)
 	config.resolution_x=800;
 	config.resolution_y=600;
 	config.wireframe_mode=ENGINE_FALSE;
+	config.fullscreen_mode=ENGINE_FALSE;
 	config.log_file[0]=0;
 	config.logging_on=ENGINE_FALSE;
 
@@ -37,6 +38,11 @@ int engine_read_config(char *config_file_location)
 		if(strstr(file_line, "wireframe")!=NULL)
 		{
 			config.wireframe_mode=ENGINE_TRUE;
+		}
+
+		if(strstr(file_line, "fullscreen")!=NULL)
+		{
+			config.fullscreen_mode=ENGINE_TRUE;
 		}
 	}
 	
