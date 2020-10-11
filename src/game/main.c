@@ -8,6 +8,7 @@
 #include "general/general.h"
 #include "gfx/gfx.h"
 #include "maths/maths.h"
+#include "gfx/ui/ui.h"
 
 #define GLEW_STATIC
 #undef main
@@ -67,7 +68,6 @@ int main(int argc, char **argv[])
 	r=1.4*PI;
 	gfx_model_rotate(ship, r, rot_axis);
 
-
 	struct vec3f color={0,0,0};
 	struct vec3f pos_model={10,10,30};	
 	struct model *cube_origin=gfx_create_cube(pos_model, color, 4);
@@ -81,6 +81,22 @@ int main(int argc, char **argv[])
 		pos_model.z=pos_model.z+75;
 		gfx_update_model_location(cube[i],pos_model);
 	}
+
+	/*ui test*/
+	struct vec2f win_pos, win_size;
+	win_pos.x=0;
+	win_pos.y=0;
+	win_size.x=0.25;
+	win_size.y=0.25;
+	struct ui_element *window=gfx_ui_create_window(win_pos, win_size);
+	gfx_model_load_texture("data/textures/window.bmp", window->render_object);
+
+	win_pos.x=0.75;
+	win_pos.y=0;
+	win_size.x=0.25;
+	win_size.y=0.25;
+	struct ui_element *window2=gfx_ui_create_window(win_pos, win_size);
+	gfx_model_load_texture("data/textures/window.bmp", window2->render_object);
 
 	/*time related stuff*/
 	int FPS=0;

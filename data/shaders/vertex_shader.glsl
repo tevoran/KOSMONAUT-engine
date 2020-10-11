@@ -14,28 +14,51 @@ uniform mat4 world_transformMatrix;/*used for conversion of local to world space
 uniform mat4 rotationMatrix;
 uniform mat4 scalingMatrix;
 
+/*render triggers*/
+uniform uint uiTrigger;
+
+uint blubb=0;
 
 void main(){
-	vec4 vertexPosition = vec4(vertexPosition_worldspace.xyz, 1.0);
-	
-	vertexPosition = camShaderMatrix
-					* world_transformMatrix 
-					* rotationMatrix
-					* scalingMatrix
-					* vertexPosition;	
-	
-	/*if vertex is behind the camera, then it is moved out of sight*/
-	if(vertexPosition.z<0)
+	/*how to draw ui stuff*/
+	if(uiTrigger==1)
 	{
-		vertexPosition.xyzw = vec4(10,10,10,1);
+		vec4 vertexPosition = vec4(vertexPosition_worldspace.xyz, 1.0);
+		
+		vertexPosition= world_transformMatrix
+						* vertexPosition;
+
+		/*giving OpenGL the new position*/
+		gl_Position = vertexPosition;
+		
+
+		/*giving data to the fragment shader*/
+		fragment_depth = 0;
+		fragment_tex_coord = tex_coord;
 	}
-	
+	/*how to draw 3d stuff*/
+	if(uiTrigger==0)
+	{
+		vec4 vertexPosition = vec4(vertexPosition_worldspace.xyz, 1.0);
+		
+		vertexPosition = camShaderMatrix
+						* world_transformMatrix 
+						* rotationMatrix
+						* scalingMatrix
+						* vertexPosition;	
+		
+		/*if vertex is behind the camera, then it is moved out of sight*/
+		if(vertexPosition.z<0)
+		{
+			vertexPosition.xyzw = vec4(10,10,10,1);
+		}
 
-	/*giving OpenGL the new position*/
-	gl_Position = vertexPosition;
-	
+		/*giving OpenGL the new position*/
+		gl_Position = vertexPosition;
+		
 
-	/*giving data to the fragment shader*/
-	fragment_depth = vertexPosition.z;
-	fragment_tex_coord = tex_coord;
+		/*giving data to the fragment shader*/
+		fragment_depth = vertexPosition.z;
+		fragment_tex_coord = tex_coord;
+	}
 }

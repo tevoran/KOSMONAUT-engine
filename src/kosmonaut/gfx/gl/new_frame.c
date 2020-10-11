@@ -24,41 +24,52 @@ void gfx_new_frame()
 	GLint rotation_matrix_reference=glGetUniformLocation(shader_program, "rotationMatrix");
 	GLint scaling_matrix_reference=glGetUniformLocation(shader_program, "scalingMatrix");
 	
+	GLint ui_trigger_reference=glGetUniformLocation(shader_program, "uiTrigger");
+
 	while(model_list_entry!=NULL)
 	{
-		/*using local matrices in vertex shader*/
-		glUniformMatrix4fv(world_transform_matrix_reference,1,GL_FALSE,&model_list_entry->world_transform_matrix[0][0]);
-		glUniformMatrix4fv(rotation_matrix_reference,1,GL_FALSE,&model_list_entry->rotation_matrix[0][0]);
-		glUniformMatrix4fv(scaling_matrix_reference,1,GL_FALSE,&model_list_entry->scaling_matrix[0][0]);		
-		
-		/*drawing everything*/
-		/*if no index buffer available*/
-		if(model_list_entry->index_bufferID==0)
-		{
-			glBindTexture(GL_TEXTURE_2D, model_list_entry->textureID);
-			glBindVertexArray(model_list_entry->arrayID);
-			glDrawArrays(GL_TRIANGLES,0,model_list_entry->num_vertices);
+		/*setting ui_trigger*/
+		glUniform1ui(ui_trigger_reference, model_list_entry->ui_element);
+
+		/*drawing models*/
+			/*using local matrices in vertex shader*/
+			glUniformMatrix4fv(world_transform_matrix_reference,1,GL_FALSE,&model_list_entry->world_transform_matrix[0][0]);
+			glUniformMatrix4fv(rotation_matrix_reference,1,GL_FALSE,&model_list_entry->rotation_matrix[0][0]);
+			glUniformMatrix4fv(scaling_matrix_reference,1,GL_FALSE,&model_list_entry->scaling_matrix[0][0]);		
 			
-			/*unbind buffer*/
-			glBindVertexArray(0);
-		}
-		/*if index buffer is available*/
-		if(model_list_entry->index_bufferID!=0)
-		{
-			glBindTexture(GL_TEXTURE_2D, model_list_entry->textureID);
-			glBindVertexArray(model_list_entry->arrayID);
-			glBindBuffer(GL_ARRAY_BUFFER, model_list_entry->vertex_bufferID);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,model_list_entry->index_bufferID);
-			glDrawElements(GL_TRIANGLES, model_list_entry->num_indices, GL_UNSIGNED_INT, NULL);
-			
-			/*unbind buffer*/
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		}
+			/*drawing everything*/
+			/*if no index buffer available*/
+			if(model_list_entry->index_bufferID==0)
+			{
+				glBindTexture(GL_TEXTURE_2D, model_list_entry->textureID);
+				glBindVertexArray(model_list_entry->arrayID);
+				glDrawArrays(GL_TRIANGLES,0,model_list_entry->num_vertices);
+				
+				/*unbind buffer*/
+				glBindVertexArray(0);
+			}
+			/*if index buffer is available*/
+			if(model_list_entry->index_bufferID!=0)
+			{
+				glBindTexture(GL_TEXTURE_2D, model_list_entry->textureID);
+				glBindVertexArray(model_list_entry->arrayID);
+				glBindBuffer(GL_ARRAY_BUFFER, model_list_entry->vertex_bufferID);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,model_list_entry->index_bufferID);
+				glDrawElements(GL_TRIANGLES, model_list_entry->num_indices, GL_UNSIGNED_INT, NULL);
+				
+				/*unbind buffer*/
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			}
+
+
 		
 		model_list_entry=gfx_next_entry();
 	}
 	
+	/*drawing ui stuff*/
+
+
 	/*swapping the buffer and clearing the screen for the next frame*/
 	SDL_GL_SwapWindow(engine_get_window());
 	glClearColor(0.0f,0.0f,0.0f,1.0f);

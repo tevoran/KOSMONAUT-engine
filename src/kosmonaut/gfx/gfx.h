@@ -47,7 +47,6 @@ struct model
 	void *last_entry;
 	void *next_entry;
 
-	
 	/*OpenGL related members*/
 	uint32_t num_vertices;
 	uint32_t num_indices;
@@ -63,6 +62,10 @@ struct model
 
 	/*texture members*/
 	GLuint textureID;
+
+	/*usage members*/
+	GLuint visible;
+	GLuint ui_element;
 };
 
 struct model* gfx_create_model_entry();

@@ -1,7 +1,7 @@
 CC=gcc
 CC_win=x86_64-w64-mingw32-gcc
 
-SRC:=$(shell find . -name *.c)
+SRC:=$(shell find src/game/. -name *.c)
 SRC_lib:=$(shell find src/kosmonaut/. -name *.c)
 
 CFLAGS= -Isrc/kosmonaut/ libkosmonaut.a -lSDL2 -lGL -lGLEW -lm -o SBC -g -pg
@@ -10,14 +10,14 @@ CFLAGS_win=-mwindows -Isrc/kosmonaut/ -Iwindows/include/  -Lwindows/lib/ -lglew3
 
 
 main: $(SRC) kosmonaut
-	$(CC) src/main.c $(CFLAGS)
+	$(CC) $(SRC) $(CFLAGS)
 
 windows: $(SRC)
 	$(CC_win) $(SRC) $(CFLAGS_win)
 
 kosmonaut: $(SRC_lib)
-	mkdir obj
-	mkdir obj/kosmonaut
+	mkdir -p obj
+	mkdir -p obj/kosmonaut
 	$(CC) $(SRC_lib) $(CFLAGS_lib)
 	mv *.o obj/kosmonaut
 	ar ruv libkosmonaut.a obj/kosmonaut/*.o

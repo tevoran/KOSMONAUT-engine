@@ -36,6 +36,8 @@ struct model* gfx_create_model_entry()
 		initial_entry->last_entry=NULL;
 		initial_entry->next_entry=NULL;
 		initial_entry->index_bufferID=0;
+		initial_entry->visible=GFX_TRUE;
+		initial_entry->ui_element=GFX_FALSE;
 		
 		/*create identity rotation matrix*/
 		for(int iy=0; iy<4; iy++)
@@ -96,7 +98,9 @@ struct model* gfx_create_model_entry()
 	current_entry->next_entry=NULL; 
 	current_entry->last_entry=last_entry;
 	current_entry->index_bufferID=0;
-	
+	current_entry->visible=GFX_TRUE;
+	current_entry->ui_element=GFX_FALSE;
+
 	/*create identity rotation matrix*/
 	for(int iy=0; iy<4; iy++)
 	{
