@@ -40,6 +40,7 @@ struct config
 	uint32_t resolution_y;
 	uint32_t wireframe_mode;
 	uint32_t fullscreen_mode;
+	float viewing_distance;
 	char log_file[256];
 	int logging_on;
 };

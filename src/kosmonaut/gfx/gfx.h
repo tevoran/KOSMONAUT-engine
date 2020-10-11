@@ -32,12 +32,12 @@ void gfx_new_frame(); /*draws the current frame and clears the buffer for the ne
 
 
 /*camera*/
-void gfx_create_camera(struct vec3f position, float far_z, float fov);
+void gfx_create_camera(struct vec3f position, float fov);
 void gfx_camera_location(struct vec3f position);
 void gfx_camera_rotate(float rotation, struct vec3f rot_axis);
 
 void gfx_camera_get_shader_matrix(float shader_matrix[4][4]);
-
+struct vec3f gfx_camera_get_location();
 
 /*models*/
 /*management*/
@@ -114,5 +114,16 @@ void gfx_model_texture_load_bmp(
 
 /*texture related functions*/
 void gfx_model_load_texture(char *file_location, struct model *model);
+
+/*speacial gfx*/
+void gfx_create_skybox(
+	char *file_location_front,
+	char *file_location_right, 
+	char *file_location_back, 
+	char *file_location_left, 
+	char *file_location_top, 
+	char *file_location_bottom);
+
+	void gfx_update_skybox_location();
 
 #endif

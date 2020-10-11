@@ -44,7 +44,7 @@ GLfloat cam_matrix_for_shader[4][4]=
 	0, 0, 0, 1
 };
 
-void gfx_create_camera(struct vec3f position, float far_z, float fov)
+void gfx_create_camera(struct vec3f position, float fov)
 { 
 	/*get current config state*/
 	struct config config=engine_config_state();
@@ -54,7 +54,7 @@ void gfx_create_camera(struct vec3f position, float far_z, float fov)
 
 	projection_matrix[0][0]=tan(0.5*PI-0.5*fov);
 	projection_matrix[1][1]=aspect_ratio*tan(0.5*PI-0.5*fov);
-	projection_matrix[2][2]=(1-near_z)/(far_z-near_z);
+	projection_matrix[2][2]=(1-near_z)/(config.viewing_distance-near_z);
 	
 	
 	/*creating the camera translation matrix*/
@@ -72,6 +72,14 @@ void gfx_camera_location(struct vec3f position)
 	cam_translation_matrix[3][2]=-position.z;
 }
 
+struct vec3f gfx_camera_get_location()
+{
+	struct vec3f location;
+	location.x=-cam_translation_matrix[3][0];
+	location.y=-cam_translation_matrix[3][1];
+	location.z=-cam_translation_matrix[3][2];
+	return location;
+}
 
 
 void gfx_camera_rotate(float rotation, struct vec3f rot_axis)

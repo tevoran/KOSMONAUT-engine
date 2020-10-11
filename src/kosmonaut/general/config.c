@@ -16,6 +16,7 @@ int engine_read_config(char *config_file_location)
 	config.resolution_y=600;
 	config.wireframe_mode=ENGINE_FALSE;
 	config.fullscreen_mode=ENGINE_FALSE;
+	config.viewing_distance=1000;
 	config.log_file[0]=0;
 	config.logging_on=ENGINE_FALSE;
 
@@ -34,6 +35,7 @@ int engine_read_config(char *config_file_location)
 		sscanf(file_line, "resx=%u", &config.resolution_x);
 		sscanf(file_line, "resy=%u", &config.resolution_y);
 		sscanf(file_line, "log=%s", config.log_file);
+		sscanf(file_line, "viewing_distance=%f", &config.viewing_distance);
 		
 		if(strstr(file_line, "wireframe")!=NULL)
 		{

@@ -10,11 +10,12 @@ extern GLuint shader_program;
 
 int gfx_init()
 {
-	printf("initialising graphics engine...");
+	engine_log("initialising graphics engine...");
 	
+
 	/*enable debug output*/
 	glEnable(GL_DEBUG_OUTPUT);
-	
+
 	/*activate Z-Buffer*/
 	glEnable(GL_DEPTH_TEST); 
 	glDepthMask(GL_TRUE);
@@ -41,5 +42,5 @@ int gfx_init()
 	shader_program=gfx_loading_shaders();
 
 	
-	printf("done\n");
+	engine_log("done\n");
 }

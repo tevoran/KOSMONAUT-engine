@@ -33,7 +33,7 @@ void main(){
 		
 
 		/*giving data to the fragment shader*/
-		fragment_depth = 0;
+		fragment_depth = -1;
 		fragment_tex_coord = tex_coord;
 	}
 	/*how to draw 3d stuff*/
@@ -46,12 +46,6 @@ void main(){
 						* rotationMatrix
 						* scalingMatrix
 						* vertexPosition;	
-		
-		/*if vertex is behind the camera, then it is moved out of sight*/
-		if(vertexPosition.z<0)
-		{
-			vertexPosition.xyzw = vec4(10,10,10,1);
-		}
 
 		/*giving OpenGL the new position*/
 		gl_Position = vertexPosition;

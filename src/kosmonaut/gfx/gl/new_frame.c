@@ -10,6 +10,10 @@ extern GLuint shader_program;
 
 void gfx_new_frame()
 {
+	/*updating stuff*/
+	/*skybox location*/
+	gfx_update_skybox_location();
+
 	/*calculating a single matrix for projection, camera rotation and location*/
 	GLfloat cam_shader_matrix[4][4];
 	gfx_camera_get_shader_matrix(cam_shader_matrix);
@@ -67,7 +71,6 @@ void gfx_new_frame()
 		model_list_entry=gfx_next_entry();
 	}
 	
-	/*drawing ui stuff*/
 
 
 	/*swapping the buffer and clearing the screen for the next frame*/
