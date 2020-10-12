@@ -3,8 +3,10 @@
 /*this file initialises everything necessary for SDL2 and OpenGL 4.6 but does itself nothing for the graphics*/
 
 #include <stdio.h>
+#include <unistd.h>
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
+#include <nng/nng.h>
 
 #include "gfx/gfx.h" /*graphics engine header*/
 
@@ -76,5 +78,10 @@ int engine_init(char *window_name, char *config_file)
 	/*initialising graphics engine*/
 	gfx_init();
 	engine_log("Engine successfully initialised\n");
+
+	/*NNG - network library*/
+	const char *nng_version_ptr=nng_version();
+	engine_log("\nNNG library version: %s\n", nng_version_ptr);
+
 	return ENGINE_NO_ERROR;
 }

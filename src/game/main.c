@@ -9,6 +9,7 @@
 #include "gfx/gfx.h"
 #include "maths/maths.h"
 #include "gfx/ui/ui.h"
+#include "net/net.h"
 
 #define GLEW_STATIC
 #undef main
@@ -90,6 +91,9 @@ int main(int argc, char **argv[])
 		gfx_update_model_location(cube[i],pos_model);
 	}
 
+	/*NNG_TEST*/
+	net_test_send();
+
 	/*ui test*/
 	struct vec2f win_pos, win_size;
 	win_pos.x=0;
@@ -128,7 +132,7 @@ int main(int argc, char **argv[])
 		engine_log("FPS: %i\n",FPS);
 		FPS=0;
 		lasttick=SDL_GetTicks();
-
+	printf("F: %i us\n", (int)(frame_time_f*1000000));
 	}
 	FPS++;
 
@@ -137,7 +141,6 @@ int main(int argc, char **argv[])
 	frame_time=new_time-old_time;
 	old_time=new_time;
 	frame_time_f=(float)frame_time/CLOCKS_PER_SEC;
-	printf("F: %i us\n", (int)(frame_time_f*1000000));
 
 	/*handling input via SDL2*/
 	{

@@ -31,7 +31,7 @@ struct config config;
 
 /*functions*/
 int engine_init(char *window_name, char *config_file);
-void engine_log(char *logged_message, ...);
+void engine_log(const char *logged_message, ...);
 
 /*config*/
 struct config

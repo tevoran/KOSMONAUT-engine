@@ -7,7 +7,7 @@
 static FILE *log_file=NULL;
 
 
-void engine_log(char *logged_text, ...)
+void engine_log(const char *logged_text, ...)
 {
 	struct config config=engine_config_state();
 	if(config.logging_on==ENGINE_FALSE)
