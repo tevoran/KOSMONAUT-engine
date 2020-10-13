@@ -5,8 +5,8 @@ SRC:=$(shell find src/game/. -name *.c)
 SRC_win:=$(shell find src/. -name *.c)
 SRC_lib:=$(shell find src/kosmonaut/. -name *.c)
 
-CFLAGS= -Isrc/kosmonaut/ libkosmonaut.a -lSDL2 -lGL -lGLEW -lm -lnng -lpthread -o SBC -g -pg
-CFLAGS_lib= -Isrc/kosmonaut/ -lSDL2 -lGL -lGLEW -lm -lnng -lpthread -c -g -pg
+CFLAGS= -Isrc/kosmonaut/ libkosmonaut.a -lSDL2 -lGL -lGLEW -lm -lnng -lpthread -o SBC
+CFLAGS_lib= -Isrc/kosmonaut/ -lSDL2 -lGL -lGLEW -lm -lnng -lpthread -c
 CFLAGS_win=-mwindows -Isrc/kosmonaut/ -Iwindows/include/  -Lwindows/lib/ -lnng -lglew32 -lglew32mx -lSDL2 -lSDL2main -lopengl32 -lmingw32 -lm -o SBC.exe -g -pg
 
 

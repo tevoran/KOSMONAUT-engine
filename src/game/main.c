@@ -92,7 +92,7 @@ int main(int argc, char **argv[])
 	}
 
 	/*NNG_TEST*/
-	net_test_send();
+	//net_test_send();
 
 	/*ui test*/
 	struct vec2f win_pos, win_size;
