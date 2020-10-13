@@ -44,6 +44,25 @@ int main(int argc, char **argv[])
 		
 	}
 
+	/*initializing network stuff*/
+	if(engine_config_state().net_host==ENGINE_TRUE)
+	{
+		if(net_host_pair(1)!=NET_NOERROR)
+		{
+			printf("Network error: can't host\n");
+			exit(1);
+		}
+	}
+	if(engine_config_state().net_client==ENGINE_TRUE)
+	{
+		if(net_connect_pair(engine_config_state().net_port,1)!=NET_NOERROR)
+		{
+			printf("Network error: can't host\n");
+			exit(1);
+		}
+	}
+
+
 	struct vec3f cam_location={0,10,0};
 	gfx_create_camera(cam_location, 0.5*PI);
 
@@ -61,26 +80,62 @@ int main(int argc, char **argv[])
 	rot_axis.x=0;
 	rot_axis.y=1;
 	rot_axis.z=0;
-	struct vec3f ship_pos={0,0,40};
-	struct model* ship=gfx_load_model("data/models/stealth/stealth.obj",ship_pos);
-	gfx_model_load_texture("data/textures/stealth.bmp", ship);
-	float r=0.6*PI;
-	gfx_model_rotate(ship, r, rot_axis);
+	struct vec3f ship_pos;
+	float r;
 	struct vec3f ship_current_rotation;
-	ship_current_rotation.x=0;
-	ship_current_rotation.y=0;
-	ship_current_rotation.z=0;
 
-	rot_axis.x=0;
-	rot_axis.y=1;
-	rot_axis.z=0;
+	/*placement if host*/
+	if(engine_config_state().net_host==ENGINE_TRUE)
+	{
+		ship_pos.x=0;
+		ship_pos.y=0;
+		ship_pos.z=40;
+		ship_current_rotation.x=0;
+		ship_current_rotation.y=0;
+		ship_current_rotation.z=0;
+	}
+
+	/*placement if client*/
+	if(engine_config_state().net_client==ENGINE_TRUE)
+	{
+		ship_pos.x=0;
+		ship_pos.y=0;
+		ship_pos.z=100;
+		ship_current_rotation.x=0;
+		ship_current_rotation.y=0;
+		ship_current_rotation.z=0;
+	}
+
+	struct model *ship=gfx_load_model("data/models/stealth/stealth.obj",ship_pos);
 	r=1.4*PI;
 	gfx_model_rotate(ship, r, rot_axis);
+	r=0.6*PI;
+	gfx_model_rotate(ship, r, rot_axis);
+	gfx_model_load_texture("data/textures/stealth.bmp", ship);
+
+	/*rotation if client*/
+	if(engine_config_state().net_client==ENGINE_TRUE)
+	{
+			ship_current_rotation.y=ship_current_rotation.y-PI;
+			gfx_model_rotate(ship, -PI, rot_axis);
+			gfx_camera_rotate(-PI, rot_axis);
+	}
+
+	/*other player*/
+	struct vec3f other_pos={0,0,0};
+	struct model *other_ship=gfx_load_model("data/models/stealth/stealth.obj",other_pos);
+	r=2*PI;
+	gfx_model_rotate(other_ship, r, rot_axis);
+	gfx_model_load_texture("data/textures/stealth.bmp", other_ship);
 
 	struct vec3f color={0,0,0};
 	struct vec3f pos_model={10,10,30};	
 	struct model *cube_origin=gfx_create_cube(pos_model, color, 4);
 	gfx_model_load_texture("data/textures/box.bmp", cube_origin);
+
+
+
+
 
 	struct model *cube[1000];
 
@@ -90,9 +145,6 @@ int main(int argc, char **argv[])
 		pos_model.z=pos_model.z+75;
 		gfx_update_model_location(cube[i],pos_model);
 	}
-
-	/*NNG_TEST*/
-	//net_test_send();
 
 	/*ui test*/
 	struct vec2f win_pos, win_size;
@@ -204,6 +256,27 @@ int main(int argc, char **argv[])
 	for(int i=0; i<1000; i++)
 	{
 		gfx_model_rotate(cube[i], r, rot_axis);
+	}
+
+	/*network with other player*/
+	clock_t new_in=clock();
+	clock_t old_in=0;
+	if(((float)(new_in-old_in)/CLOCKS_PER_SEC)>=(float)1/(float)60)
+	{
+		old_in=new_in;
+
+		char *msg=net_recv_msg().msg;
+		if(msg!=NULL)
+		{
+			/*retrieving other players location*/
+			sscanf(msg, "pos: %f %f %f", &other_pos.x, &other_pos.y, &other_pos.z);
+			printf("%s\n", msg);
+			gfx_update_model_location(other_ship, other_pos);
+		}
+
+		char msg_out[128];
+		sprintf(msg_out, "pos: %f %f %f", ship_pos.x, ship_pos.y, ship_pos.z);
+		net_send_msg(msg_out);
 	}
 
 

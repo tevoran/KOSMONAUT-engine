@@ -1,3 +1,4 @@
+#include "net/net.h"
 #include "gfx/gfx.h"
 #include "gfx/ui/ui.h"
 #include "general/general.h"
@@ -8,149 +9,218 @@
 #include <nng/protocol/pair0/pair.h>
 #include <nng/protocol/pipeline0/pull.h>
 #include <nng/protocol/pipeline0/push.h>
+#include <nng/protocol/reqrep0/rep.h>
+#include <nng/protocol/reqrep0/req.h>
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-void net_test_listen()
+#define HOST 2
+#define CLIENT 1
+
+int host_client_state=0;
+
+/*host variables*/
+nng_socket sock_host;
+nng_listener lp;
+
+/*client variables*/
+nng_socket sock_client;
+nng_dialer dp;
+
+int net_host_pair(int max_wait_ms)
 {
+	host_client_state=HOST;
 
-	nng_socket sock;
-	nng_listener lp;
+	int func_return=NET_NOERROR;
 
-	int return_val;
 
-	if(nng_pull0_open(&sock)==0)
+	if(nng_pair0_open(&sock_host)!=0)
 	{
-		printf("Socket created\n");
-	}
-	else
-	{
-		printf("Socket couldn't be created\n");
+		engine_log("Socket couldn't be created.\n Can't host\n");
+		func_return=NET_ERROR;
+		return func_return;
 	}
 
-	switch(nng_listen(sock, "tcp://127.0.0.1:0", &lp, 0))
+	switch(nng_listen(sock_host, "tcp://127.0.0.1:0", &lp, 0))
 	{
 		case 0:
-			printf("Is listening...\n");
+			engine_log("Is listening...\n");
 			break;
 
 		case NNG_ENOMEM:
-			printf("Not enough memory\n");
+			engine_log("Not enough memory\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		case NNG_EADDRINUSE:
-			printf("URL is already in use\n");
-			break;
+			engine_log("URL is already in use\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		case NNG_EADDRINVAL:
-			printf("INVALID URL\n");
-			break;
+			engine_log("INVALID URL\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		case NNG_ECLOSED:
-			printf("Socket is not open\n");
-			break;
+			engine_log("Socket is not open\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		case NNG_EINVAL:
-			printf("Invalid flags or URL\n");
-			break;
+			engine_log("Invalid flags or URL\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		default:
-			printf("Can't listen\n\n");
-			break;
+			engine_log("Can't listen\n\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 	}
 
+	/*getting the port that was given to the listener*/
 	int rv;
 	nng_listener_getopt_int(lp, NNG_OPT_TCP_BOUND_PORT, &rv);
+	engine_log("Port: %i\n", rv);
 	printf("Port: %i\n", rv);
 
-	while(1)
-	{
-		char *buf=NULL;
-		size_t sz;
-		if(nng_recv(sock, &buf, &sz, NNG_FLAG_ALLOC)!=0)
-		{
-			printf("error while receiving a message\n");
-			break;
-		}
+	nng_socket_set_ms(sock_host, NNG_OPT_RECVTIMEO, max_wait_ms);
+	nng_socket_set_ms(sock_host, NNG_OPT_SENDTIMEO, max_wait_ms);
 
-		if(buf!=NULL)
-		{
-			printf("RECEIVED: %s\n", buf);
-			nng_free(buf, sz);
-			break;
-		}
-		nng_free(buf, sz);
-	}
-
+	return func_return;
 }
 
-void net_test_send()
+int net_connect_pair(int port, int max_wait_ms)
 {
-	char *msg="HALLO ICH BIN EINE NACHRICHT\n";
-	int sz_msg=strlen(msg)+1;
+	host_client_state=CLIENT;
 
-	nng_socket sock;
-	nng_dialer dp;
+	int func_return=NET_NOERROR;
 
-	if(nng_push0_open(&sock)==0)
+	if(nng_pair0_open(&sock_client)==0)
 	{
-		printf("Socket created\n");
+		engine_log("Socket created\n");
 	}
 	else
 	{
-		printf("Socket couldn't be created\n");
+		engine_log("Socket couldn't be created\n");
+		func_return=NET_ERROR;
+		return func_return;
 	}
 
-	switch(nng_dial(sock, "tcp://127.0.0.1:35753", &dp, 0))
+	char url[32]="tcp://127.0.0.1:";
+	char str_buf[10];
+	sprintf(str_buf, "%d", port);
+	strcat(url, str_buf);
+
+	switch(nng_dial(sock_client, url, &dp, 0))
 	{
 		case 0:
-			printf("Has dialed in...\n");
+			engine_log("Has dialed in...\n");
 			break;
 
 		case NNG_EADDRINVAL:
-			printf("Invalid URL\n");
-			break;
+			engine_log("Invalid URL\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		case NNG_ECLOSED:
-			printf("Socket is not open\n");
-			break;
+			engine_log("Socket is not open\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		case NNG_ECONNREFUSED:
-			printf("Peer declined connection\n");
-			break;
+			engine_log("Peer declined connection\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		case NNG_ECONNRESET:
-			printf("Peer reset the connection\n");
-			break;
+			engine_log("Peer reset the connection\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		case NNG_EINVAL:
-			printf("Invalid flags\n");
-			break;
+			engine_log("Invalid flags\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		case NNG_ENOMEM:
-			printf("Insufficient memory\n");
-			break;
+			engine_log("Insufficient memory\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		case NNG_EPEERAUTH:
-			printf("Authentication or authorization failed\n");
-			break;
+			engine_log("Authentication or authorization failed\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		case NNG_EPROTO:
-			printf("Protocol error occured\n");
-			break;
+			engine_log("Protocol error occured\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		case NNG_EUNREACHABLE:
-			printf("Remote adress is not reachable\n");
-			break;
+			engine_log("Remote adress is not reachable\n");
+			func_return=NET_ERROR;
+			return func_return;
 
 		default:
-			printf("Couldn't dial in\n");
-			break;
+			engine_log("Couldn't dial in\n");
+			func_return=NET_ERROR;
+			return func_return;
 	}
 
-	if(nng_send(sock, msg, sz_msg, 0)!=0)
+	nng_socket_set_ms(sock_host, NNG_OPT_RECVTIMEO, max_wait_ms);
+	nng_socket_set_ms(sock_host, NNG_OPT_SENDTIMEO, max_wait_ms);
+	return func_return;
+}
+
+struct net_msg net_recv_msg()
+{
+	struct net_msg net_msg;
+	net_msg.msg=NULL;
+
+	if(host_client_state==HOST)
 	{
-		printf("error while sending a message\n");
+		if(nng_recv(sock_host, &net_msg.msg, &net_msg.msg_size, NNG_FLAG_ALLOC | NNG_FLAG_NONBLOCK)!=0)
+		{
+			net_msg.func_return=NET_ERROR;
+		}
 	}
+	if(host_client_state==CLIENT)
+	{
+		if(nng_recv(sock_client, &net_msg.msg, &net_msg.msg_size, NNG_FLAG_ALLOC | NNG_FLAG_NONBLOCK)!=0)
+		{
+			net_msg.func_return=NET_ERROR;
+		}
+	}
+
+	return net_msg;
+}
+
+int net_send_msg(char *msg)
+{
+	int func_return=NET_NOERROR;
+	size_t sz_msg=strlen(msg);
+
+
+	if(host_client_state==HOST)
+	{
+		if(nng_send(sock_host, msg, sz_msg, 0)!=0)
+		{
+			func_return=NET_ERROR;
+		}	
+	}
+
+	if(host_client_state==CLIENT)
+	{
+		if(nng_send(sock_client, msg, sz_msg, 0)!=0)
+		{
+			func_return=NET_ERROR;
+		}	
+	}
+
+	return func_return;
 }

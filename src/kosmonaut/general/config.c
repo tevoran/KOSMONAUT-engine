@@ -19,6 +19,9 @@ int engine_read_config(char *config_file_location)
 	config.viewing_distance=1000;
 	config.log_file[0]=0;
 	config.logging_on=ENGINE_FALSE;
+	config.net_host=ENGINE_FALSE;
+	config.net_client=ENGINE_FALSE;
+	config.net_port=0;
 
 	/*if there is no config file then leave*/
 	if(config_file==NULL)
@@ -36,6 +39,7 @@ int engine_read_config(char *config_file_location)
 		sscanf(file_line, "resy=%u", &config.resolution_y);
 		sscanf(file_line, "log=%s", config.log_file);
 		sscanf(file_line, "viewing_distance=%f", &config.viewing_distance);
+		sscanf(file_line, "port=%u", &config.net_port);
 		
 		if(strstr(file_line, "wireframe")!=NULL)
 		{
@@ -45,6 +49,16 @@ int engine_read_config(char *config_file_location)
 		if(strstr(file_line, "fullscreen")!=NULL)
 		{
 			config.fullscreen_mode=ENGINE_TRUE;
+		}
+
+		if(strstr(file_line, "net_host")!=NULL)
+		{
+			config.net_host=ENGINE_TRUE;
+		}
+
+		if(strstr(file_line, "net_client")!=NULL)
+		{
+			config.net_client=ENGINE_TRUE;
 		}
 	}
 	

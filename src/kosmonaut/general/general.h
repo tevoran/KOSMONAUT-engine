@@ -43,6 +43,11 @@ struct config
 	float viewing_distance;
 	char log_file[256];
 	int logging_on;
+
+	/*network member*/
+	int net_host;
+	int net_client;
+	int net_port;
 };
 
 int engine_read_config(char *config_file_location);
