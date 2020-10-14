@@ -9,6 +9,7 @@
 #include <nng/protocol/pipeline0/push.h>
 #include <nng/protocol/reqrep0/rep.h>
 #include <nng/protocol/reqrep0/req.h>
+#include <nng/protocol/bus0/bus.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -29,6 +30,8 @@ int net_connect_pair(int port, int max_wait_ms);
 
 int net_send_msg(char *msg);
 struct net_msg net_recv_msg();
+
+void net_sync();
 
 void net_test_listen();
 void net_test_send(int port);

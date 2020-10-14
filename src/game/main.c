@@ -5,6 +5,8 @@
 #include <time.h>
 #include <math.h>
 
+#include <nng/nng.h>
+
 #include "general/general.h"
 #include "gfx/gfx.h"
 #include "maths/maths.h"
@@ -57,7 +59,7 @@ int main(int argc, char **argv[])
 	{
 		if(net_connect_pair(engine_config_state().net_port,1)!=NET_NOERROR)
 		{
-			printf("Network error: can't host\n");
+			printf("Network error: can't join\n");
 			exit(1);
 		}
 	}
@@ -175,6 +177,11 @@ int main(int argc, char **argv[])
 
 	float scale_test_speed=0.5;
 
+	/*network timers*/
+	clock_t new_msg_time=clock();
+	clock_t old_msg_time=clock();
+	int msg_count=0;
+
 	int quit=0;
 	while(!quit) /*while not closing the window the main loop is continuing*/
 	{
@@ -259,27 +266,35 @@ int main(int argc, char **argv[])
 	}
 
 	/*network with other player*/
-	clock_t new_in=clock();
-	clock_t old_in=0;
-	if(((float)(new_in-old_in)/CLOCKS_PER_SEC)>=(float)1/(float)60)
+	new_msg_time=clock();
+	if((float)((new_msg_time-old_msg_time)/CLOCKS_PER_SEC)>(float)1/(float)60)
 	{
-		old_in=new_in;
+		old_msg_time=new_msg_time;
+			struct net_msg net_msg;
+			net_msg=net_recv_msg();
+			char *msg=net_msg.msg;
+			if(msg!=NULL)
+			{
+				/*retrieving other players location*/
+				sscanf(msg, "pos: %f %f %f ", &other_pos.x, &other_pos.y, &other_pos.z);
+				printf("%s\n", msg);
+				gfx_update_model_location(other_ship, other_pos);
 
-		char *msg=net_recv_msg().msg;
-		if(msg!=NULL)
-		{
-			/*retrieving other players location*/
-			sscanf(msg, "pos: %f %f %f", &other_pos.x, &other_pos.y, &other_pos.z);
-			printf("%s\n", msg);
-			gfx_update_model_location(other_ship, other_pos);
-		}
+				nng_free(msg, net_msg.msg_size);
+			}
 
-		char msg_out[128];
-		sprintf(msg_out, "pos: %f %f %f", ship_pos.x, ship_pos.y, ship_pos.z);
+		char msg_out[256];
+		sprintf(msg_out, "pos: %f %f %f ", ship_pos.x, ship_pos.y, ship_pos.z);
 		net_send_msg(msg_out);
+
+		msg_count++;
 	}
 
-
+	if(msg_count==50)
+	{
+		msg_count=0;
+		net_sync();
+	}
 	gfx_new_frame();
 	}
 	exit(0);

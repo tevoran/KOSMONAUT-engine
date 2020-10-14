@@ -11,6 +11,7 @@
 #include <nng/protocol/pipeline0/push.h>
 #include <nng/protocol/reqrep0/rep.h>
 #include <nng/protocol/reqrep0/req.h>
+#include <nng/protocol/bus0/bus.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -20,6 +21,9 @@
 #define CLIENT 1
 
 int host_client_state=0;
+
+int send_count=0;
+int recv_count=0;
 
 /*host variables*/
 nng_socket sock_host;
@@ -34,7 +38,6 @@ int net_host_pair(int max_wait_ms)
 	host_client_state=HOST;
 
 	int func_return=NET_NOERROR;
-
 
 	if(nng_pair0_open(&sock_host)!=0)
 	{
@@ -89,6 +92,30 @@ int net_host_pair(int max_wait_ms)
 
 	nng_socket_set_ms(sock_host, NNG_OPT_RECVTIMEO, max_wait_ms);
 	nng_socket_set_ms(sock_host, NNG_OPT_SENDTIMEO, max_wait_ms);
+
+	/*waiting for handshake*/
+	engine_log("Waiting for client...\n");
+	printf("Waiting for client...\n");
+
+	int count=60;
+	char *msg_handshake=NULL;
+	size_t sz_msg=0;
+
+	while(count>0)
+	{
+		nng_recv(sock_host, &msg_handshake, &sz_msg, NNG_FLAG_ALLOC);
+		SDL_Delay(1000);
+		if(msg_handshake!=NULL)
+		{
+			printf("%s\nSize: %i\n", msg_handshake, (int)sz_msg);
+			if(strstr(msg_handshake,"ready")!=NULL)
+			{
+				break;
+			}
+		}
+		nng_free(msg_handshake, sz_msg);
+		count--;
+	}
 
 	return func_return;
 }
@@ -172,8 +199,13 @@ int net_connect_pair(int port, int max_wait_ms)
 			return func_return;
 	}
 
-	nng_socket_set_ms(sock_host, NNG_OPT_RECVTIMEO, max_wait_ms);
-	nng_socket_set_ms(sock_host, NNG_OPT_SENDTIMEO, max_wait_ms);
+	nng_socket_set_ms(sock_client, NNG_OPT_RECVTIMEO, max_wait_ms);
+	nng_socket_set_ms(sock_client, NNG_OPT_SENDTIMEO, max_wait_ms);
+
+	/*sending handshake*/
+	char msg_handshake[16]="ready";
+	nng_send(sock_client, msg_handshake, sizeof(msg_handshake), NNG_FLAG_NONBLOCK);
+
 	return func_return;
 }
 
@@ -208,7 +240,13 @@ int net_send_msg(char *msg)
 
 	if(host_client_state==HOST)
 	{
-		if(nng_send(sock_host, msg, sz_msg, 0)!=0)
+		int rv=0;
+		rv=nng_send(sock_host, msg, sz_msg, NNG_FLAG_NONBLOCK);
+		if(rv==NNG_ETIMEDOUT)
+		{
+			engine_log("HOST SOCKET: TIME OUT\n");
+		}
+		if(rv!=0)
 		{
 			func_return=NET_ERROR;
 		}	
@@ -216,11 +254,56 @@ int net_send_msg(char *msg)
 
 	if(host_client_state==CLIENT)
 	{
-		if(nng_send(sock_client, msg, sz_msg, 0)!=0)
+		if(nng_send(sock_client, msg, sz_msg, NNG_FLAG_NONBLOCK)!=0)
 		{
 			func_return=NET_ERROR;
 		}	
 	}
 
+
 	return func_return;
+}
+
+void net_sync()
+{
+		char msg_handshake[16]="ready";
+
+		char *msg_handshake_recv=NULL;
+		size_t sz_msg=0;
+
+	if(host_client_state==HOST)
+	{
+		nng_send(sock_host, msg_handshake, sizeof(msg_handshake), NNG_FLAG_NONBLOCK);
+		while(1)
+		{
+			nng_recv(sock_host, &msg_handshake_recv, &sz_msg, NNG_FLAG_ALLOC);
+			if(msg_handshake!=NULL)
+			{
+				if(strstr(msg_handshake,"ready")!=NULL)
+				{
+					nng_free(msg_handshake_recv, sz_msg);
+					break;
+				}
+			}
+			nng_free(msg_handshake_recv, sz_msg);
+		}		
+	}
+
+	if(host_client_state==CLIENT)
+	{
+		nng_send(sock_client, msg_handshake, sizeof(msg_handshake), NNG_FLAG_NONBLOCK);
+		while(1)
+		{
+			nng_recv(sock_client, &msg_handshake_recv, &sz_msg, NNG_FLAG_ALLOC);
+			if(msg_handshake!=NULL)
+			{
+				if(strstr(msg_handshake,"ready")!=NULL)
+				{
+					nng_free(msg_handshake_recv, sz_msg);
+					break;
+				}
+			}
+			nng_free(msg_handshake_recv, sz_msg);
+		}	
+	}
 }
