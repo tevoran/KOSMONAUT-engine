@@ -212,14 +212,11 @@ int main(int argc, char **argv[])
 	gfx_camera_location(cam_location);
 
 	/*rotating stuff*/
-	rot_axis.x=0;
-	rot_axis.y=1;
-	rot_axis.z=0;
 	r=cube_rotation_speed*frame_time_f;
-	gfx_model_rotate(cube_origin, r, rot_axis);
+	gfx_model_rotate_euler(cube_origin, r, 'y');
 	for(int i=0; i<1000; i++)
 	{
-		gfx_model_rotate(cube[i], r, rot_axis);
+		gfx_model_rotate_euler(cube[i], r, 'y');
 	}
 
 	/*network with other player*/

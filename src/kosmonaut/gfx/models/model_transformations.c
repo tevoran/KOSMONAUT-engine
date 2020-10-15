@@ -29,6 +29,28 @@ void gfx_update_model_location(struct model* model, struct vec3f location)
 	}
 }
 
+void gfx_model_rotate_euler(struct model *model, float rotation, char axis)
+{
+	struct vec3f rot_axis;
+	rot_axis.x=rot_axis.y=rot_axis.z=0;
+
+	switch(axis)
+	{
+		case 'x':
+			rot_axis.x=1;
+			break;
+
+		case 'y':
+			rot_axis.y=1;
+			break;
+
+		case 'z':
+			rot_axis.z=1;
+			break;
+	}
+	gfx_model_rotate(model, rotation, rot_axis);
+}
+
 void gfx_model_rotate(struct model *model, float rotation, struct vec3f rot_axis)
 {
 	/*calculating quaternions*/
