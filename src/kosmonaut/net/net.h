@@ -1,3 +1,6 @@
+#ifndef KOSMONAUT_NET_H
+#define KOSMONAUT_NET_H
+
 #include "gfx/gfx.h"
 #include "general/general.h"
 #include "maths/maths.h"
@@ -35,3 +38,5 @@ void net_sync();
 
 void net_test_listen();
 void net_test_send(int port);
+
+#endif

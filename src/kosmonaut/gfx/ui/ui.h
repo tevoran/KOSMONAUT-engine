@@ -1,3 +1,6 @@
+#ifndef KOSMONAUT_UI_H
+#define KOSMONAUT_UI_H
+
 #include "gfx/gfx.h"
 #include "maths/maths.h"
 
@@ -13,3 +16,5 @@ struct ui_element* gfx_ui_create_window(struct vec2f position, struct vec2f size
 
 /*ui system intern functions*/
 void gfx_ui_set_ui_trigger(struct model *model);
+
+#endif
