@@ -224,8 +224,6 @@ int main(int argc, char **argv[])
 
 	/*network with other player*/
 	new_msg_time=clock();
-	if((float)((new_msg_time-old_msg_time)/CLOCKS_PER_SEC)>(float)1/(float)60)
-	{
 		old_msg_time=new_msg_time;
 			struct net_msg net_msg;
 			net_msg=net_recv_msg();
@@ -245,6 +243,11 @@ int main(int argc, char **argv[])
 		net_send_msg(msg_out);
 
 		msg_count++;
+
+	if(msg_count==1)
+	{
+		msg_count=0;
+		net_sync();
 	}
 
 	gfx_new_frame();
