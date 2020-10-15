@@ -20,33 +20,26 @@
 #define HOST 2
 #define CLIENT 1
 
-int host_client_state=0;
-
 int send_count=0;
 int recv_count=0;
 
-/*host variables*/
-nng_socket sock_host;
+nng_socket sock;
 nng_listener lp;
-
-/*client variables*/
-nng_socket sock_client;
 nng_dialer dp;
+
 
 int net_host_pair(int max_wait_ms)
 {
-	host_client_state=HOST;
-
 	int func_return=NET_NOERROR;
 
-	if(nng_pair0_open(&sock_host)!=0)
+	if(nng_pair0_open(&sock)!=0)
 	{
 		engine_log("Socket couldn't be created.\n Can't host\n");
 		func_return=NET_ERROR;
 		return func_return;
 	}
 
-	switch(nng_listen(sock_host, "tcp://127.0.0.1:0", &lp, 0))
+	switch(nng_listen(sock, "tcp://127.0.0.1:0", &lp, 0))
 	{
 		case 0:
 			engine_log("Is listening...\n");
@@ -85,13 +78,13 @@ int net_host_pair(int max_wait_ms)
 	}
 
 	/*getting the port that was given to the listener*/
-	int rv;
-	nng_listener_getopt_int(lp, NNG_OPT_TCP_BOUND_PORT, &rv);
-	engine_log("Port: %i\n", rv);
-	printf("Port: %i\n", rv);
+	int port;
+	nng_listener_getopt_int(lp, NNG_OPT_TCP_BOUND_PORT, &port);
+	engine_log("Port: %i\n", port);
+	printf("Port: %i\n", port);
 
-	nng_socket_set_ms(sock_host, NNG_OPT_RECVTIMEO, max_wait_ms);
-	nng_socket_set_ms(sock_host, NNG_OPT_SENDTIMEO, max_wait_ms);
+	nng_socket_set_ms(sock, NNG_OPT_RECVTIMEO, max_wait_ms);
+	nng_socket_set_ms(sock, NNG_OPT_SENDTIMEO, max_wait_ms);
 
 	/*waiting for handshake*/
 	engine_log("Waiting for client...\n");
@@ -103,7 +96,7 @@ int net_host_pair(int max_wait_ms)
 
 	while(count>0)
 	{
-		nng_recv(sock_host, &msg_handshake, &sz_msg, NNG_FLAG_ALLOC);
+		nng_recv(sock, &msg_handshake, &sz_msg, NNG_FLAG_ALLOC);
 		SDL_Delay(1000);
 		if(msg_handshake!=NULL)
 		{
@@ -122,11 +115,9 @@ int net_host_pair(int max_wait_ms)
 
 int net_connect_pair(int port, int max_wait_ms)
 {
-	host_client_state=CLIENT;
-
 	int func_return=NET_NOERROR;
 
-	if(nng_pair0_open(&sock_client)==0)
+	if(nng_pair0_open(&sock)==0)
 	{
 		engine_log("Socket created\n");
 	}
@@ -142,7 +133,7 @@ int net_connect_pair(int port, int max_wait_ms)
 	sprintf(str_buf, "%d", port);
 	strcat(url, str_buf);
 
-	switch(nng_dial(sock_client, url, &dp, 0))
+	switch(nng_dial(sock, url, &dp, 0))
 	{
 		case 0:
 			engine_log("Has dialed in...\n");
@@ -199,12 +190,12 @@ int net_connect_pair(int port, int max_wait_ms)
 			return func_return;
 	}
 
-	nng_socket_set_ms(sock_client, NNG_OPT_RECVTIMEO, max_wait_ms);
-	nng_socket_set_ms(sock_client, NNG_OPT_SENDTIMEO, max_wait_ms);
+	nng_socket_set_ms(sock, NNG_OPT_RECVTIMEO, max_wait_ms);
+	nng_socket_set_ms(sock, NNG_OPT_SENDTIMEO, max_wait_ms);
 
 	/*sending handshake*/
 	char msg_handshake[16]="ready";
-	nng_send(sock_client, msg_handshake, sizeof(msg_handshake), NNG_FLAG_NONBLOCK);
+	nng_send(sock, msg_handshake, sizeof(msg_handshake), NNG_FLAG_NONBLOCK);
 
 	return func_return;
 }
@@ -214,21 +205,11 @@ struct net_msg net_recv_msg()
 	struct net_msg net_msg;
 	net_msg.msg=NULL;
 
-	if(host_client_state==HOST)
+	if(nng_recv(sock, &net_msg.msg, &net_msg.msg_size, NNG_FLAG_ALLOC | NNG_FLAG_NONBLOCK)!=0)
 	{
-		if(nng_recv(sock_host, &net_msg.msg, &net_msg.msg_size, NNG_FLAG_ALLOC | NNG_FLAG_NONBLOCK)!=0)
-		{
-			net_msg.func_return=NET_ERROR;
-		}
+		net_msg.func_return=NET_ERROR;
 	}
-	if(host_client_state==CLIENT)
-	{
-		if(nng_recv(sock_client, &net_msg.msg, &net_msg.msg_size, NNG_FLAG_ALLOC | NNG_FLAG_NONBLOCK)!=0)
-		{
-			net_msg.func_return=NET_ERROR;
-		}
-	}
-
+	
 	return net_msg;
 }
 
@@ -237,29 +218,12 @@ int net_send_msg(char *msg)
 	int func_return=NET_NOERROR;
 	size_t sz_msg=strlen(msg);
 
-
-	if(host_client_state==HOST)
+	int rv=0;
+	rv=nng_send(sock, msg, sz_msg, NNG_FLAG_NONBLOCK);
+	if(rv!=0)
 	{
-		int rv=0;
-		rv=nng_send(sock_host, msg, sz_msg, NNG_FLAG_NONBLOCK);
-		if(rv==NNG_ETIMEDOUT)
-		{
-			engine_log("HOST SOCKET: TIME OUT\n");
-		}
-		if(rv!=0)
-		{
-			func_return=NET_ERROR;
-		}	
+		func_return=NET_ERROR;
 	}
-
-	if(host_client_state==CLIENT)
-	{
-		if(nng_send(sock_client, msg, sz_msg, NNG_FLAG_NONBLOCK)!=0)
-		{
-			func_return=NET_ERROR;
-		}	
-	}
-
 
 	return func_return;
 }
@@ -271,12 +235,10 @@ void net_sync()
 		char *msg_handshake_recv=NULL;
 		size_t sz_msg=0;
 
-	if(host_client_state==HOST)
-	{
-		nng_send(sock_host, msg_handshake, sizeof(msg_handshake), NNG_FLAG_NONBLOCK);
+		nng_send(sock, msg_handshake, sizeof(msg_handshake), NNG_FLAG_NONBLOCK);
 		while(1)
 		{
-			nng_recv(sock_host, &msg_handshake_recv, &sz_msg, NNG_FLAG_ALLOC);
+			nng_recv(sock, &msg_handshake_recv, &sz_msg, NNG_FLAG_ALLOC);
 			if(msg_handshake!=NULL)
 			{
 				if(strstr(msg_handshake,"ready")!=NULL)
@@ -286,24 +248,5 @@ void net_sync()
 				}
 			}
 			nng_free(msg_handshake_recv, sz_msg);
-		}		
-	}
-
-	if(host_client_state==CLIENT)
-	{
-		nng_send(sock_client, msg_handshake, sizeof(msg_handshake), NNG_FLAG_NONBLOCK);
-		while(1)
-		{
-			nng_recv(sock_client, &msg_handshake_recv, &sz_msg, NNG_FLAG_ALLOC);
-			if(msg_handshake!=NULL)
-			{
-				if(strstr(msg_handshake,"ready")!=NULL)
-				{
-					nng_free(msg_handshake_recv, sz_msg);
-					break;
-				}
-			}
-			nng_free(msg_handshake_recv, sz_msg);
-		}	
-	}
+		}
 }
