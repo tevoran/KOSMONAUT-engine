@@ -12,8 +12,6 @@ struct model* gfx_create_quad(struct vec3f location, struct vec3f corner1, struc
 	
 	struct model* model_entry=gfx_create_model_entry();
 
-	/*this object doesn't use an index buffer*/
-	model_entry->index_bufferID=0;
 	
 	GLfloat quad_color_texture[]=
 	{

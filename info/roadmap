@@ -2,6 +2,13 @@ The current Star Battle Command and kosmonaut engine roadmap
 
 
 -Render speed improvement by rendering only, what is visibile
--Network support
+
+-Network:
+	-implementing a protocol, that collects all data and transfers it in one block
+
 -User Interface
+	-mouse
+
 -Text batch renderer
+
+-Transparency

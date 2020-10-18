@@ -213,10 +213,9 @@ struct net_msg net_recv_msg()
 	return net_msg;
 }
 
-int net_send_msg(char *msg)
+int net_send_msg(void *msg, size_t sz_msg)
 {
 	int func_return=NET_NOERROR;
-	size_t sz_msg=strlen(msg);
 
 	int rv=0;
 	rv=nng_send(sock, msg, sz_msg, NNG_FLAG_NONBLOCK);

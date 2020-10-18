@@ -28,6 +28,9 @@ int main(int argc, char **argv[])
 	struct vec3f cam_location={0,10,0};
 	gfx_create_camera(cam_location, 0.5*PI);
 
+	/*font test*/
+	struct ui_font *font=gfx_ui_load_font("data/textures/bitmapfonts/ConsoleFont.bmp", 256);
+
 	/*skybox*/
 	gfx_create_skybox(
 		"data/textures/skybox/front.bmp",
@@ -106,7 +109,7 @@ int main(int argc, char **argv[])
 	}
 
 	/*ui test*/
-	struct vec2f win_pos, win_size;
+	/*struct vec2f win_pos, win_size;
 	win_pos.x=0;
 	win_pos.y=0;
 	win_size.x=0.25;
@@ -120,9 +123,12 @@ int main(int argc, char **argv[])
 	win_size.y=0.25;
 	struct ui_element *window2=gfx_ui_create_window(win_pos, win_size);
 	gfx_model_load_texture("data/textures/window.bmp", window2->render_object);
+	*/
+
+	struct model *text=gfx_ui_printf(0, 0, font, "TEST 0");
 
 	/*time related stuff*/
-	int FPS=0;
+	uint8_t FPS=0;
 	int lasttick=SDL_GetTicks();
 	clock_t old_time=clock();
 	clock_t new_time, frame_time;
@@ -146,9 +152,15 @@ int main(int argc, char **argv[])
 	if(SDL_GetTicks()>(lasttick+1000))
 	{
 		engine_log("FPS: %i\n",FPS);
+
 		FPS=0;
 		lasttick=SDL_GetTicks();
 	printf("F: %i us\n", (int)(frame_time_f*1000000));
+
+		gfx_delete_model_entry(text);
+		text=gfx_ui_printf(0, 0, font, "FPS: %i", (int)(1/frame_time_f));
+
+
 	}
 	FPS++;
 
@@ -220,24 +232,22 @@ int main(int argc, char **argv[])
 	}
 
 	/*network with other player*/
-	new_msg_time=clock();
-		old_msg_time=new_msg_time;
 			struct net_msg net_msg;
 			net_msg=net_recv_msg();
-			char *msg=net_msg.msg;
+			void *msg=net_msg.msg;
 			if(msg!=NULL)
 			{
 				/*retrieving other players location*/
-				sscanf(msg, "pos: %f %f %f ", &other_pos.x, &other_pos.y, &other_pos.z);
-				printf("%s\n", msg);
+				other_pos=*(struct vec3f*)msg;
 				gfx_update_model_location(other_ship, other_pos);
-
 				nng_free(msg, net_msg.msg_size);
 			}
 
-		char msg_out[256];
-		sprintf(msg_out, "pos: %f %f %f ", ship_pos.x, ship_pos.y, ship_pos.z);
-		net_send_msg(msg_out);
+
+		/*sending position*/
+		struct vec3f *msg_out;
+		msg_out=&ship_pos;
+		net_send_msg(msg_out, sizeof(struct vec3f));
 
 		msg_count++;
 

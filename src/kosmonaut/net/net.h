@@ -23,7 +23,7 @@
 struct net_msg
 {
 	int func_return;
-	char *msg;
+	void *msg;
 	size_t msg_size;
 };
 
@@ -31,7 +31,7 @@ struct net_msg
 int net_host_pair(int max_wait_ms);
 int net_connect_pair(int port, int max_wait_ms);
 
-int net_send_msg(char *msg);
+int net_send_msg(void *msg, size_t sz_msg);
 struct net_msg net_recv_msg();
 
 void net_sync();
