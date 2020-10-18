@@ -29,7 +29,6 @@ struct ui_font* gfx_ui_load_font(char *file_location, uint32_t num_characters)
 	glBindTexture(GL_TEXTURE_2D, font->textureID);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT, font_image_data);
 
-	printf("Font size: %ix%i\n", height, width);
 
 	free(font_image_data);
 

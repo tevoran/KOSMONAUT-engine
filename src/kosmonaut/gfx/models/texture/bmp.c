@@ -63,20 +63,25 @@ void gfx_model_texture_load_bmp(
 	/*reading actual image data*/
 	uint32_t pixel_count=(*texture_height)*(*texture_width);
 	*texture_data=malloc(pixel_count*3*sizeof(GLfloat));
-	
+	void *texture_data_read_file=malloc(pixel_count*3*sizeof(char));
+
+
 	GLfloat *texture_data_write=*texture_data;
-	unsigned char bgr[3];
+
+	unsigned char *bgr;
 	GLfloat rgb[3];
+
+	fseek(texture_file, data_offset, SEEK_SET);
+	fread(texture_data_read_file, sizeof(bgr)*pixel_count, 1, texture_file);
 
 	if(data_order>0)
 	{
 		for(int i=0; i<pixel_count; i++)
 		{
-			fseek(texture_file, data_offset+(i*3), SEEK_SET);
-			fread(bgr, sizeof(bgr), 1, texture_file);
-			rgb[0]=(GLfloat)bgr[2]/256;
-			rgb[1]=(GLfloat)bgr[1]/256;
-			rgb[2]=(GLfloat)bgr[0]/256;
+			bgr=(char*)(texture_data_read_file+i*3);
+			rgb[0]=(GLfloat)*(bgr+2)/256;
+			rgb[1]=(GLfloat)*(bgr+1)/256;
+			rgb[2]=(GLfloat)*(bgr)/256;
 			*texture_data_write=rgb[0];
 			texture_data_write++;
 			*texture_data_write=rgb[1];
@@ -90,11 +95,10 @@ void gfx_model_texture_load_bmp(
 	{
 		for(int i=pixel_count; i>0; i--)
 		{
-			fseek(texture_file, data_offset+(i*3), SEEK_SET);
-			fread(bgr, sizeof(bgr), 1, texture_file);
-			rgb[0]=(GLfloat)bgr[2]/256;
-			rgb[1]=(GLfloat)bgr[1]/256;
-			rgb[2]=(GLfloat)bgr[0]/256;
+			bgr=(char*)(texture_data_read_file+i*3);
+			rgb[0]=(GLfloat)*(bgr+2)/256;
+			rgb[1]=(GLfloat)*(bgr+1)/256;
+			rgb[2]=(GLfloat)*(bgr)/256;
 			*texture_data_write=rgb[0];
 			texture_data_write++;
 			*texture_data_write=rgb[1];
@@ -106,13 +110,13 @@ void gfx_model_texture_load_bmp(
 
 	else
 	{
-		engine_log("Texture file at %s is neither a top-down or a bottom-up bitmap.\n", file_location);
+		engine_log("Texture file at %s is neither a top-down nor a bottom-up bitmap.\n", file_location);
 		return;
 	}
 
 	/*logging debug info*/
 	engine_log("\nTexture file %s was read.\n", file_location);
-	engine_log("Resolution: %ix%i\n", *texture_height, *texture_width);
+	engine_log("Resolution: %ix%i\n", *texture_width, *texture_height);
 	engine_log("Image data size: %i bytes\n", ((*texture_height)*(*texture_width)*3));
 	if(data_order>0)
 		{
