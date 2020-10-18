@@ -125,7 +125,7 @@ int main(int argc, char **argv[])
 	gfx_model_load_texture("data/textures/window.bmp", window2->render_object);
 	*/
 
-	struct model *text=gfx_ui_printf(0, 0, font, "TEST 0");
+	struct model *text=gfx_ui_printf(0, 0, font, 60, "TEST 0");
 
 	/*time related stuff*/
 	uint8_t FPS=0;
@@ -157,8 +157,6 @@ int main(int argc, char **argv[])
 		lasttick=SDL_GetTicks();
 	printf("F: %i us\n", (int)(frame_time_f*1000000));
 
-		gfx_delete_model_entry(text);
-		text=gfx_ui_printf(0, 0, font, "FPS: %i", (int)(1/frame_time_f));
 
 
 	}
@@ -169,6 +167,9 @@ int main(int argc, char **argv[])
 	frame_time=new_time-old_time;
 	old_time=new_time;
 	frame_time_f=(float)frame_time/CLOCKS_PER_SEC;
+
+		gfx_delete_model_entry(text);
+		text=gfx_ui_printf(0.4, 0.3, font, 60, "FPS: %i", (int)(1/frame_time_f));
 
 	/*handling input via SDL2*/
 	{

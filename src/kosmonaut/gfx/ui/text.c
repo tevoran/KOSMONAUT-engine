@@ -37,7 +37,7 @@ struct ui_font* gfx_ui_load_font(char *file_location, uint32_t num_characters)
 }
 
 /*writing text*/
-struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, const char *text, ...)
+struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, int font_size_pt, const char *text, ...)
 {
 	/*formatting text*/
 	va_list args;
@@ -46,8 +46,6 @@ struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, cons
 	char f_text[1024];
 	int f_text_sz=vsprintf(f_text, text, args);
 	va_end(args);
-
-	printf("%s\nsize: %i\n", f_text, f_text_sz);
 
 	/*creating quads*/
 	struct model* text_batch=gfx_create_model_entry();
@@ -59,13 +57,15 @@ struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, cons
 	GLfloat *vertex_buffer_write=vertex_buffer;
 	char *f_text_read=f_text;
 
-	GLfloat font_size=0.05;
+	GLfloat char_size_x=(GLfloat)font_size_pt/(GLfloat)engine_config_state().resolution_x;
+	GLfloat char_size_y=(GLfloat)font_size_pt/(GLfloat)engine_config_state().resolution_y;
+
 	for(int i=0; i<f_text_sz; i++)
 	{
 		/*first vertex*/
-		*vertex_buffer_write=-1+i*font_size;
+		*vertex_buffer_write=-1+i*char_size_x;
 		vertex_buffer_write++;
-		*vertex_buffer_write=1-font_size;
+		*vertex_buffer_write=-1;
 		vertex_buffer_write++;
 		*vertex_buffer_write=0;
 		vertex_buffer_write++;
@@ -77,9 +77,9 @@ struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, cons
 		vertex_buffer_write++;
 
 		/*second vertex*/
-		*vertex_buffer_write=-1+i*font_size;
+		*vertex_buffer_write=-1+i*char_size_x;
 		vertex_buffer_write++;
-		*vertex_buffer_write=1;
+		*vertex_buffer_write=-1+char_size_y;
 		vertex_buffer_write++;
 		*vertex_buffer_write=0;
 		vertex_buffer_write++;
@@ -91,9 +91,9 @@ struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, cons
 		vertex_buffer_write++;
 
 		/*third vertex*/
-		*vertex_buffer_write=-1+(i+1)*font_size;
+		*vertex_buffer_write=-1+(i+1)*char_size_x;
 		vertex_buffer_write++;
-		*vertex_buffer_write=1-font_size;
+		*vertex_buffer_write=-1;
 		vertex_buffer_write++;
 		*vertex_buffer_write=0;
 		vertex_buffer_write++;
@@ -105,9 +105,9 @@ struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, cons
 		vertex_buffer_write++;
 
 		/*fourth vertex*/
-		*vertex_buffer_write=-1+(i+1)*font_size;
+		*vertex_buffer_write=-1+(i+1)*char_size_x;
 		vertex_buffer_write++;
-		*vertex_buffer_write=1;
+		*vertex_buffer_write=-1+char_size_y;
 		vertex_buffer_write++;
 		*vertex_buffer_write=0;
 		vertex_buffer_write++;
@@ -143,8 +143,8 @@ struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, cons
 	}
 
 	struct vec3f location;
-	location.x=0;
-	location.y=0;
+	location.x=pos_x*2;
+	location.y=pos_y*2;
 	location.z=0;
 
 	
