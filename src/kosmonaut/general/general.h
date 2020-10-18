@@ -32,6 +32,7 @@ struct config config;
 /*functions*/
 int engine_init(char *window_name, char *config_file);
 void engine_log(const char *logged_message, ...);
+void engine_fps_count(int toggle_on_screen, int toggle_log);
 
 /*config*/
 struct config

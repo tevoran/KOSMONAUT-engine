@@ -25,10 +25,6 @@ int main(int argc, char **argv[])
 
 	game_init();
 
-
-	/*font test*/
-	struct ui_font *font=gfx_ui_load_font("data/textures/bitmapfonts/ConsoleFont.bmp", 256);
-
 	/*skybox*/
 	gfx_create_skybox(
 		"data/textures/skybox/front.bmp",
@@ -86,16 +82,11 @@ int main(int argc, char **argv[])
 	gfx_model_rotate(other_ship, r, rot_axis);
 	gfx_model_load_texture("data/textures/stealth.bmp", other_ship);
 
-	struct model *text=gfx_ui_printf(0, 0, font, 60, "TEST 0");
-
 	/*time related stuff*/
-	uint8_t FPS=0;
-	int lasttick=SDL_GetTicks();
 	clock_t old_time=clock();
 	clock_t new_time, frame_time;
 	float frame_time_f;
 
-	float cube_rotation_speed=1; /*1 radian per second*/
 	float ship_speed=50;
 	float ship_rotation_speed=2.3;
 
@@ -109,19 +100,7 @@ int main(int argc, char **argv[])
 	int quit=0;
 	while(!quit) /*while not closing the window the main loop is continuing*/
 	{
-	/*FPS count*/
-	if(SDL_GetTicks()>(lasttick+1000))
-	{
-		engine_log("FPS: %i\n",FPS);
-
-		FPS=0;
-		lasttick=SDL_GetTicks();
-	printf("F: %i us\n", (int)(frame_time_f*1000000));
-
-
-
-	}
-	FPS++;
+	engine_fps_count(ENGINE_TRUE,0);
 
 	/*determining time*/
 	new_time=clock();
@@ -129,8 +108,6 @@ int main(int argc, char **argv[])
 	old_time=new_time;
 	frame_time_f=(float)frame_time/CLOCKS_PER_SEC;
 
-		gfx_delete_model_entry(text);
-		text=gfx_ui_printf(0.4, 0.3, font, 60, "FPS: %i", (int)(1/frame_time_f));
 
 	/*handling input via SDL2*/
 	{
