@@ -62,5 +62,10 @@ int game_init()
 			exit(1);
 		}
 	}
+
+	/*initialising camera*/
+	struct vec3f cam_location={0,10,0};
+	gfx_create_camera(cam_location, 0.5*PI);
+	
 	return 0;
 }

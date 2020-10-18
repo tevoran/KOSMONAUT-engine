@@ -25,8 +25,6 @@ int main(int argc, char **argv[])
 
 	game_init();
 
-	struct vec3f cam_location={0,10,0};
-	gfx_create_camera(cam_location, 0.5*PI);
 
 	/*font test*/
 	struct ui_font *font=gfx_ui_load_font("data/textures/bitmapfonts/ConsoleFont.bmp", 256);
@@ -50,15 +48,12 @@ int main(int argc, char **argv[])
 	struct vec3f ship_current_rotation;
 
 	/*placement if host*/
-	if(engine_config_state().net_host==ENGINE_TRUE)
-	{
 		ship_pos.x=0;
 		ship_pos.y=0;
 		ship_pos.z=40;
 		ship_current_rotation.x=0;
 		ship_current_rotation.y=0;
 		ship_current_rotation.z=0;
-	}
 
 	/*placement if client*/
 	if(engine_config_state().net_client==ENGINE_TRUE)
@@ -72,9 +67,7 @@ int main(int argc, char **argv[])
 	}
 
 	struct model *ship=gfx_load_model("data/models/stealth/stealth.obj",ship_pos);
-	r=1.4*PI;
-	gfx_model_rotate(ship, r, rot_axis);
-	r=0.6*PI;
+	r=2*PI;
 	gfx_model_rotate(ship, r, rot_axis);
 	gfx_model_load_texture("data/textures/stealth.bmp", ship);
 
@@ -92,38 +85,6 @@ int main(int argc, char **argv[])
 	r=2*PI;
 	gfx_model_rotate(other_ship, r, rot_axis);
 	gfx_model_load_texture("data/textures/stealth.bmp", other_ship);
-
-	struct vec3f color={0,0,0};
-	struct vec3f pos_model={10,10,30};	
-	struct model *cube_origin=gfx_create_cube(pos_model, color, 4);
-	gfx_model_load_texture("data/textures/box.bmp", cube_origin);
-
-
-	struct model *cube[1000];
-
-	for(int i=0; i<1000; i++)
-	{
-		cube[i]=gfx_copy_model(cube_origin);
-		pos_model.z=pos_model.z+75;
-		gfx_update_model_location(cube[i],pos_model);
-	}
-
-	/*ui test*/
-	/*struct vec2f win_pos, win_size;
-	win_pos.x=0;
-	win_pos.y=0;
-	win_size.x=0.25;
-	win_size.y=0.25;
-	struct ui_element *window=gfx_ui_create_window(win_pos, win_size);
-	gfx_model_load_texture("data/textures/window.bmp", window->render_object);
-
-	win_pos.x=0.75;
-	win_pos.y=0;
-	win_size.x=0.25;
-	win_size.y=0.25;
-	struct ui_element *window2=gfx_ui_create_window(win_pos, win_size);
-	gfx_model_load_texture("data/textures/window.bmp", window2->render_object);
-	*/
 
 	struct model *text=gfx_ui_printf(0, 0, font, 60, "TEST 0");
 
@@ -218,19 +179,11 @@ int main(int argc, char **argv[])
 
 	/*ship and camera*/
 	gfx_update_model_location(ship, ship_pos);
-	cam_location=ship_pos;
+	struct vec3f cam_location=ship_pos;
 	cam_location.x=cam_location.x+40*sin(-ship_current_rotation.y);
 	cam_location.y=cam_location.y+10;
 	cam_location.z=cam_location.z-40*cos(-ship_current_rotation.y);
 	gfx_camera_location(cam_location);
-
-	/*rotating stuff*/
-	r=cube_rotation_speed*frame_time_f;
-	gfx_model_rotate_euler(cube_origin, r, 'y');
-	for(int i=0; i<1000; i++)
-	{
-		gfx_model_rotate_euler(cube[i], r, 'y');
-	}
 
 	/*network with other player*/
 			struct net_msg net_msg;
