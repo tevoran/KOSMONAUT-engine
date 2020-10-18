@@ -4,23 +4,31 @@ Welcome to the Star Battle Command Engine description.
 In this document I will explain the main functions that are provided by the kosmonaut game engine.
 
 The engine is written in C, due to the lack of easily accessible 3d game engines for C. Sadly the vast majority
-is written in C++, which is an issue if you want to stick strictly to C. So this engine uses SDL2 and, as a
+is written in C++, which is an issue if you want to stick strictly to C. So this engine uses SDL2, NNG and, as a
 difference to a lot 3d game engines in C, it uses modern OpenGL. The currently used version of OpenGL
 is 4.5.
 
 Currently the functionality of the engine is still restricted but there are following important functions:
 
+ENGINE FUNCTIONS
+
 int engine_init(char *window_name, char *config_file)
 
 void engine_log(char *logged_text, ...)
 
+struct config engine_config_state()
+
 void gfx_new_frame()
+
+CAMERA FUNCTIONS
 
 void gfx_create_camera(struct vec3f position, float far_z, float fov)
 
 void gfx_camera_location(struct vec3f position)
 
 void gfx_camera_rotate(float rotation, struct vec3f rot_axis)
+
+MODEL FUNCTIONS
 
 struct model* gfx_create_triangle(
 	struct vec3f location,
@@ -37,8 +45,19 @@ struct model* gfx_load_model(char *file_location, struct vec3f location)
 
 void gfx_model_load_texture(char *file_location, struct model *model)
 
+UI FUNCTIONS
+
+struct ui_element* gfx_ui_create_window(struct vec2f position, struct vec2f size)
+
+struct ui_font* gfx_ui_load_font(char *file_location, uint32_t num_characters)
+
+struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, int font_size, const char *text, ...)
+
+
 
 DESCRIPTION OF THESE FUNCTIONS
+
+ENGINE FUNCTIONS
 
 int engine_init(char *window_name, char *config_file)
 
@@ -51,6 +70,12 @@ void engine_log(char *logged_text, ...)
 
 The engine_log function is used for saving a log message to the log file, which was specified in the config
 file.
+
+
+struct config engine_config_state()
+
+engine_config_state() returns a struct with the current setting of the kosmonaut game engine. You can read the
+resolution or the location of the log file with this struct.
 
 
 void gfx_new_frame()
@@ -135,3 +160,24 @@ Rotates the model or primitive around a rotation axis by the radian given.
 void gfx_model_load_texture(char *file_location, struct model *model)
 
 The function loads a texture from a file and adds it to a model or primitive that was given in the function.
+
+
+UI FUNCTIONS
+
+struct ui_element* gfx_ui_create_window(struct vec2f position, struct vec2f size)
+
+A function for creating a window on the screen at a specific location on the screen. The coordinates are relative to
+the screen size. So a position like 0.0f, 0.0f is at the left bottom corner of the screen while 0.5f, 0.5f is exactly
+the middle of the screen. This is always the same regardless of the the chosen resolution.
+
+
+struct ui_font* gfx_ui_load_font(char *file_location, uint32_t num_characters)
+
+With this function it is possible to read a bitmap file that contains characters. It returns a pointer that can be used
+when printing text on the screen. So it is possible to choose between different fonts at the same time.
+
+
+struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, int font_size_pt, const char *text, ...)
+
+Finally a function for printing text onto the screen. It can be used as printf() but with some additional functionality.
+Therefore it is possible to choose the size of the text, the font and its relative location on the screen.
