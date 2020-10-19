@@ -1,5 +1,6 @@
-#ifndef SBC_H
-#define SBC_H
+#ifndef GAME_OBJECT_H
+#define GAME_OBJECT_H
+
 
 #include <stdio.h>
 #include <GL/glew.h>
@@ -10,7 +11,6 @@
 
 #include <nng/nng.h>
 
-
 /*engine*/
 #include "general/general.h"
 #include "gfx/gfx.h"
@@ -18,11 +18,14 @@
 #include "gfx/ui/ui.h"
 #include "net/net.h"
 
-/*game*/
-#include "objects/objects.h"
 
-int game_init();
-void game_player_controls_input(struct ship *player);
+struct ship
+{
+	struct vec3f position;
+	struct vec3f rotation;
+	struct model *model;
+};
+
 
 
 #endif

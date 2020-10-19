@@ -66,6 +66,16 @@ int game_init()
 	/*initialising camera*/
 	struct vec3f cam_location={0,10,0};
 	gfx_create_camera(cam_location, 0.5*PI);
+
+	/*loading skybox*/
+	gfx_create_skybox(
+		"data/textures/skybox/front.bmp",
+		"data/textures/skybox/right.bmp",
+		"data/textures/skybox/back.bmp",
+		"data/textures/skybox/left.bmp",
+		"data/textures/skybox/top.bmp",
+		"data/textures/skybox/bottom.bmp");
+
 	
 	return 0;
 }
