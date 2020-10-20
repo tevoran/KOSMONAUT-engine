@@ -21,26 +21,6 @@
 /*global variables*/
 GLuint shader_program; /*the shader program reference*/
 
-
-
-/*initialising functions*/
-int gfx_init();
-GLuint gfx_loading_shaders(); /*loads, compiles and links vertex and fragment shaders into one program. its handle is returned as GLuint*/
-
-/*new frame (also clearing screen command)*/
-void gfx_new_frame(); /*draws the current frame and clears the buffer for the next frame*/
-
-
-/*camera*/
-void gfx_create_camera(struct vec3f position, float fov);
-void gfx_camera_location(struct vec3f position);
-void gfx_camera_rotate(float rotation, struct vec3f rot_axis);
-
-void gfx_camera_get_shader_matrix(float shader_matrix[4][4]);
-struct vec3f gfx_camera_get_location();
-
-/*models*/
-/*management*/
 struct model
 {
 	/*list related members*/
@@ -68,6 +48,25 @@ struct model
 	GLuint ui_element;
 };
 
+/*initialising functions*/
+int gfx_init();
+GLuint gfx_loading_shaders(); /*loads, compiles and links vertex and fragment shaders into one program. its handle is returned as GLuint*/
+
+/*new frame (also clearing screen command)*/
+void gfx_new_frame(); /*draws the current frame and clears the buffer for the next frame*/
+
+
+/*camera*/
+void gfx_create_camera(struct vec3f position, float fov);
+void gfx_camera_location(struct vec3f position);
+void gfx_camera_rotate(float rotation, struct vec3f rot_axis);
+void gfx_camera_look_at(struct vec3f position, struct vec3f up);
+
+void gfx_camera_get_shader_matrix(float shader_matrix[4][4]);
+struct vec3f gfx_camera_get_location();
+
+/*models*/
+/*management*/
 struct model* gfx_create_model_entry();
 int gfx_select_entry(struct model* entry_address);
 struct model* gfx_select_first_entry();

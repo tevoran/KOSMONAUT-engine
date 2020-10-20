@@ -45,6 +45,16 @@ struct vec3d vec3d_add(struct vec3d a, struct vec3d b)
 }
 
 /*normalizing vector*/
+struct vec3f normalize3f(struct vec3f a)
+{
+	float length=sqrt(a.x*a.x+a.y*a.y+a.z*a.z);
+	struct vec3f b;
+	b.x=a.x/length;
+	b.y=a.y/length;
+	b.z=a.z/length;
+	return b;
+}
+
 struct vec4f normalize4f(struct vec4f a)
 {
 	float length=sqrt(a.x*a.x+a.y*a.y+a.z*a.z+a.w*a.w);
@@ -130,6 +140,7 @@ struct vec3d vec3d_rotate_z(float rotation, struct vec3d a)
 	c.z=a.z;
 	return c;
 }
+
 
 /*matrix multiplication 4x4 matrices*/
 void matrix_multiplication4x4(float const a[4][4], float const b[4][4], float result[4][4])

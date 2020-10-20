@@ -51,6 +51,7 @@ float dot_product3f(struct vec3f a, struct vec3f b);
 struct vec3f cross_product(struct vec3f a, struct vec3f b);
 
 /*normalizing vector*/
+struct vec3f normalize3f(struct vec3f a);
 struct vec4f normalize4f(struct vec4f a);
 
 /*vector rotation*/

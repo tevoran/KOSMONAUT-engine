@@ -121,6 +121,38 @@ void gfx_camera_rotate(float rotation, struct vec3f rot_axis)
 	}
 }
 
+void gfx_camera_look_at(struct vec3f position, struct vec3f up)
+{
+	struct vec3f cam_location=gfx_camera_get_location();
+	cam_location=vec3f_scale(-1, cam_location);
+	struct vec3f forward=vec3f_add(position, cam_location);
+	forward=normalize3f(forward);
+	up=normalize3f(up);
+	struct vec3f left=cross_product(up, forward);
+	left=normalize3f(left);
+
+	/*saving the rotation matrix*/
+	cam_rotation_matrix[0][0]=left.x;
+	cam_rotation_matrix[1][0]=left.y;
+	cam_rotation_matrix[2][0]=left.z;
+	cam_rotation_matrix[3][0]=0;
+
+	cam_rotation_matrix[0][1]=up.x;
+	cam_rotation_matrix[1][1]=up.y;
+	cam_rotation_matrix[2][1]=up.z;
+	cam_rotation_matrix[3][1]=0;
+
+	cam_rotation_matrix[0][2]=forward.x;
+	cam_rotation_matrix[1][2]=forward.y;
+	cam_rotation_matrix[2][2]=forward.z;
+	cam_rotation_matrix[3][2]=0;
+
+	cam_rotation_matrix[0][3]=0;
+	cam_rotation_matrix[1][3]=0;
+	cam_rotation_matrix[2][3]=0;
+	cam_rotation_matrix[3][3]=1;
+}
+
 
 /*calculates the the matrix for the shader out of the projection matrix, the camera translation and
 its rotation matrix*/
