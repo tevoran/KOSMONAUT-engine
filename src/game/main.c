@@ -26,13 +26,21 @@ int main(int argc, char **argv[])
 
 	game_init();
 
-	struct model *cube[100];
-	for(int i=0; i<100; i++)
+	struct model *cube[1000];
+	for(int i=0; i<1000; i++)
 	{
 		struct vec3f location={30*sin(i), 22*cos(i), i*7.5};
 		struct vec3f color={1,1,1};
-		cube[i]=gfx_create_cube(location, color, 5);
-		gfx_model_load_texture("data/textures/box.bmp", cube[i]);
+		if(i==0)
+		{
+			cube[0]=gfx_create_cube(location, color, 5);
+			gfx_model_load_texture("data/textures/box.bmp", cube[i]);
+		}
+		if(i!=0)
+		{
+			cube[i]=gfx_copy_model(cube[0]);
+			gfx_update_model_location(cube[i], location);
+		}
 	}
 
 	struct ship player;

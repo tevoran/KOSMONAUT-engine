@@ -143,7 +143,9 @@ void game_player_controls_input(struct ship *player)
 	cam_location=vec3f_add(player->position, cam_location_relative_player);
 	gfx_camera_location(cam_location);
 
-	gfx_camera_look_at(player->position, cross_product(moving_direction, cross_product(moving_direction, cross_product(moving_direction, cross_product(moving_direction, cam_location_relative_player)))));
+	gfx_camera_look_at(player->position,
+		cross_product(moving_direction,
+			cross_product(cam_location_relative_player, moving_direction)));
 
 	/*moving ship*/
 
