@@ -10,7 +10,7 @@
 #include <time.h>
 
 #define player_speed 50
-#define player_rot_speed 300
+#define player_rot_speed 500
 #define cam_distance 50
 
 void game_player_controls_input(struct ship *player)
@@ -74,7 +74,6 @@ void game_player_controls_input(struct ship *player)
 	{
 		if(event.type==SDL_MOUSEMOTION)
 		{
-			SDL_WarpMouseInWindow(engine_get_window(), engine_config_state().resolution_x/2, engine_config_state().resolution_y/2); 
 
 			/*x-axis motion*/
 			struct vec3f rot_axis;

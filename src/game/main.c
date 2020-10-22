@@ -69,6 +69,19 @@ int main(int argc, char **argv[])
 
 	game_player_controls_input(player);
 
+		static struct ui_font *font=NULL;
+		if(font==NULL)
+		{
+			font=gfx_ui_load_font("data/textures/bitmapfonts/ConsoleFont.bmp", 256);
+		}
+
+	static struct model *text=NULL;
+	if(text!=NULL)
+	{
+		gfx_delete_model_entry(text);
+	}
+	char *location=game_get_coordinate(player->position);
+	text=gfx_ui_printf(0.7, 0.97, font, 50, "CURRENT LOCATION: %s", location);
 
 	/*handling input via SDL2*/
 	{

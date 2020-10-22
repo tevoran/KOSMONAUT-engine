@@ -76,6 +76,6 @@ int game_init()
 		"data/textures/skybox/top.bmp",
 		"data/textures/skybox/bottom.bmp");
 
-	
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	return 0;
 }
