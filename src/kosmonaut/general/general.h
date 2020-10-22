@@ -1,5 +1,5 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#ifndef KOSMONAUT_GENERAL_H
+#define KOSMONAUT_GENERAL_H
 
 
 /*includes*/
@@ -22,11 +22,11 @@
 
 
 /*global variables*/
-SDL_Window *window;
-SDL_Event event;
-SDL_GLContext context; /*OpenGL context handler*/
+static SDL_Window *window;
+static SDL_Event event;
+static SDL_GLContext context; /*OpenGL context handler*/
 
-struct config config;
+static struct config config;
 
 
 /*functions*/

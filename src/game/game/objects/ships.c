@@ -34,6 +34,7 @@ struct ship* game_create_ship()
 	ships_current_entry->next_entry=malloc(sizeof(struct ship));
 	ships_current_entry=ships_current_entry->next_entry;
 	ships_current_entry->previous_entry=previous_entry;
+	ships_current_entry->next_entry=NULL;
 
 	return ships_current_entry;
 }

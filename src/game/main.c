@@ -53,12 +53,14 @@ int main(int argc, char **argv[])
 	gfx_model_load_texture("data/textures/stealth.bmp", player->model);
 
 	struct ship *ships[100];
-	/*for(int i=0; i<100; i++)
+	for(int i=0; i<100; i++)
 	{
 		struct vec3f position={i*30, 10, 0};
+		ships[i]=game_create_ship();
+		ships[i]->position=position;
 		ships[i]->model=gfx_copy_model(player->model);
-		gfx_update_model_location(ships[i]->model, position);
-	}*/
+		gfx_update_model_location(ships[i]->model, ships[i]->position);
+	}
 
 	int quit=0;
 	while(!quit) /*while not closing the window the main loop is continuing*/

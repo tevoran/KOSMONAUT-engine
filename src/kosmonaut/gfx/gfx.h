@@ -1,5 +1,5 @@
-#ifndef GFX_H
-#define GFX_H
+#ifndef KOSMONAUT_GFX_H
+#define KOSMONAUT_GFX_H
 
 #include "maths/maths.h"
 #include <GL/glew.h>
@@ -19,7 +19,7 @@
 #define ENTRY_IS_FREE 0xFFFFFFFC
 
 /*global variables*/
-GLuint shader_program; /*the shader program reference*/
+static GLuint shader_program; /*the shader program reference*/
 
 struct model
 {
