@@ -18,14 +18,19 @@
 #include "gfx/ui/ui.h"
 #include "net/net.h"
 
-
+/*ships*/
 struct ship
 {
+	/*list related members*/
+	void *previous_entry;
+	void *next_entry;
+
+	/*game related members*/
 	struct vec3f position;
-	struct vec3f rotation;
+	struct vec3f moving_direction;
 	struct model *model;
 };
 
-
+struct ship* game_create_ship();
 
 #endif

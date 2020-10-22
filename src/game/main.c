@@ -21,6 +21,7 @@
 #define GLEW_STATIC
 #undef main
 
+
 int main(int argc, char **argv[])
 {
 
@@ -43,23 +44,28 @@ int main(int argc, char **argv[])
 		}
 	}
 
-	struct ship player;
-	player.position.x=0;
-	player.position.y=0;
-	player.position.z=100;
-	player.rotation.x=0;
-	player.rotation.y=0;
-	player.rotation.z=0;
-	player.model=gfx_load_model("data/models/stealth/stealth.obj", player.position);
-	gfx_model_load_texture("data/textures/stealth.bmp", player.model);
 
+	struct ship *player=game_create_ship();
+	player->position.x=0;
+	player->position.y=0;
+	player->position.z=100;
+	player->model=gfx_load_model("data/models/stealth/stealth.obj", player->position);
+	gfx_model_load_texture("data/textures/stealth.bmp", player->model);
+
+	struct ship *ships[100];
+	/*for(int i=0; i<100; i++)
+	{
+		struct vec3f position={i*30, 10, 0};
+		ships[i]->model=gfx_copy_model(player->model);
+		gfx_update_model_location(ships[i]->model, position);
+	}*/
 
 	int quit=0;
 	while(!quit) /*while not closing the window the main loop is continuing*/
 	{
 	engine_fps_count(ENGINE_TRUE,0);
 
-	game_player_controls_input(&player);
+	game_player_controls_input(player);
 
 
 	/*handling input via SDL2*/
