@@ -24,6 +24,7 @@
 int game_init();
 void game_player_controls_input(struct ship *player);
 
-char *game_get_coordinate(struct vec3f position);
+signed char *game_get_coordinate(struct vec3f position);
+struct vec3f game_set_coordinate(signed char coordinate[4]);
 
 #endif

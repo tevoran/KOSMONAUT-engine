@@ -52,6 +52,8 @@ int main(int argc, char **argv[])
 	player->model=gfx_load_model("data/models/stealth/stealth.obj", player->position);
 	gfx_model_load_texture("data/textures/stealth.bmp", player->model);
 
+	game_set_coordinate("EE1");
+	
 	struct ship *ships[100];
 	for(int i=0; i<100; i++)
 	{

@@ -26,8 +26,12 @@ struct ship
 	void *next_entry;
 
 	/*game related members*/
+	int max_health;
+	int current_health;
 	struct vec3f position;
 	struct vec3f moving_direction;
+	float max_speed;
+	float current_speed;
 	struct model *model;
 };
 
