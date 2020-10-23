@@ -51,17 +51,16 @@ int main(int argc, char **argv[])
 	player->position.z=100;
 	player->model=gfx_load_model("data/models/stealth/stealth.obj", player->position);
 	gfx_model_load_texture("data/textures/stealth.bmp", player->model);
-
-	game_set_coordinate("EE1");
+	game_ship_is_player(player);
 
 	struct ship *ships[100];
 	for(int i=0; i<100; i++)
 	{
 		struct vec3f position={i*30, 10, 0};
 		ships[i]=game_create_ship();
-		ships[i]->position=position;
 		ships[i]->model=gfx_copy_model(player->model);
-		gfx_update_model_location(ships[i]->model, ships[i]->position);
+		game_ship_location(ships[i], position);
+		game_ship_new_destination(ships[i], "EH2");
 	}
 
 	struct ship *test_ship=game_select_first_ship();
@@ -77,8 +76,8 @@ int main(int argc, char **argv[])
 	while(!quit) /*while not closing the window the main loop is continuing*/
 	{
 	engine_fps_count(ENGINE_TRUE,0);
-
 	game_player_controls_input(player);
+	game_ships_update();
 
 		static struct ui_font *font=NULL;
 		if(font==NULL)

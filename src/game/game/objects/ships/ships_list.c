@@ -1,5 +1,7 @@
 #include "objects/objects.h"
 
+#include "SBC.h"
+
 #include "gfx/gfx.h"
 
 #include <stdio.h>
@@ -19,6 +21,11 @@ struct ship* game_create_ship()
 		ships_initial_entry->previous_entry=NULL;
 		ships_initial_entry->next_entry=NULL;
 
+		ships_initial_entry->is_moving=SHIP_FALSE;
+		ships_initial_entry->is_player=SHIP_FALSE;
+		ships_initial_entry->current_speed=50;
+
+
 		return ships_initial_entry;
 	}
 
@@ -35,6 +42,10 @@ struct ship* game_create_ship()
 	ships_current_entry=ships_current_entry->next_entry;
 	ships_current_entry->previous_entry=previous_entry;
 	ships_current_entry->next_entry=NULL;
+
+		ships_current_entry->is_moving=SHIP_FALSE;
+		ships_current_entry->is_player=SHIP_FALSE;
+		ships_current_entry->current_speed=50;
 
 	return ships_current_entry;
 }
@@ -101,4 +112,26 @@ struct ship* game_select_next_ship()
 		ship=ships_current_entry;
 	}
 	return ship;
+}
+
+
+
+/*functions for writing to special members of the ships*/
+void game_ship_is_player(struct ship *ship)
+{
+	ship->is_player=SHIP_TRUE;
+}
+
+void game_ship_new_destination(struct ship *ship, signed char destination_coords[4])
+{
+	struct vec3f destination_location=game_set_coordinate(destination_coords);
+	ship->is_moving=SHIP_TRUE;
+	ship->target_destination=destination_location;
+	printf("SHIP: %p\nDESTINATION: %f, %f, %f\n",ship, ship->target_destination.x, ship->target_destination.y, ship->target_destination.z);
+}
+
+void game_ship_location(struct ship *ship, struct vec3f location)
+{
+	ship->position=location;
+	gfx_update_model_location(ship->model, location);
 }
