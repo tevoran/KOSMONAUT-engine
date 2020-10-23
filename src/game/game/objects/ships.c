@@ -41,6 +41,10 @@ struct ship* game_create_ship()
 
 void game_remove_ship(struct ship *ship)
 {
+	if(ship->model!=NULL)
+	{
+		gfx_delete_model_entry(ship->model);
+	}
 	/*if there is only one ship*/
 	if(ship->previous_entry==NULL && ship->next_entry==NULL)
 	{
