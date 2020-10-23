@@ -44,7 +44,7 @@ struct vec3f game_set_coordinate(signed char coordinate[4])
 		coordinate[1]>='A' && coordinate[1]<='I' &&
 		coordinate[2]>='1' && coordinate[2]<='5')
 	{
-		world_coordinates.x=(float)(coordinate[0]-'E')*field_size+0.5*field_size;
+		world_coordinates.x=(float)(coordinate[0]-'E')*field_size-0.5*field_size;
 		world_coordinates.z=(float)(coordinate[1]-'E')*field_size+0.5*field_size;
 		world_coordinates.y=(float)(coordinate[2]-'3')*field_size+0.5*field_size;
 		printf("Coordinates: %s\n%f, %f, %f\n", coordinate, world_coordinates.x, world_coordinates.y, world_coordinates.z);
