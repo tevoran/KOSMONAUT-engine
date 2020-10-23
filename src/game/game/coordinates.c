@@ -33,5 +33,4 @@ char *game_get_coordinate(struct vec3f position)
 	}
 
 	return coordinate;
-
 }

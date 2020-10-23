@@ -38,3 +38,39 @@ struct ship* game_create_ship()
 
 	return ships_current_entry;
 }
+
+void game_remove_ship(struct ship *ship)
+{
+	/*if there is only one ship*/
+	if(ship->previous_entry==NULL && ship->next_entry==NULL)
+	{
+		free(ship);
+	}
+
+	/*the first ship of the list*/
+	if(ship->previous_entry==NULL && ship->next_entry!=NULL)
+	{
+		struct ship *next_ship=ship->next_entry;
+		next_ship->previous_entry=NULL;
+		free(ship);
+
+	}
+
+	/*a ship in the middle of the list*/
+	if(ship->previous_entry!=NULL && ship->next_entry!=NULL)
+	{
+		struct ship *last_ship=ship->previous_entry;
+		last_ship->next_entry=ship->next_entry;
+		free(ship);
+	}
+
+	/*the last ship of the list*/
+	if(ship->previous_entry!=NULL && ship->next_entry==NULL)
+	{
+		struct ship *last_ship=ship->previous_entry;
+		last_ship->next_entry=NULL;
+		free(ship);
+	}
+
+	return;
+}

@@ -32,5 +32,6 @@ struct ship
 };
 
 struct ship* game_create_ship();
+void game_remove_ship(struct ship *ship);
 
 #endif
