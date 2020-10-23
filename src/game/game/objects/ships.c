@@ -48,12 +48,14 @@ void game_remove_ship(struct ship *ship)
 	/*if there is only one ship*/
 	if(ship->previous_entry==NULL && ship->next_entry==NULL)
 	{
+		ships_initial_entry=NULL;
 		free(ship);
 	}
 
 	/*the first ship of the list*/
 	if(ship->previous_entry==NULL && ship->next_entry!=NULL)
 	{
+		ships_initial_entry=ship->next_entry;
 		struct ship *next_ship=ship->next_entry;
 		next_ship->previous_entry=NULL;
 		free(ship);
@@ -77,4 +79,26 @@ void game_remove_ship(struct ship *ship)
 	}
 
 	return;
+}
+
+struct ship* game_select_first_ship()
+{
+	struct ship *ship=NULL;
+	if(ships_initial_entry!=NULL)
+	{
+		ship=ships_initial_entry;
+		ships_current_entry=ship;
+	}
+	return ship;
+}
+
+struct ship* game_select_next_ship()
+{
+	struct ship *ship=NULL;
+	if(ships_current_entry->next_entry!=NULL)
+	{
+		ships_current_entry=ships_current_entry->next_entry;
+		ship=ships_current_entry;
+	}
+	return ship;
 }

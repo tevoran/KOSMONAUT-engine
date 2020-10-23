@@ -53,7 +53,7 @@ int main(int argc, char **argv[])
 	gfx_model_load_texture("data/textures/stealth.bmp", player->model);
 
 	game_set_coordinate("EE1");
-	
+
 	struct ship *ships[100];
 	for(int i=0; i<100; i++)
 	{
@@ -62,6 +62,15 @@ int main(int argc, char **argv[])
 		ships[i]->position=position;
 		ships[i]->model=gfx_copy_model(player->model);
 		gfx_update_model_location(ships[i]->model, ships[i]->position);
+	}
+
+	struct ship *test_ship=game_select_first_ship();
+	int i=0;
+	while(test_ship!=NULL)
+	{
+		i++;
+		printf("i: %i\n", i);
+		test_ship=game_select_next_ship();
 	}
 
 	int quit=0;
