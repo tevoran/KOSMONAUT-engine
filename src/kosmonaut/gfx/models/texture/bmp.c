@@ -72,7 +72,7 @@ void gfx_model_texture_load_bmp(
 	GLfloat rgb[3];
 
 	fseek(texture_file, data_offset, SEEK_SET);
-	fread(texture_data_read_file, sizeof(bgr)*pixel_count, 1, texture_file);
+	fread(texture_data_read_file, pixel_count*3*sizeof(char), 1, texture_file);
 
 	if(data_order>0)
 	{

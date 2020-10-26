@@ -18,8 +18,6 @@
 #define ENTRY_IS_USED 0xFFFFFFFD
 #define ENTRY_IS_FREE 0xFFFFFFFC
 
-/*global variables*/
-static GLuint shader_program; /*the shader program reference*/
 
 struct model
 {
@@ -51,6 +49,7 @@ struct model
 /*initialising functions*/
 int gfx_init();
 GLuint gfx_loading_shaders(); /*loads, compiles and links vertex and fragment shaders into one program. its handle is returned as GLuint*/
+	GLuint gfx_return_shader(); /*returns global shader ID*/
 
 /*new frame (also clearing screen command)*/
 void gfx_new_frame(); /*draws the current frame and clears the buffer for the next frame*/

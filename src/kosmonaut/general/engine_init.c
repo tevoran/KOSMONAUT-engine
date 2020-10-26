@@ -10,9 +10,6 @@
 
 #include "gfx/gfx.h" /*graphics engine header*/
 
-extern SDL_Window *window;
-extern struct config config;
-
 int engine_init(char *window_name, char *config_file)
 {	
 	/*reading config file for initialization, if there is one*/
@@ -30,8 +27,9 @@ int engine_init(char *window_name, char *config_file)
 		return ENGINE_SDL_ERROR;
 	}
 	
+	struct config config=engine_config_state();
 
-	window=SDL_CreateWindow(
+	SDL_Window *window=SDL_CreateWindow(
 		window_name,
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
@@ -42,6 +40,7 @@ int engine_init(char *window_name, char *config_file)
 	{
 		return ENGINE_SDL_ERROR;
 	}
+	engine_write_window(window);
 	/*if fullscreen is set in the config file then set the window to fullscreen mode*/
 	if(config.fullscreen_mode==ENGINE_TRUE)
 	{
@@ -63,7 +62,7 @@ int engine_init(char *window_name, char *config_file)
 		return ENGINE_GL_ERROR;
 	}
 	
-	context=SDL_GL_CreateContext(window);
+	SDL_GLContext context=SDL_GL_CreateContext(window);
 	if(context==NULL)
 	{
 		return ENGINE_GL_ERROR;

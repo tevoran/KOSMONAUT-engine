@@ -5,6 +5,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*global variables*/
+GLuint shader_program; /*the shader program reference*/
+
+
+GLuint gfx_return_shader()
+{
+	return shader_program;
+}
 
 //function returns the GLuint program reference
 GLuint gfx_loading_shaders()

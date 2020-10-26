@@ -21,14 +21,6 @@
 
 
 
-/*global variables*/
-static SDL_Window *window;
-static SDL_Event event;
-static SDL_GLContext context; /*OpenGL context handler*/
-
-static struct config config;
-
-
 /*functions*/
 int engine_init(char *window_name, char *config_file);
 void engine_log(const char *logged_message, ...);
@@ -58,5 +50,7 @@ the global variables directly from the gfx engine*/
 SDL_Window* engine_get_window();
 SDL_Event engine_get_event();
 struct config engine_config_state();
+
+void engine_write_window(SDL_Window *window_in);
 
 #endif

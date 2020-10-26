@@ -118,6 +118,7 @@ void gfx_update_skybox_location()
 		{
 			struct vec3f cam_location=gfx_camera_get_location();
 			struct vec3f pos;
+			struct config config=engine_config_state();
 
 			pos.x=cam_location.x-a*config.viewing_distance;
 			pos.y=cam_location.y-a*config.viewing_distance;

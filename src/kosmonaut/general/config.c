@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-extern struct config config;
+struct config config;
 
 int engine_read_config(char *config_file_location)
 {
@@ -72,4 +72,9 @@ int engine_read_config(char *config_file_location)
 	fclose(config_file);
 	
 	return ENGINE_NO_ERROR;
+}
+
+struct config engine_config_state()
+{
+	return config;
 }
