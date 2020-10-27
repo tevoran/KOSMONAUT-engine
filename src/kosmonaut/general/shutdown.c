@@ -1,6 +1,6 @@
 #include "general.h"
 
-/*this file initialises everything necessary for SDL2 and OpenGL 4.5 but does itself nothing for the graphics*/
+/*this file shuts everything down and cleans up*/
 
 #include <stdio.h>
 #include <unistd.h>
@@ -9,20 +9,24 @@
 #include <nng/nng.h>
 
 #include "gfx/gfx.h" /*graphics engine header*/
+void engine_shutdown()
+{
 
-int engine_init(char *window_name, char *config_file)
+}
+
+/*int engine_init(char *window_name, char *config_file)
 {	
 	/*reading config file for initialization, if there is one*/
-	if(engine_read_config(config_file)!=ENGINE_NO_ERROR)
+/*	if(engine_read_config(config_file)!=ENGINE_NO_ERROR)
 	{
 		engine_log("ERROR: error while reading config file at:\n%s",config_file);
 	}
 
 	/*writing an header to the log file*/
-	engine_log("The log file of the kosmonaut engine is rewritten for each run of the engine.\n\n");
+/*	engine_log("The log file of the kosmonaut engine is rewritten for each run of the engine.\n\n");
 
 	/*initialising SDL2*/
-	if(SDL_Init(SDL_INIT_EVERYTHING)!=0)
+/*	if(SDL_Init(SDL_INIT_EVERYTHING)!=0)
 	{
 		return ENGINE_SDL_ERROR;
 	}
@@ -42,7 +46,7 @@ int engine_init(char *window_name, char *config_file)
 	}
 	engine_write_window(window);
 	/*if fullscreen is set in the config file then set the window to fullscreen mode*/
-	if(config.fullscreen_mode==ENGINE_TRUE)
+/*	if(config.fullscreen_mode==ENGINE_TRUE)
 	{
 		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 		SDL_ShowCursor(SDL_DISABLE);
@@ -50,7 +54,7 @@ int engine_init(char *window_name, char *config_file)
 
 	
 	/*initialising OpenGL 4.6*/
-	if(SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4)!=0)
+/*	if(SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4)!=0)
 	{
 		engine_log("ERROR: OpenGL has to be at least version 4.5\n");
 		return ENGINE_GL_ERROR;
@@ -69,18 +73,18 @@ int engine_init(char *window_name, char *config_file)
 	}
 	
 	/*initialising GLEW*/
-	if(glewInit()!=GLEW_OK)
+/*	if(glewInit()!=GLEW_OK)
 	{
 		return ENGINE_GLEW_ERROR;
 	}
 	
 	/*initialising graphics engine*/
-	gfx_init();
+/*	gfx_init();
 	engine_log("Engine successfully initialised\n");
 
 	/*NNG - network library*/
-	const char *nng_version_ptr=nng_version();
+/*	const char *nng_version_ptr=nng_version();
 	engine_log("\nNNG library version: %s\n", nng_version_ptr);
 
 	return ENGINE_NO_ERROR;
-}
+}*/

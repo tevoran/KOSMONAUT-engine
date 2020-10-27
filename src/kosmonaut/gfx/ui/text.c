@@ -55,6 +55,7 @@ void gfx_ui_set_font(char *file_location, uint32_t num_characters)
 }
 
 /*writing text*/
+/*if font is NULL then the system font is used*/
 struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, int font_size_pt, const char *text, ...)
 {
 	if(font==NULL)

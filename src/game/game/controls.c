@@ -69,57 +69,51 @@ void game_player_controls_input(struct ship *player)
 
 
 	/*mouse*/
-	SDL_Event event;
-	if(SDL_PollEvent(&event))
+	static SDL_Event event;
+	signed int mouse_x=0;
+	signed int mouse_y=0;
+	SDL_GetRelativeMouseState(&mouse_x, &mouse_y);
+	if(mouse_x!=0 || mouse_y!=0)
 	{
-		if(event.type==SDL_MOUSEMOTION)
-		{
+		/*x-axis motion*/
+		struct vec3f rot_axis;
+		rot_axis.x=0;
+		rot_axis.y=1;
+		rot_axis.z=0;
+		float mouse_rot_x=player_rot_speed*frame_time_f*(float)mouse_x/(float)engine_config_state().resolution_x;
+		gfx_model_rotate(player->model, mouse_rot_x, rot_axis);
 
-			/*x-axis motion*/
-			struct vec3f rot_axis;
-			rot_axis.x=0;
-			rot_axis.y=1;
-			rot_axis.z=0;
+		struct vec3f moving_direction_tmp=moving_direction_origin;
+		moving_direction.x=	moving_direction_tmp.x*player->model->rotation_matrix[0][0]+
+							moving_direction_tmp.y*player->model->rotation_matrix[1][0]+
+							moving_direction_tmp.z*player->model->rotation_matrix[2][0];
+		moving_direction.y=	moving_direction_tmp.x*player->model->rotation_matrix[0][1]+
+							moving_direction_tmp.y*player->model->rotation_matrix[1][1]+
+							moving_direction_tmp.z*player->model->rotation_matrix[2][1];
+		moving_direction.z=	moving_direction_tmp.x*player->model->rotation_matrix[0][2]+
+							moving_direction_tmp.y*player->model->rotation_matrix[1][2]+
+							moving_direction_tmp.z*player->model->rotation_matrix[2][2];
 
-			float mouse_rot_x=player_rot_speed*frame_time_f*(float)event.motion.xrel/(float)engine_config_state().resolution_x;
+		/*y-axis motion*/
+		rot_axis.x=1;
+		rot_axis.y=0;
+		rot_axis.z=0;
 
-			gfx_model_rotate(player->model, mouse_rot_x, rot_axis);
+		float mouse_rot_y=player_rot_speed*frame_time_f*(float)mouse_y/(float)engine_config_state().resolution_y;
+		gfx_model_rotate(player->model, -mouse_rot_y, rot_axis);
 
+		moving_direction_tmp=moving_direction_origin;
+		moving_direction.x=	moving_direction_tmp.x*player->model->rotation_matrix[0][0]+
+							moving_direction_tmp.y*player->model->rotation_matrix[1][0]+
+							moving_direction_tmp.z*player->model->rotation_matrix[2][0];
+		moving_direction.y=	moving_direction_tmp.x*player->model->rotation_matrix[0][1]+
+							moving_direction_tmp.y*player->model->rotation_matrix[1][1]+
+							moving_direction_tmp.z*player->model->rotation_matrix[2][1];
+		moving_direction.z=	moving_direction_tmp.x*player->model->rotation_matrix[0][2]+
+							moving_direction_tmp.y*player->model->rotation_matrix[1][2]+
+							moving_direction_tmp.z*player->model->rotation_matrix[2][2];
 
-			struct vec3f moving_direction_tmp=moving_direction_origin;
-			moving_direction.x=	moving_direction_tmp.x*player->model->rotation_matrix[0][0]+
-								moving_direction_tmp.y*player->model->rotation_matrix[1][0]+
-								moving_direction_tmp.z*player->model->rotation_matrix[2][0];
-			moving_direction.y=	moving_direction_tmp.x*player->model->rotation_matrix[0][1]+
-								moving_direction_tmp.y*player->model->rotation_matrix[1][1]+
-								moving_direction_tmp.z*player->model->rotation_matrix[2][1];
-			moving_direction.z=	moving_direction_tmp.x*player->model->rotation_matrix[0][2]+
-								moving_direction_tmp.y*player->model->rotation_matrix[1][2]+
-								moving_direction_tmp.z*player->model->rotation_matrix[2][2];
-
-			/*y-axis motion*/
-			rot_axis.x=1;
-			rot_axis.y=0;
-			rot_axis.z=0;
-
-			float mouse_rot_y=player_rot_speed*frame_time_f*(float)event.motion.yrel/(float)engine_config_state().resolution_y;
-
-			gfx_model_rotate(player->model, -mouse_rot_y, rot_axis);
-
-
-			moving_direction_tmp=moving_direction_origin;
-			moving_direction.x=	moving_direction_tmp.x*player->model->rotation_matrix[0][0]+
-								moving_direction_tmp.y*player->model->rotation_matrix[1][0]+
-								moving_direction_tmp.z*player->model->rotation_matrix[2][0];
-			moving_direction.y=	moving_direction_tmp.x*player->model->rotation_matrix[0][1]+
-								moving_direction_tmp.y*player->model->rotation_matrix[1][1]+
-								moving_direction_tmp.z*player->model->rotation_matrix[2][1];
-			moving_direction.z=	moving_direction_tmp.x*player->model->rotation_matrix[0][2]+
-								moving_direction_tmp.y*player->model->rotation_matrix[1][2]+
-								moving_direction_tmp.z*player->model->rotation_matrix[2][2];
-
-			moving_direction=normalize3f(moving_direction);
-		}
+		moving_direction=normalize3f(moving_direction);
 	}
 
 	/*camera location*/
