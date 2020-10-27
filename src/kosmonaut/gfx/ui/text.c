@@ -10,7 +10,7 @@
 #include <inttypes.h>
 #include <stdarg.h>
 
-GLuint font_texture_id;
+struct ui_font engine_font;
 
 /*only bitmap fonts are currently supported*/
 struct ui_font* gfx_ui_load_font(char *file_location, uint32_t num_characters)
@@ -35,9 +35,33 @@ struct ui_font* gfx_ui_load_font(char *file_location, uint32_t num_characters)
 	return font;
 }
 
+/*set font for using it as a systemwide font*/
+void gfx_ui_set_font(char *file_location, uint32_t num_characters)
+{
+	engine_font.num_characters=num_characters;
+
+	/*loading bitmap font*/
+	GLfloat *font_image_data=NULL;
+	GLsizei height=0, width=0;
+	gfx_model_texture_load_bmp(file_location, &font_image_data, &height, &width);
+
+
+	glGenTextures(1, &engine_font.textureID);
+	glBindTexture(GL_TEXTURE_2D, engine_font.textureID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT, font_image_data);
+
+
+	free(font_image_data);
+}
+
 /*writing text*/
 struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, int font_size_pt, const char *text, ...)
 {
+	if(font==NULL)
+	{
+		font=&engine_font;
+	}
+	
 	/*formatting text*/
 	va_list args;
 	va_start(args, text);

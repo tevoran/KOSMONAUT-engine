@@ -45,6 +45,9 @@ int game_init()
 		
 	}
 
+	/*loading font for the engine*/
+	gfx_ui_set_font("data/textures/bitmapfonts/ConsoleFont.bmp", 256);
+
 	/*initializing network stuff*/
 	if(engine_config_state().net_host==ENGINE_TRUE)
 	{
@@ -77,5 +80,6 @@ int game_init()
 		"data/textures/skybox/bottom.bmp");
 
 	SDL_SetRelativeMouseMode(SDL_TRUE);
+
 	return 0;
 }
