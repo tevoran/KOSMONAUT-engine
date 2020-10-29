@@ -67,6 +67,7 @@ int engine_init(char *window_name, char *config_file)
 	{
 		return ENGINE_GL_ERROR;
 	}
+	engine_write_gl_context(context);
 	
 	/*initialising GLEW*/
 	if(glewInit()!=GLEW_OK)

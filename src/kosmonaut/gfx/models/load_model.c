@@ -76,12 +76,15 @@ struct model* gfx_load_model(char *file_location, struct vec3f location)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, model->num_indices*sizeof(GLuint), indices, GL_STATIC_DRAW);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_FLOAT, default_texture);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	
 	/*doing gfx engine stuff*/
 	gfx_update_model_location(model, location); /*placing it somewhere in the world*/
-	
-	
+
+	/*clean up*/
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);	
+	free(vertices);
+	free(indices);
+
 	return model;
 }

@@ -206,6 +206,8 @@ struct model* gfx_ui_printf(float pos_x, float pos_y, struct ui_font *font, int 
 	/*clean up*/
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	free(index_buffer);
+	free(vertex_buffer);
 
 	gfx_ui_set_ui_trigger(text_batch);
 	return text_batch;

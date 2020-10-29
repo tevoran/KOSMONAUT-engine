@@ -23,6 +23,7 @@
 
 /*functions*/
 int engine_init(char *window_name, char *config_file);
+void engine_shutdown();
 void engine_log(const char *logged_message, ...);
 void engine_fps_count(int toggle_on_screen, int toggle_log);
 
@@ -50,7 +51,9 @@ the global variables directly from the gfx engine*/
 SDL_Window* engine_get_window();
 SDL_Event engine_get_event();
 struct config engine_config_state();
+SDL_GLContext engine_get_gl_context();
 
 void engine_write_window(SDL_Window *window_in);
+void engine_write_gl_context(SDL_GLContext context);
 
 #endif

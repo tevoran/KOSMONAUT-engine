@@ -29,4 +29,6 @@ void gfx_model_load_texture(char *file_location, struct model *model)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture_height, texture_width, 0, GL_RGB, GL_FLOAT, texture_data);
+
+	free(texture_data);
 }

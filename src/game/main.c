@@ -104,5 +104,7 @@ int main(int argc, char **argv[])
 
 	gfx_new_frame();
 	}
+
+	engine_shutdown();
 	exit(0);
 }

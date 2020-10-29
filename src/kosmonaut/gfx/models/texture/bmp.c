@@ -127,6 +127,7 @@ void gfx_model_texture_load_bmp(
 			engine_log("Top-Down bitmap file\n\n");
 		}
 
+	free(texture_data_read_file);
 	fclose(texture_file);
 
 }

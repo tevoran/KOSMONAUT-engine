@@ -164,7 +164,7 @@ struct model* gfx_next_entry()
 
 struct model* gfx_copy_model(struct model* entry_address)
 {
-	struct model* new_entry=gfx_create_model_entry();
+	struct model *new_entry=gfx_create_model_entry();
 
 	void *next_entry_save=new_entry->next_entry;
 	void *last_entry_save=new_entry->last_entry;
@@ -222,4 +222,24 @@ void gfx_delete_model_entry(struct model* entry_address)
 		free(current_entry);
 		return;
 	}
+}
+
+void gfx_model_list_cleanup()
+{
+	struct model *current_entry=initial_entry;
+
+	while(1)
+	{
+		if(current_entry->next_entry!=NULL)
+		{
+			current_entry=current_entry->next_entry;
+			free(current_entry->last_entry);
+		}
+		else
+		{
+			free(current_entry);
+			break;
+		}		
+	}
+	return;
 }
