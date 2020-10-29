@@ -79,6 +79,7 @@ void gfx_update_model_location(struct model* model, struct vec3f location);
 void gfx_model_rotate_euler(struct model *model, float rotation, char axis);
 void gfx_model_rotate(struct model* model, float rotation, struct vec3f rot_axis);
 void gfx_model_scale(struct model *model, struct vec3f scaling_values);
+struct vec3f gfx_model_vector_rotate(struct model *model, struct vec3f rotated_vector);
 
 /*primitives*/
 /*they return a struct model pointer for identification purposes*/

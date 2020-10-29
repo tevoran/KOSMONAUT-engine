@@ -95,3 +95,18 @@ void gfx_model_scale(struct model *model, struct vec3f scaling_values)
 	model->scaling_matrix[1][1]=scaling_values.y;
 	model->scaling_matrix[2][2]=scaling_values.z;
 }
+
+struct vec3f gfx_model_vector_rotate(struct model *model, struct vec3f rotated_vector)
+{
+	struct vec3f result;
+	result.x=	model->rotation_matrix[0][0]*rotated_vector.x+
+				model->rotation_matrix[1][0]*rotated_vector.y+
+				model->rotation_matrix[2][0]*rotated_vector.z;
+	result.y=	model->rotation_matrix[0][1]*rotated_vector.x+
+				model->rotation_matrix[1][1]*rotated_vector.y+
+				model->rotation_matrix[2][1]*rotated_vector.z;
+	result.z=	model->rotation_matrix[0][2]*rotated_vector.x+
+				model->rotation_matrix[1][2]*rotated_vector.y+
+				model->rotation_matrix[2][2]*rotated_vector.z;
+	return result;
+}

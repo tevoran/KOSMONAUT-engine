@@ -33,11 +33,13 @@ struct ship
 		int max_health;
 		int current_health;
 		struct vec3f position;
+		struct vec3f original_orientation;
 		struct vec3f moving_direction;
 		int is_moving;
 		struct vec3f target_destination;
 		float max_speed;
 		float current_speed;
+		float max_rotation_speed;
 		struct model *model;
 
 	/*player related members*/

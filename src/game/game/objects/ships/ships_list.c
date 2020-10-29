@@ -21,10 +21,14 @@ struct ship* game_create_ship()
 		ships_initial_entry->previous_entry=NULL;
 		ships_initial_entry->next_entry=NULL;
 
+		/*setting default values for ship struct*/
 		ships_initial_entry->is_moving=SHIP_FALSE;
 		ships_initial_entry->is_player=SHIP_FALSE;
 		ships_initial_entry->current_speed=50;
-
+		ships_initial_entry->original_orientation.x=0;
+		ships_initial_entry->original_orientation.y=0;
+		ships_initial_entry->original_orientation.z=1;
+		ships_initial_entry->max_rotation_speed=1;
 
 		return ships_initial_entry;
 	}
@@ -43,9 +47,14 @@ struct ship* game_create_ship()
 	ships_current_entry->previous_entry=previous_entry;
 	ships_current_entry->next_entry=NULL;
 
+		/*setting default values for ship struct*/
 		ships_current_entry->is_moving=SHIP_FALSE;
 		ships_current_entry->is_player=SHIP_FALSE;
 		ships_current_entry->current_speed=50;
+		ships_current_entry->original_orientation.x=0;
+		ships_current_entry->original_orientation.y=0;
+		ships_current_entry->original_orientation.z=1;
+		ships_current_entry->max_rotation_speed=1;
 
 	return ships_current_entry;
 }
@@ -127,7 +136,10 @@ void game_ship_new_destination(struct ship *ship, signed char destination_coords
 	struct vec3f destination_location=game_set_coordinate(destination_coords);
 	ship->is_moving=SHIP_TRUE;
 	ship->target_destination=destination_location;
-	printf("SHIP: %p\nDESTINATION: %f, %f, %f\n",ship, ship->target_destination.x, ship->target_destination.y, ship->target_destination.z);
+	destination_location=vec3f_scale(-1, destination_location);
+	ship->moving_direction=vec3f_add(ship->moving_direction, destination_location);
+	ship->moving_direction=normalize3f(ship->moving_direction);
+	printf("SHIP_MOVING moving_direction: %f %f %f\n", ship->moving_direction.x, ship->moving_direction.y, ship->moving_direction.z);
 }
 
 void game_ship_location(struct ship *ship, struct vec3f location)

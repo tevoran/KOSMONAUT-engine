@@ -62,15 +62,7 @@ int main(int argc, char **argv[])
 		game_ship_location(ships[i], position);
 		game_ship_new_destination(ships[i], "AH5");
 	}
-
-	struct ship *test_ship=game_select_first_ship();
-	int i=0;
-	while(test_ship!=NULL)
-	{
-		i++;
-		printf("i: %i\n", i);
-		test_ship=game_select_next_ship();
-	}
+	
 
 	int quit=0;
 	while(!quit) /*while not closing the window the main loop is continuing*/
