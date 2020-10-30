@@ -11,11 +11,11 @@
 
 #define player_speed 50
 #define player_rot_speed 500
-#define cam_distance 50
 
 void game_player_controls_input(struct ship *player)
 {
 	struct vec3f cam_location_origin={0,12,-45};
+	static float cam_location_speed_offset=0;
 	static struct vec3f moving_direction={0,0,1};
 	struct vec3f moving_direction_origin={0,0,1};
 
@@ -84,15 +84,7 @@ void game_player_controls_input(struct ship *player)
 		gfx_model_rotate(player->model, mouse_rot_x, rot_axis);
 
 		struct vec3f moving_direction_tmp=moving_direction_origin;
-		moving_direction.x=	moving_direction_tmp.x*player->model->rotation_matrix[0][0]+
-							moving_direction_tmp.y*player->model->rotation_matrix[1][0]+
-							moving_direction_tmp.z*player->model->rotation_matrix[2][0];
-		moving_direction.y=	moving_direction_tmp.x*player->model->rotation_matrix[0][1]+
-							moving_direction_tmp.y*player->model->rotation_matrix[1][1]+
-							moving_direction_tmp.z*player->model->rotation_matrix[2][1];
-		moving_direction.z=	moving_direction_tmp.x*player->model->rotation_matrix[0][2]+
-							moving_direction_tmp.y*player->model->rotation_matrix[1][2]+
-							moving_direction_tmp.z*player->model->rotation_matrix[2][2];
+		moving_direction=gfx_model_vector_rotate(player->model, moving_direction_tmp);
 
 		/*y-axis motion*/
 		rot_axis.x=1;
@@ -103,15 +95,7 @@ void game_player_controls_input(struct ship *player)
 		gfx_model_rotate(player->model, -mouse_rot_y, rot_axis);
 
 		moving_direction_tmp=moving_direction_origin;
-		moving_direction.x=	moving_direction_tmp.x*player->model->rotation_matrix[0][0]+
-							moving_direction_tmp.y*player->model->rotation_matrix[1][0]+
-							moving_direction_tmp.z*player->model->rotation_matrix[2][0];
-		moving_direction.y=	moving_direction_tmp.x*player->model->rotation_matrix[0][1]+
-							moving_direction_tmp.y*player->model->rotation_matrix[1][1]+
-							moving_direction_tmp.z*player->model->rotation_matrix[2][1];
-		moving_direction.z=	moving_direction_tmp.x*player->model->rotation_matrix[0][2]+
-							moving_direction_tmp.y*player->model->rotation_matrix[1][2]+
-							moving_direction_tmp.z*player->model->rotation_matrix[2][2];
+		moving_direction=gfx_model_vector_rotate(player->model, moving_direction_tmp);
 
 		moving_direction=normalize3f(moving_direction);
 	}
@@ -120,18 +104,8 @@ void game_player_controls_input(struct ship *player)
 	gfx_update_model_location(player->model, player->position);
 	struct vec3f cam_location;
 	struct vec3f cam_location_relative_player;
-		cam_location_relative_player.x=
-						cam_location_origin.x*player->model->rotation_matrix[0][0]+
-						cam_location_origin.y*player->model->rotation_matrix[1][0]+
-						cam_location_origin.z*player->model->rotation_matrix[2][0];
-		cam_location_relative_player.y=
-						cam_location_origin.x*player->model->rotation_matrix[0][1]+
-						cam_location_origin.y*player->model->rotation_matrix[1][1]+
-						cam_location_origin.z*player->model->rotation_matrix[2][1];
-		cam_location_relative_player.z=
-						cam_location_origin.x*player->model->rotation_matrix[0][2]+
-						cam_location_origin.y*player->model->rotation_matrix[1][2]+
-						cam_location_origin.z*player->model->rotation_matrix[2][2];
+
+		cam_location_relative_player=gfx_model_vector_rotate(player->model, cam_location_origin);
 
 	cam_location=vec3f_add(player->position, cam_location_relative_player);
 	gfx_camera_location(cam_location);
@@ -144,8 +118,8 @@ void game_player_controls_input(struct ship *player)
 
 		if(keyboard_state[SDL_SCANCODE_ESCAPE])
 		{
+			engine_shutdown();
 			exit(0);
-
 		}
 
 	return;
