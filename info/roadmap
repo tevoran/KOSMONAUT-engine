@@ -5,8 +5,11 @@ The current Star Battle Command and kosmonaut engine roadmap
 
 -Network:
 	-implementing a protocol, that collects all data and transfers it in one block
+	-adding second player via internet
 
 -User Interface
 	-mouse
 
 -Transparency
+
+-Adding normals to models and phong shading
