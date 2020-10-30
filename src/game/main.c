@@ -60,7 +60,7 @@ int main(int argc, char **argv[])
 		ships[i]=game_create_ship();
 		ships[i]->model=gfx_copy_model(player->model);
 		game_ship_location(ships[i], position);
-		game_ship_new_destination(ships[i], "AH5");
+		game_ship_new_destination(ships[i], "EF3");
 	}
 	
 

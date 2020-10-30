@@ -15,7 +15,6 @@
 void game_player_controls_input(struct ship *player)
 {
 	struct vec3f cam_location_origin={0,12,-45};
-	static float cam_location_speed_offset=0;
 	static struct vec3f moving_direction={0,0,1};
 	struct vec3f moving_direction_origin={0,0,1};
 

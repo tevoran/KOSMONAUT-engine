@@ -35,6 +35,8 @@ struct vec4f /*float*/
 	float w;
 };
 
+/*random function*/
+long long_random(long seed);
 
 /*scaling vector*/
 struct vec3f vec3f_scale(float a, struct vec3f b);
