@@ -34,6 +34,10 @@ void gfx_new_frame()
 	{
 		/*setting ui_trigger*/
 		glUniform1ui(ui_trigger_reference, model_list_entry->ui_element);
+		/*if(model_list_entry->ui_element==GFX_TRUE)
+		{
+			glDisable(GL_DEPTH_TEST);
+		}*/
 
 		/*drawing models*/
 			/*using local matrices in vertex shader*/
@@ -67,6 +71,10 @@ void gfx_new_frame()
 			}
 
 
+		/*if(model_list_entry->ui_element==GFX_TRUE)
+		{
+			glEnable(GL_DEPTH_TEST);
+		}*/
 		
 		model_list_entry=gfx_next_entry();
 	}
