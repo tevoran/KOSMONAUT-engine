@@ -1,4 +1,5 @@
 #include "gfx/gfx.h"
+#include "gfx/ui/ui.h"
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
@@ -34,10 +35,10 @@ void gfx_new_frame()
 	{
 		/*setting ui_trigger*/
 		glUniform1ui(ui_trigger_reference, model_list_entry->ui_element);
-		/*if(model_list_entry->ui_element==GFX_TRUE)
+		if(model_list_entry->ui_element==GFX_TRUE)
 		{
 			glDisable(GL_DEPTH_TEST);
-		}*/
+		}
 
 		/*drawing models*/
 			/*using local matrices in vertex shader*/
@@ -71,15 +72,25 @@ void gfx_new_frame()
 			}
 
 
-		/*if(model_list_entry->ui_element==GFX_TRUE)
+		if(model_list_entry->ui_element==GFX_TRUE)
 		{
 			glEnable(GL_DEPTH_TEST);
-		}*/
+		}
 		
 		model_list_entry=gfx_next_entry();
 	}
 	
+	/*drawing GUI*/
+	glDisable(GL_DEPTH_TEST);
 
+	struct ui_window *window=gfx_ui_window_select_first_element();
+
+	while(window!=NULL)
+	{
+		window=gfx_ui_window_select_next_element();
+	}
+
+	glEnable(GL_DEPTH_TEST);
 
 	/*swapping the buffer and clearing the screen for the next frame*/
 	SDL_GL_SwapWindow(engine_get_window());

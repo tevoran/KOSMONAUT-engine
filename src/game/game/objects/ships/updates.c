@@ -13,7 +13,7 @@
 
 void game_ships_update()
 {
-	static long seed=100;
+	static long seed=10094;
 	/*getting current frame time*/
 	static clock_t old_time=0;
 	static clock_t new_time=0;
@@ -83,20 +83,26 @@ void game_ships_update()
 					ship->is_moving==SHIP_TRUE)
 				{
 					ship->is_moving=SHIP_FALSE;
+					int i=0;
 					while(1)
 					{
 						struct vec3f dst_coord;
 						seed=long_random(seed);
 						dst_coord.x=seed%1600-800;
+						seed=long_random(seed);game_get_coordinate;
+						dst_coord.y=seed%1000-500;
 						seed=long_random(seed);
-						dst_coord.y=seed%1600-800;
-						seed=long_random(seed);
-						dst_coord.z=seed%800-400;
+						dst_coord.z=seed%1800-900;
 						signed char* dst=game_get_coordinate(dst_coord);
 						printf("%s\n", dst);
-						game_ship_new_destination(ship, dst);
+						i++;
+						if(i==10)
+						{
+							break;
+						}
 						if(strstr(dst, "OoB")==NULL)
 						{
+							game_ship_new_destination(ship, dst);
 							break;
 						}
 
