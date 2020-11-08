@@ -53,22 +53,14 @@ void gfx_new_frame()
 				glBindTexture(GL_TEXTURE_2D, model_list_entry->textureID);
 				glBindVertexArray(model_list_entry->arrayID);
 				glDrawArrays(GL_TRIANGLES,0,model_list_entry->num_vertices);
-				
-				/*unbind buffer*/
-				glBindVertexArray(0);
 			}
 			/*if index buffer is available*/
 			if(model_list_entry->index_bufferID!=0)
 			{
 				glBindTexture(GL_TEXTURE_2D, model_list_entry->textureID);
 				glBindVertexArray(model_list_entry->arrayID);
-				glBindBuffer(GL_ARRAY_BUFFER, model_list_entry->vertex_bufferID);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,model_list_entry->index_bufferID);
 				glDrawElements(GL_TRIANGLES, model_list_entry->num_indices, GL_UNSIGNED_INT, NULL);
-				
-				/*unbind buffer*/
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			}
 
 
