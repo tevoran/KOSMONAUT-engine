@@ -48,6 +48,7 @@ int main(int argc, char **argv[])
 	gfx_ui_create_window(100,100,400,0);
 	gfx_ui_create_window(100,100,0,400);
 	struct ui_window *window_test=gfx_ui_create_window(100,100,750,350);
+	gfx_ui_window_texture(window_test, "data/textures/window.bmp");
 
 	struct ship *player=game_create_ship();
 	player->position.x=0;

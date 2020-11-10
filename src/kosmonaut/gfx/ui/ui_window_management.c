@@ -103,6 +103,4 @@ void gfx_ui_window_list_init_data(struct ui_window *window)
 	window->pos_y=50;
 	window->size_x=500;
 	window->size_y=100;
-	window->scale.x=1;
-	window->scale.y=1;
 }

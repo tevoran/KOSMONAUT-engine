@@ -22,7 +22,6 @@ struct ui_window
 	int16_t pos_y;
 	uint16_t size_x;
 	uint16_t size_y;
-	struct vec2f scale;
 
 	/*window OpenGL related members*/
 	GLuint textureID;
@@ -51,7 +50,8 @@ void gfx_ui_window_remove_window(struct ui_window *window);
 /*windows*/
 struct ui_window* gfx_ui_create_window(uint16_t size_x, uint16_t size_y, int16_t pos_x, int16_t pos_y);
 void gfx_ui_set_window_location(struct ui_window *window, int16_t pos_x, int16_t pos_y);
-void gfx_ui_window_texture(char *file_location, struct ui_window *window);
+void gfx_ui_resize_window(struct ui_window *window, uint16_t size_x, uint16_t size_y);
+void gfx_ui_window_texture(struct ui_window *window, char *file_location);
 
 /*text*/
 struct ui_font* gfx_ui_load_font(char *file_location, uint32_t num_characters);

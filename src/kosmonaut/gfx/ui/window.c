@@ -1,6 +1,7 @@
 #include "gfx/ui/ui.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <inttypes.h>
 
 struct ui_window* gfx_ui_create_window(uint16_t size_x, uint16_t size_y, int16_t pos_x, int16_t pos_y)
@@ -73,4 +74,37 @@ void gfx_ui_set_window_location(struct ui_window *window, int16_t pos_x, int16_t
 {
 	window->pos_x=pos_x;
 	window->pos_y=pos_y;
+}
+
+void gfx_ui_resize_window(struct ui_window *window, uint16_t size_x, uint16_t size_y)
+{
+	window->size_x=size_x;
+	window->size_y=size_y;
+}
+
+void gfx_ui_window_texture(struct ui_window *window, char *file_location)
+{
+	GLfloat *texture_data=NULL;
+	GLsizei texture_height=0;
+	GLsizei texture_width=0;
+
+	/*checking the file extension*/
+	if(strstr(file_location, ".bmp")!=NULL)
+	{
+		gfx_model_texture_load_bmp(
+			file_location, 
+			&texture_data,
+			&texture_height,
+			&texture_width);
+	}
+	
+	glGenTextures(1, &window->textureID);
+	glBindTexture(GL_TEXTURE_2D, window->textureID);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);	
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture_height, texture_width, 0, GL_RGB, GL_FLOAT, texture_data);
+
+	free(texture_data);
 }
