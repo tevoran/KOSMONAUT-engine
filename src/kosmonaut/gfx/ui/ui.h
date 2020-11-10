@@ -52,6 +52,7 @@ struct ui_window* gfx_ui_create_window(uint16_t size_x, uint16_t size_y, int16_t
 void gfx_ui_set_window_location(struct ui_window *window, int16_t pos_x, int16_t pos_y);
 void gfx_ui_resize_window(struct ui_window *window, uint16_t size_x, uint16_t size_y);
 void gfx_ui_window_texture(struct ui_window *window, char *file_location);
+void gfx_ui_copy_window_texture(struct ui_window *window_src, struct ui_window *window_dst);
 
 /*text*/
 struct ui_font* gfx_ui_load_font(char *file_location, uint32_t num_characters);

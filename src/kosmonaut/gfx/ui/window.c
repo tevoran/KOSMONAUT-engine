@@ -108,3 +108,8 @@ void gfx_ui_window_texture(struct ui_window *window, char *file_location)
 
 	free(texture_data);
 }
+
+void gfx_ui_copy_window_texture(struct ui_window *window_src, struct ui_window *window_dst)
+{
+	window_dst->textureID=window_src->textureID;
+}
