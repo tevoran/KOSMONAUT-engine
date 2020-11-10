@@ -68,3 +68,9 @@ struct ui_window* gfx_ui_create_window(uint16_t size_x, uint16_t size_y, int16_t
 
 	return window;
 }
+
+void gfx_ui_set_window_location(struct ui_window *window, int16_t pos_x, int16_t pos_y)
+{
+	window->pos_x=pos_x;
+	window->pos_y=pos_y;
+}

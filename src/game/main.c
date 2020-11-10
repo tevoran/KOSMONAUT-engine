@@ -47,7 +47,7 @@ int main(int argc, char **argv[])
 	gfx_ui_create_window(300,300,0,0);
 	gfx_ui_create_window(100,100,400,0);
 	gfx_ui_create_window(100,100,0,400);
-	gfx_ui_create_window(100,100,750,350);
+	struct ui_window *window_test=gfx_ui_create_window(100,100,750,350);
 
 	struct ship *player=game_create_ship();
 	player->position.x=0;
@@ -67,6 +67,7 @@ int main(int argc, char **argv[])
 		game_ship_new_destination(ships[i], "EF3");
 	}
 	
+	float i=0;
 
 	int quit=0;
 	while(!quit) /*while not closing the window the main loop is continuing*/
@@ -75,6 +76,8 @@ int main(int argc, char **argv[])
 	game_player_controls_input(player);
 	game_ships_update();
 
+	i=i+0.001;
+	gfx_ui_set_window_location(window_test, 500*sin(i)+500, 450*cos(i)+500);
 
 	static struct model *text=NULL;
 	if(text!=NULL)
