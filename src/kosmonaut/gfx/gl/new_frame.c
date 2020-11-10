@@ -88,6 +88,7 @@ void gfx_new_frame()
 
 	GLuint window_size_reference=glGetUniformLocation(shader_program, "window_size");
 	GLuint window_pos_reference=glGetUniformLocation(shader_program, "window_pos");
+	GLuint window_scale_reference=glGetUniformLocation(shader_program, "window_scale");
 
 	struct ui_window *window=gfx_ui_window_select_first_element();
 
@@ -110,6 +111,7 @@ void gfx_new_frame()
 		/*render window*/
 		glUniform2f(window_size_reference, (GLfloat)window->size_x, (GLfloat)window->size_y);
 		glUniform2f(window_pos_reference, (GLfloat)window->pos_x, (GLfloat)window->pos_y);
+		//glUniform2f(window_scale_reference, (GLfloat)window->scale.x, (GLfloat)window->scale.y);
 		glUniformMatrix4fv(world_transform_matrix_reference, 1, GL_FALSE, test_matrix);
 		glBindTexture(GL_TEXTURE_2D, window->textureID);
 		glBindVertexArray(window->arrayID);

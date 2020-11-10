@@ -44,10 +44,10 @@ int main(int argc, char **argv[])
 		}
 	}
 
-	gfx_ui_create_window(100,100);
-	gfx_ui_create_window(100,100);
-	gfx_ui_create_window(100,100);
-	gfx_ui_create_window(100,100);
+	gfx_ui_create_window(300,300,0,0);
+	gfx_ui_create_window(100,100,400,0);
+	gfx_ui_create_window(100,100,0,400);
+	gfx_ui_create_window(100,100,750,350);
 
 	struct ship *player=game_create_ship();
 	player->position.x=0;

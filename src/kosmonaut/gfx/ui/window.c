@@ -3,9 +3,15 @@
 #include <stdio.h>
 #include <inttypes.h>
 
-struct ui_window* gfx_ui_create_window(uint16_t size_x, uint16_t size_y)
+struct ui_window* gfx_ui_create_window(uint16_t size_x, uint16_t size_y, int16_t pos_x, int16_t pos_y)
 {
 	struct ui_window *window=gfx_ui_create_window_list_element();
+	/*saving stuff to window struct*/
+	window->size_x=size_x;
+	window->size_y=size_y;
+	window->pos_x=pos_x;
+	window->pos_y=pos_y;
+
 	/*temporary OpenGL variables*/
 	GLuint vertexBufferID;
 
@@ -20,13 +26,13 @@ struct ui_window* gfx_ui_create_window(uint16_t size_x, uint16_t size_y)
 		0,0,0,
 		0,0,
 
-		size_x,0,0,
+		1,0,0,
 		1,0,
 
-		0,size_y,0,
+		0,1,0,
 		0,1,
 
-		size_x,size_y,0,
+		1,1,0,
 		1,1
 	};
 
@@ -59,7 +65,6 @@ struct ui_window* gfx_ui_create_window(uint16_t size_x, uint16_t size_y)
 	
 	glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,5*sizeof(float),(void*)(3*sizeof(float)));
 	glEnableVertexAttribArray(1);
-
 
 	return window;
 }
