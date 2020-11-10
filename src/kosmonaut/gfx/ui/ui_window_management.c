@@ -18,7 +18,7 @@ struct ui_window* gfx_ui_create_window_list_element()
 		ui_initial_entry->previous_entry=NULL;
 
 		/*initialize data*/
-		ui_initial_entry->subelements=NULL;
+		gfx_ui_window_list_init_data(ui_initial_entry);
 
 		return ui_initial_entry;
 	}
@@ -37,7 +37,7 @@ struct ui_window* gfx_ui_create_window_list_element()
 	ui_current_entry->previous_entry=previous_entry;
 
 	/*initialize data*/
-	ui_current_entry->subelements=NULL;
+	gfx_ui_window_list_init_data(ui_current_entry);
 
 	return ui_current_entry;
 }
@@ -94,4 +94,13 @@ void gfx_ui_window_remove_window(struct ui_window *window)
 		free(window);
 	}
 	return;
+}
+
+void gfx_ui_window_list_init_data(struct ui_window *window)
+{
+	window->subelements=NULL;
+	window->pos_x=0;
+	window->pos_y=50;
+	window->size_x=500;
+	window->size_y=100;
 }

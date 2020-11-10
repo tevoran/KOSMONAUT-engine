@@ -1,5 +1,6 @@
 #include "gfx/gfx.h"
 #include "gfx/ui/ui.h"
+#include "general/general.h"
 
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
@@ -11,6 +12,10 @@ extern GLuint shader_program;
 
 void gfx_new_frame()
 {
+	GLfloat resolution[2]={(GLfloat)engine_config_state().resolution_x, (GLfloat)engine_config_state().resolution_y};
+	GLint resolution_reference=glGetUniformLocation(shader_program, "resolution");
+	glUniform2f(resolution_reference, resolution[0], resolution[1]);
+
 	/*updating stuff*/
 	/*skybox location*/
 	gfx_update_skybox_location();
@@ -21,7 +26,6 @@ void gfx_new_frame()
 	GLint cam_shader_matrix_reference=glGetUniformLocation(shader_program, "camShaderMatrix");
 	glUniformMatrix4fv(cam_shader_matrix_reference,1,GL_FALSE,&cam_shader_matrix[0][0]);
 
-
 	/*drawing all models*/
 	struct model* model_list_entry=gfx_select_first_entry();
 	
@@ -30,6 +34,12 @@ void gfx_new_frame()
 	GLint scaling_matrix_reference=glGetUniformLocation(shader_program, "scalingMatrix");
 	
 	GLint ui_trigger_reference=glGetUniformLocation(shader_program, "uiTrigger");
+
+	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,5*sizeof(float),(void*)0);
+	glEnableVertexAttribArray(0);
+	
+	glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,5*sizeof(float),(void*)(3*sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	while(model_list_entry!=NULL)
 	{
@@ -74,14 +84,42 @@ void gfx_new_frame()
 	
 	/*drawing GUI*/
 	glDisable(GL_DEPTH_TEST);
+	glUniform1ui(ui_trigger_reference, 1);
+
+	GLuint window_size_reference=glGetUniformLocation(shader_program, "window_size");
+	GLuint window_pos_reference=glGetUniformLocation(shader_program, "window_pos");
 
 	struct ui_window *window=gfx_ui_window_select_first_element();
 
+	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,5*sizeof(float),(void*)0);
+	glEnableVertexAttribArray(0);
+	
+	glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,5*sizeof(float),(void*)(3*sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	GLfloat test_matrix[]=
+	{
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+
 	while(window!=NULL)
 	{
+		/*render window*/
+		glUniform2f(window_size_reference, (GLfloat)window->size_x, (GLfloat)window->size_y);
+		glUniform2f(window_pos_reference, (GLfloat)window->pos_x, (GLfloat)window->pos_y);
+		glUniformMatrix4fv(world_transform_matrix_reference, 1, GL_FALSE, test_matrix);
+		glBindTexture(GL_TEXTURE_2D, window->textureID);
+		glBindVertexArray(window->arrayID);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, window->index_bufferID);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+
 		window=gfx_ui_window_select_next_element();
 	}
 
+	glUniform1ui(ui_trigger_reference, 0);
 	glEnable(GL_DEPTH_TEST);
 
 	/*swapping the buffer and clearing the screen for the next frame*/

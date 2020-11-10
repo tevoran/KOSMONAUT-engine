@@ -44,16 +44,10 @@ int main(int argc, char **argv[])
 		}
 	}
 
-	/*HUD test*/
-	struct vec2f window_size={0.25, 0.25};
-	struct vec2f window_pos={0,0};
-	struct ui_window *window=gfx_ui_create_window(window_pos, window_size);
-	gfx_ui_window_texture("data/textures/window.bmp", window);
-
-	struct vec2f window_size2={0.25, 0.25};
-	struct vec2f window_pos2={0.1,0.2};
-	struct ui_window *window2=gfx_ui_create_window(window_pos2, window_size2);
-	gfx_ui_window_texture("data/textures/window.bmp", window2);
+	gfx_ui_create_window(100,100);
+	gfx_ui_create_window(100,100);
+	gfx_ui_create_window(100,100);
+	gfx_ui_create_window(100,100);
 
 	struct ship *player=game_create_ship();
 	player->position.x=0;
@@ -73,13 +67,6 @@ int main(int argc, char **argv[])
 		game_ship_new_destination(ships[i], "EF3");
 	}
 	
-
-	printf("TEST: %p\n", gfx_ui_create_window_list_element());
-	printf("TEST: %p\n", gfx_ui_create_window_list_element());
-	printf("TEST: %p\n", gfx_ui_create_window_list_element());
-	printf("TEST: %p\n", gfx_ui_create_window_list_element());
-	printf("TEST: %p\n", gfx_ui_create_window_list_element());
-	printf("TEST: %p\n", gfx_ui_create_window_list_element());
 
 	int quit=0;
 	while(!quit) /*while not closing the window the main loop is continuing*/
