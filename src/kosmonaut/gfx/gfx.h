@@ -107,11 +107,6 @@ int model_load_obj_model(
 	GLuint vertex_elements,
 	GLuint **indices, 
 	GLuint *num_indices);
-void gfx_model_texture_load_bmp(
-	char *file_location, 
-	GLfloat **texture_data, 
-	GLsizei *texture_height, 
-	GLsizei *texture_width);
 
 /*texture related functions*/
 void gfx_model_load_texture(char *file_location, struct model *model);

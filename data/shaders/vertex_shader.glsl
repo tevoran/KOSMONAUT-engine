@@ -13,7 +13,6 @@ uniform mat4 camShaderMatrix;
 uniform vec2 resolution;
 uniform vec2 window_size;
 uniform vec2 window_pos;
-uniform vec2 window_scale;
 
 /*model stuff*/
 uniform mat4 world_transformMatrix;/*used for conversion of local to world space*/
@@ -39,8 +38,6 @@ void main(){
 		/*conversion to OpenGL clip space*/
 		vertexPosition = 2 * vertexPosition;
 		vertexPosition = vertexPosition - 1;
-		vertexPosition = world_transformMatrix
-						* vertexPosition;
 
 		/*giving OpenGL the new position*/
 		gl_Position = vertexPosition;

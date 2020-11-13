@@ -1,4 +1,6 @@
 #include "gfx/ui/ui.h"
+
+#include "gfx/data/data.h"
 #include "gfx/gfx.h"
 #include "maths/maths.h"
 #include "general/general.h"
@@ -22,7 +24,7 @@ struct ui_font* gfx_ui_load_font(char *file_location, uint32_t num_characters)
 	/*loading bitmap font*/
 	GLfloat *font_image_data=NULL;
 	GLsizei height=0, width=0;
-	gfx_model_texture_load_bmp(file_location, &font_image_data, &height, &width);
+	data_texture_load_bmp(file_location, &font_image_data, &height, &width);
 
 
 	glGenTextures(1, &font->textureID);
@@ -43,7 +45,7 @@ void gfx_ui_set_font(char *file_location, uint32_t num_characters)
 	/*loading bitmap font*/
 	GLfloat *font_image_data=NULL;
 	GLsizei height=0, width=0;
-	gfx_model_texture_load_bmp(file_location, &font_image_data, &height, &width);
+	data_texture_load_bmp(file_location, &font_image_data, &height, &width);
 
 
 	glGenTextures(1, &engine_font.textureID);

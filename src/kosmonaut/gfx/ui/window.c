@@ -1,5 +1,7 @@
 #include "gfx/ui/ui.h"
 
+#include "gfx/data/data.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
@@ -84,29 +86,7 @@ void gfx_ui_resize_window(struct ui_window *window, uint16_t size_x, uint16_t si
 
 void gfx_ui_window_texture(struct ui_window *window, char *file_location)
 {
-	GLfloat *texture_data=NULL;
-	GLsizei texture_height=0;
-	GLsizei texture_width=0;
-
-	/*checking the file extension*/
-	if(strstr(file_location, ".bmp")!=NULL)
-	{
-		gfx_model_texture_load_bmp(
-			file_location, 
-			&texture_data,
-			&texture_height,
-			&texture_width);
-	}
-	
-	glGenTextures(1, &window->textureID);
-	glBindTexture(GL_TEXTURE_2D, window->textureID);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);	
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture_height, texture_width, 0, GL_RGB, GL_FLOAT, texture_data);
-
-	free(texture_data);
+	data_texture_load(file_location, &window->textureID);
 }
 
 void gfx_ui_copy_window_texture(struct ui_window *window_src, struct ui_window *window_dst)

@@ -1,11 +1,13 @@
-#include "gfx/gfx.h"
+#include "gfx/data/data.h"
+
 #include "general/general.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
+#include <GL/glew.h>
 
-void gfx_model_texture_load_bmp(
+void data_texture_load_bmp(
 	char *file_location, 
 	GLfloat **texture_data, 
 	GLsizei *texture_height, 

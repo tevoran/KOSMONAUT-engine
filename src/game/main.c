@@ -44,11 +44,14 @@ int main(int argc, char **argv[])
 		}
 	}
 
-	gfx_ui_create_window(300,300,0,0);
-	gfx_ui_create_window(100,100,400,0);
-	gfx_ui_create_window(100,100,0,400);
+	struct ui_window *window_test1=gfx_ui_create_window(300,300,0,0);
+	struct ui_window *window_test2=gfx_ui_create_window(100,100,400,0);
+	struct ui_window *window_test3=gfx_ui_create_window(100,100,0,400);
 	struct ui_window *window_test=gfx_ui_create_window(100,100,750,350);
 	gfx_ui_window_texture(window_test, "data/textures/window.bmp");
+	gfx_ui_copy_window_texture(window_test, window_test1);
+	gfx_ui_copy_window_texture(window_test, window_test2);
+	gfx_ui_copy_window_texture(window_test, window_test3);
 
 	struct ship *player=game_create_ship();
 	player->position.x=0;

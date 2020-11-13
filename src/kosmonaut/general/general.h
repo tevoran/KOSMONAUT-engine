@@ -6,7 +6,8 @@
 #include <SDL2/SDL.h>
 #include <inttypes.h>
 
-
+#define FALSE 0
+#define TRUE 1
 #define ENGINE_FALSE 0
 #define ENGINE_TRUE 1
 
