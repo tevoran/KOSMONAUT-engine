@@ -1,4 +1,4 @@
-#include "gfx/gfx.h"
+/*#include "gfx/gfx.h"
 #include "maths/maths.h"
 
 #include <stdio.h>
@@ -20,7 +20,7 @@ struct model* gfx_load_model(char *file_location, struct vec3f location)
 	GLuint num_indices=0;
 	
 	/*finding out the model file type and load the file*/
-	if(strstr(file_location, ".obj")!=NULL)
+/*	if(strstr(file_location, ".obj")!=NULL)
 	{
 		if(model_load_obj_model(
 				file_location,
@@ -41,18 +41,18 @@ struct model* gfx_load_model(char *file_location, struct vec3f location)
 	}
 	
 	/*writing model relevant data to model struct*/
-	model->num_vertices=num_vertices;
+/*	model->num_vertices=num_vertices;
 	model->num_indices=num_indices;
 	
 	/*creating a default test texture*/
-	GLfloat default_texture[]={
+/*	GLfloat default_texture[]={
 		0.1, 0.1, 0.1,	0.50f, 0, 0.5f,
 		0.5f, 0, 0.5f, 	0.1, 0.1, 0.1
 	};
 	
 
 	/*preparing for future drawing*/
-	glGenVertexArrays(1, &model->arrayID);
+/*	glGenVertexArrays(1, &model->arrayID);
 	glGenBuffers(1, &model->vertex_bufferID);
 	glGenBuffers(1, &model->index_bufferID);
 	glGenTextures(1, &model->textureID);
@@ -78,13 +78,13 @@ struct model* gfx_load_model(char *file_location, struct vec3f location)
 
 	
 	/*doing gfx engine stuff*/
-	gfx_update_model_location(model, location); /*placing it somewhere in the world*/
+/*	gfx_update_model_location(model, location); /*placing it somewhere in the world*/
 
 	/*clean up*/
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+/*	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);	
 	free(vertices);
 	free(indices);
 
 	return model;
-}
+}*/
