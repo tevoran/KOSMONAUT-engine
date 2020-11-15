@@ -13,6 +13,9 @@ to follow the next set of instructions.
 `cmake ..`  
 `make`  
 
+If you need only the engine library then use instead of `make`  
+`make KOSMONAUT`
+
 ### Crosscompiling from Linux to Windows
 Sadly CMake isn't working for crosscompilation in this project so far. Therefore
 we need to use plain old make and mingw32 in its 64bit version.
