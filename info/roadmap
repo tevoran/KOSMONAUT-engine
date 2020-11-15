@@ -4,12 +4,14 @@ The current Star Battle Command and kosmonaut engine roadmap
 -Render speed improvement by rendering only, what is visibile
 
 -Network:
-	-implementing a protocol, that collects all data and transfers it in one block
-	-adding second player via internet
+	-Implementing a protocol, that collects all data and transfers it in one block
+	-Adding second player via internet
 
 -User Interface
-	-mouse
-
--Transparency
+	-Cursor
+	-Transparency
 
 -Adding normals to models and phong shading
+
+-Buildsystem
+	-Cross-Compiler in CMake

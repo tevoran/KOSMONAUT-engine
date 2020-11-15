@@ -36,3 +36,26 @@ target_link_libraries(SBC LINK_PRIVATE "${GLEW}")
 target_link_libraries(SBC LINK_PRIVATE "${GL}")
 
 file(COPY SBC DESTINATION ../)
+
+#creating cross compiled Winodws binary
+#set(CMAKE_SYSTEM_NAME Windows)
+#set(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc)
+
+#link_directories(BEFORE windows/lib/)
+#file(GLOB_RECURSE SBC_CROSS_WIN_LIBS_FILES windows/lib/*.a)
+#set(SBC_CROSS_WIN_LIBS 	${SBC_CROSS_WIN_LIBS_FILES})
+#set(CMAKE_C_FLAGS "-mwindows -I../src/kosmonaut/ -I../src/game/game/ -I../windows/include/  -L../windows/lib/ ../windows/nng.dll -lglew32 -lglew32mx -lSDL2 -lSDL2main -lopengl32 -lmingw32 -lm")
+#include_directories(windows/include/)
+
+#find_library(SBC_CROSS_WIN_SDL2 libSDL2.a NO_SYSTEM_ENVIRONMENT_PATH)
+#find_library(SBC_CROSS_WIN_SDL2_MAIN libSDL2main.a NO_SYSTEM_ENVIRONMENT_PATH)
+#find_library(SBC_CROSS_WIN_GLEW32 libglew32.a NO_SYSTEM_ENVIRONMENT_PATH)
+#find_library(SBC_CROSS_WIN_NNG nng.dll NO_SYSTEM_ENVIRONMENT_PATH)
+
+
+#add_executable(SBC_CROSS_WIN ${SBC_SRC} ${KOSMONAUT_SRC})
+#target_link_libraries(SBC_CROSS_WIN ${SBC_CROSS_WIN_LIBS})
+#target_link_libraries(SBC_CROSS_WIN ${SBC_CROSS_WIN_SDL2})
+#target_link_libraries(SBC_CROSS_WIN ${SBC_CROSS_WIN_SDL2_MAIN})
+#target_link_libraries(SBC_CROSS_WIN ${SBC_CROSS_WIN_GLEW32})
+#target_link_libraries(SBC_CROSS_WIN ${SBC_CROSS_WIN_NNG})
