@@ -12,6 +12,7 @@ to follow the next set of instructions.
 `cd build`  
 `cmake ..`  
 `make`  
+`cp SBC ../`
 
 If you need only the engine library then use instead of `make`  
 `make KOSMONAUT`
