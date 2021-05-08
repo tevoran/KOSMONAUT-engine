@@ -1,4 +1,4 @@
-#KOSMONAUT ENGINE
+# KOSMONAUT ENGINE
 The KOSMONAUT-ENGINE is a game engine written in C with OpenGL, which I originally
 to use for a game but engine is apparently more fun. If you want to use the engine
 you can do it, even if it is not production ready but it has some important features.
