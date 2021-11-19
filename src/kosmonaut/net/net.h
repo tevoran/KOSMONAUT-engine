@@ -1,3 +1,4 @@
+/*
 #ifndef KOSMONAUT_NET_H
 #define KOSMONAUT_NET_H
 
@@ -40,3 +41,4 @@ void net_test_listen();
 void net_test_send(int port);
 
 #endif
+*/

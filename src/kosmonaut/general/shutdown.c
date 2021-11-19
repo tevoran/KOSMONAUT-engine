@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
-#include <nng/nng.h>
+//#include <nng/nng.h>
 
 #include "gfx/gfx.h" /*graphics engine header*/
 void engine_shutdown()

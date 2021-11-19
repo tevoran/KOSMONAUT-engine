@@ -1,3 +1,4 @@
+/*
 #include "net/net.h"
 #include "gfx/gfx.h"
 #include "gfx/ui/ui.h"
@@ -78,7 +79,9 @@ int net_host_pair(int max_wait_ms)
 	}
 
 	/*getting the port that was given to the listener*/
-	int port;
+
+
+/*	int port;
 	nng_listener_getopt_int(lp, NNG_OPT_TCP_BOUND_PORT, &port);
 	engine_log("Port: %i\n", port);
 	printf("Port: %i\n", port);
@@ -87,7 +90,7 @@ int net_host_pair(int max_wait_ms)
 	nng_socket_set_ms(sock, NNG_OPT_SENDTIMEO, max_wait_ms);
 
 	/*waiting for handshake*/
-	engine_log("Waiting for client...\n");
+/*	engine_log("Waiting for client...\n");
 	printf("Waiting for client...\n");
 
 	int count=60;
@@ -194,7 +197,7 @@ int net_connect_pair(int port, int max_wait_ms)
 	nng_socket_set_ms(sock, NNG_OPT_SENDTIMEO, max_wait_ms);
 
 	/*sending handshake*/
-	char msg_handshake[16]="ready";
+/*	char msg_handshake[16]="ready";
 	nng_send(sock, msg_handshake, sizeof(msg_handshake), NNG_FLAG_NONBLOCK);
 
 	return func_return;
@@ -249,3 +252,4 @@ void net_sync()
 			nng_free(msg_handshake_recv, sz_msg);
 		}
 }
+*/

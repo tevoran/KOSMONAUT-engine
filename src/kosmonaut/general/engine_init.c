@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
-#include <nng/nng.h>
+//#include <nng/nng.h>
 
 #include "gfx/gfx.h" /*graphics engine header*/
 
@@ -80,8 +80,8 @@ int engine_init(char *window_name, char *config_file)
 	engine_log("Engine successfully initialised\n");
 
 	/*NNG - network library*/
-	const char *nng_version_ptr=nng_version();
+/*	const char *nng_version_ptr=nng_version();
 	engine_log("\nNNG library version: %s\n", nng_version_ptr);
-
+*/
 	return ENGINE_NO_ERROR;
 }

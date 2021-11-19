@@ -9,7 +9,7 @@
 #include <time.h>
 #include <math.h>
 
-#include <nng/nng.h>
+//#include <nng/nng.h>
 
 /*engine*/
 #include "general/general.h"
